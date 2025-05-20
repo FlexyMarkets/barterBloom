@@ -1,0 +1,81 @@
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { lazy, Suspense, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { initializeAuth } from "./globalState/auth/authSlice.js";
+import { routing } from "./userPanel/routesMapping/RoutesMapping.jsx";
+import GoToTop from "./userPanel/userPanelComponent/GoToTop.jsx";
+import Loading from "./userPanel/userPanelComponent/Loading.jsx";
+import SignIn from "./landing/authPages/signIn/SignIn.jsx";
+import Signup from "./landing/authPages/signUp/Signup.jsx";
+import ProtectedRoute from "./userPanel/userPanelComponent/ProtectedRoute.jsx";
+import ProtectedAuthRoute from "./userPanel/userPanelComponent/ProtectedAuthRoute.jsx";
+import Notify from "./userPanel/userPanelComponent/Notify.jsx";
+// import NotFound from "./common/NotFound.jsx"; // Create this component for 404 pages
+
+// Lazy-loaded components
+const LandingPage = lazy(() => import("./landing/LandingPage.jsx"));
+const DashboardLayout = lazy(() => import("./userPanel/userPanelLayout/dashboardLayout/DashboardLayout.jsx"));
+
+function App() {
+
+  const { open, message, severity, autoHideDuration } = useSelector((state) => state.notification);
+  const dispatch = useDispatch();
+
+  const handleCloseNotify = () => dispatch(clearNotification());
+
+  useEffect(() => {
+    dispatch(initializeAuth());
+  }, [dispatch]);
+
+  return (
+    <BrowserRouter>
+      <GoToTop />
+      <Notify
+        open={open}
+        onClose={handleCloseNotify}
+        message={message}
+        severity={severity}
+        autoHideDuration={autoHideDuration}
+      />
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          <Route path="/" element={<Navigate to="/signin" replace />} />
+          <Route
+            path="/signin"
+            // path="/"
+            element={
+              // <ProtectedAuthRoute>
+              <SignIn />
+              // {/* </ProtectedAuthRoute> */}
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              // <ProtectedAuthRoute>
+              <Signup />
+              // {/* </ProtectedAuthRoute> */}
+            }
+          />
+
+          <Route
+          // element={<ProtectedRoute />}
+          >
+            <Route path='/dashboard' element={<DashboardLayout />}>
+              {
+                routing.map((route, index) => (
+                  <Route key={index} path={`/dashboard/${route.path}`} element={route.element} />
+                ))
+              }
+            </Route>
+          </Route>
+
+          {/* Catch-All Route for 404 */}
+          {/* <Route path="*" element={<NotFound />} /> */}
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
+  );
+}
+
+export default App;
