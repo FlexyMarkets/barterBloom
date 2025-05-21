@@ -418,16 +418,12 @@
 
 
 import { Button, Stack } from '@mui/material'
-import { TextField, InputLabel, OutlinedInput, IconButton, FormGroup, FormControlLabel, Checkbox, InputAdornment } from '@mui/material'
+import { TextField, InputLabel, OutlinedInput, InputAdornment } from '@mui/material'
 import { useState } from 'react';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Grid from "@mui/material/Grid2"
-import SearchableDropdown from "../../../../../userPanelComponent/SearchableDropdown"
-import { allCountries } from './profileUpdateData';
 import { useSelector, useDispatch } from 'react-redux';
 import { profileUpdateSchema } from './profileUpdateSchema';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useVerifyEmailAndMobileMutation, useVerifyEmailAndMobileOtpMutation } from '../../../../../../globalState/auth/authApis';
 import { setNotification } from '../../../../../../globalState/notification/notificationSlice';
@@ -443,18 +439,11 @@ function ProfileUpdate() {
     const [verifyingType, setVerifyingType] = useState(null);
     const [otp, setOtp] = useState("")
     const [otpVerifyType, setOtpVerifyType] = useState(null)
-    const [showPassword, setShowPassword] = useState(false);
-
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const defaultValues = {
-        fullName: userData?.name || "",
+        name: userData?.name || "",
         email: userData?.email || "",
         mobile: userData?.mobile || "",
-        tradingMt5AcNo: userData?.tradingMt5AcNo || "",
-        compoundingMT5AcNo: userData?.compoundingMT5AcNo || "",
-        country: userData?.country || "",
-        walletAddress: userData?.walletAddress || ""
     };
 
     const { register, handleSubmit, reset, watch, setValue, setError, formState: { errors } } = useForm({
@@ -465,12 +454,12 @@ function ProfileUpdate() {
     const [updateProfile, { isLoading }] = useUpdateProfileMutation()
 
     const onSubmit = async (data) => {
-        console.log(errors)
 
         try {
 
             console.log(data)
             const response = await updateProfile(data).unwrap();
+            console.log(response)
 
             if (response.status) {
                 dispatch(setUserData(response?.data))
@@ -479,11 +468,7 @@ function ProfileUpdate() {
 
         } catch (error) {
             if (error?.data?.data) {
-                Object.entries(error?.data?.data).forEach(([field, message]) => {
-                    setError(field, { type: "server", message });
-                });
-            } else {
-                dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to submit. Please try again later.", severity: "error" }));
+                dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to submit. Please try again later.", severity: "error" }))
             }
         }
     };
@@ -566,7 +551,7 @@ function ProfileUpdate() {
                         placeholder='Your name'
                         fullWidth
                         variant="outlined"
-                        {...register("fullName", { required: true })}
+                        {...register("name", { required: true })}
                     />
                 </Grid>
                 <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
@@ -635,15 +620,6 @@ function ProfileUpdate() {
                             />
                     }
                 </Grid>
-                {/* <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
-                    <InputLabel sx={{ mb: ".5rem" }}>Country</InputLabel>
-                    <SearchableDropdown
-                        options={allCountries}
-                        placeholder="Select Country"
-                        value={watch("country")}
-                        onChange={(value) => setValue("country", value)}
-                    />
-                </Grid> */}
                 <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
                     <InputLabel sx={{ mb: ".5rem" }}>{otpVerifyType === "mobile" ? "Mobile otp" : "Mobile"}</InputLabel>
                     {
@@ -710,85 +686,6 @@ function ProfileUpdate() {
                             />
                     }
                 </Grid>
-                {/* <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
-                    <InputLabel sx={{ mb: ".5rem" }}>Trading MT5 A/c No.</InputLabel>
-                    <TextField
-                        size='small'
-                        placeholder='Your Trading MT5 A/c No.'
-                        fullWidth
-                        {...register("tradingMt5AcNo", { required: true })}
-                        variant="outlined"
-                    />
-                </Grid>
-                <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
-                    <InputLabel sx={{ mb: ".5rem" }}>Compounding MT5 A/c No.</InputLabel>
-                    <TextField
-                        size='small'
-                        placeholder='Compounding MT5 A/c No.'
-                        fullWidth
-                        {...register("compoundingMT5AcNo", { required: true })}
-                        variant="outlined"
-                    />
-                </Grid> */}
-                {/* <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
-                    <InputLabel sx={{ mb: ".5rem" }}>Transaction Password </InputLabel>
-                    <OutlinedInput
-                        size='small'
-                        placeholder='********'
-                        fullWidth
-                        type={showPassword ? 'text' : 'password'}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label={
-                                        showPassword ? 'hide the password' : 'display the password'
-                                    }
-                                    onClick={handleClickShowPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                    />
-                </Grid> */}
-                {/* <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
-                    <InputLabel sx={{ mb: ".5rem" }}>Wallet Address</InputLabel>
-                    <TextField
-                        size='small'
-                        placeholder='Enter your wallet address'
-                        fullWidth
-                        {...register("walletAddress", { required: true })}
-                        variant="outlined"
-                    />
-                </Grid>
-                <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
-                    <InputLabel sx={{ mb: ".5rem" }}>One Time Password</InputLabel>
-                    <OutlinedInput
-                        size='small'
-                        placeholder='Enter OTP'
-                        fullWidth
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <Button
-                                    size='small'
-                                    variant='contained'
-                                    edge="end"
-                                    sx={{
-                                        height: "100%",
-                                        boxShadow: "none",
-                                        bgcolor: "primary.main",
-                                        color: "white",
-                                        textTransform: "capitalize",
-                                        "&:hover": { boxShadow: "none" }
-                                    }}
-                                >
-                                    OTP
-                                </Button>
-                            </InputAdornment>
-                        }
-                    />
-                </Grid> */}
             </Grid>
             <Button
                 type="submit"

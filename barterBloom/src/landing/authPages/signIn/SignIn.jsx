@@ -380,7 +380,6 @@ function SignIn() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                height: "100vh",
                 backgroundImage: "url('/authPagesBgImage.webp')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",

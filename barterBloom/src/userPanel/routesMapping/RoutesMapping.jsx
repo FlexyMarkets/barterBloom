@@ -59,9 +59,10 @@ const WalletHistory = lazy(() => import("../pages/Financial/walletHistory/Wallet
 const Reward = lazy(() => import("../pages/reward/Reward"));
 const Support = lazy(() => import("../pages/support/Support"));
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
-// const Transaction = lazy(() => import("../pages/transaction/Transaction"))
 const TransactionList = lazy(() => import("../pages/transaction/TransactionList"));
 const Referral = lazy(() => import("../pages/referral/Referral"))
+const ReferralList = lazy(() => import("../pages/network/directTeam/referralList/ReferralList"))
+const Bond = lazy(() => import("../pages/bond/Bond"))
 
 
 export const routing = [
@@ -70,9 +71,11 @@ export const routing = [
     { path: "setting/wallet-address", element: <WalletAddress /> },
     { path: "setting/bank-KYC", element: <BankKYC /> },
     { path: "setting/set-transaction-password", element: <SetTransactionPassword /> },
-    { path: "network/direct-team", element: <DirectTeam /> },
+    { path: "network/networkList", element: <DirectTeam /> },
+    { path: "network/referralList", element: <ReferralList /> },
     { path: "network/all-team", element: <AllTeam /> },
     { path: "network/unilevel", element: <UniLevel /> },
+    { path: "bond", element: <Bond /> },
     { path: "network/business-history", element: <BusinessHistory /> },
     { path: "income/level-income", element: <LevelIncome /> },
     { path: "income/matching-income", element: <MatchingIncome /> },

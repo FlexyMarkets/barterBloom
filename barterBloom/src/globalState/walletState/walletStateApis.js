@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setDepositQRData } from "./walletStateSlice";
 
-export const transactionStateApis = createApi({
-    reducerPath: "transaction",
+export const walletStateApis = createApi({
+    reducerPath: "wallet",
     baseQuery: fetchBaseQuery({
         baseUrl: `${import.meta.env.VITE_BASE_URL}`,
         prepareHeaders: (headers) => {
@@ -14,14 +15,55 @@ export const transactionStateApis = createApi({
     }),
     tagTypes: ["transactionList", "pendingTransactionList"],
     endpoints: (builder) => ({
-        // clientDeposit: builder.mutation({
-        //     query: (data) => ({
-        //         url: "/client/deposit",
-        //         method: "POST",
-        //         body: data
-        //     }),
-        //     invalidatesTags: [{ type: "transactionList", id: "PARTIAL-LIST" }]
-        // }),
+        walletDeposit: builder.mutation({
+            query: (data) => ({
+                url: "/wallet/deposit/address",
+                method: "POST",
+                body: data
+            }),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    console.log(data)
+                    if (data) {
+                        dispatch(setDepositQRData(data))
+                    }
+                } catch (error) {
+                    console.error("Failed:", error);
+                }
+            },
+            invalidatesTags: [{ type: "transactionList", id: "PARTIAL-LIST" }]
+        }),
+        setTransactionPassword: builder.mutation({
+            query: (data) => ({
+                url: "/wallet/create/transaction/password",
+                method: "POST",
+                body: data
+            })
+        }),
+        updateTransactionPassword: builder.mutation({
+            query: (data) => ({
+                url: "/wallet/change/transaction/password",
+                method: "PUT",
+                body: data
+            })
+        }),
+        getReferralList: builder.query({
+            query: () => `/profile/referral/tree`,
+        }),
+        getReferralInfo: builder.query({
+            query: ({ referralCode }) => {
+
+                const params = {};
+                if (referralCode) params.referralCode = referralCode;
+
+                return {
+                    url: "/profile/referral/info",
+                    params,
+                };
+
+            }
+        }),
         // clientWithdraw: builder.mutation({
         //     query: (data) => ({
         //         url: "/client/withdraw",
@@ -84,6 +126,14 @@ export const transactionStateApis = createApi({
             keepUnusedDataFor: 60,
             refetchOnMountOrArgChange: true,
         }),
+        stacking: builder.mutation({
+            query: (data) => ({
+                url: "/staking",
+                method: "POST",
+                body: data
+            }),
+            invalidatesTags: [{ type: "transactionList", id: "PARTIAL-LIST" }]
+        }),
         // pendingTransactionList: builder.query({
         //     query: ({ page = 1, sizePerPage = 10, search = "", status, transactionType, paymentMethod, fromDate, toDate }) => {
         //         const params = {};
@@ -136,13 +186,18 @@ export const transactionStateApis = createApi({
 })
 
 export const {
-    useClientDepositMutation,
-    useClientWithdrawMutation,
+    // useClientDepositMutation,
+    // useClientWithdrawMutation,
     useWalletDepositMutation,
-    useWalletWithdrawMutation,
-    useInternalTransferMutation,
+    useSetTransactionPasswordMutation,
+    useUpdateTransactionPasswordMutation,
+    // useWalletWithdrawMutation,
+    // useInternalTransferMutation,
     useTransactionsListQuery,
-    usePendingTransactionListQuery,
-    usePendingTransactionByIdQuery,
-    useEditPendingTransactionStatusMutation
-} = transactionStateApis;
+    useGetReferralListQuery,
+    useGetReferralInfoQuery,
+    useStackingMutation
+    // usePendingTransactionListQuery,
+    // usePendingTransactionByIdQuery,
+    // useEditPendingTransactionStatusMutation
+} = walletStateApis;

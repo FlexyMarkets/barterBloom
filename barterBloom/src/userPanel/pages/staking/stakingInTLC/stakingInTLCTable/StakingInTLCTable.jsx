@@ -31,7 +31,7 @@ function StakingInTLCTable() {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <TablePaginationComponent />
+                    {/* <TablePaginationComponent /> */}
                 </Card>
             </Container>
         </Stack>

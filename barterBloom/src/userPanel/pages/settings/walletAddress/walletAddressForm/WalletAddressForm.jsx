@@ -39,7 +39,7 @@ function WalletAddressForm() {
                         <Grid container size={12} spacing={3}>
                             <Grid item size={{ xs: 12, sm: 6 }}>
                                 <InputLabel sx={{ mb: ".5rem" }}>Select Wallet</InputLabel>
-                                <Selector items={["Tether USD (Tron/TRC20)", "Trillioner(TLC)"]} shouldBeFullWidth={true} />
+                                <Selector items={["Tether USD (Tron/TRC20)"]} shouldBeFullWidth={true} />
                             </Grid>
                             <Grid item size={{ xs: 12, sm: 6 }}>
                                 <InputLabel sx={{ mb: ".5rem" }}>Address</InputLabel>

@@ -31,7 +31,7 @@ function WalletAddressTable() {
               </TableBody>
             </Table>
           </TableContainer>
-          <TablePaginationComponent />
+          {/* <TablePaginationComponent /> */}
         </Card>
       </Container>
     </Stack>

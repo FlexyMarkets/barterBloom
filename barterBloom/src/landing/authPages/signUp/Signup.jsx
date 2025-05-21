@@ -15,7 +15,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid2"
 import PersonIcon from '@mui/icons-material/Person';
 import PeopleIcon from '@mui/icons-material/People';
@@ -26,13 +26,16 @@ import "../countryCodeSelector.css"
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from "./signUpSchema";
-import { useSignUpMutation } from "../../../globalState/auth/authApis";
+import { useReferralInfoQuery, useSignUpMutation } from "../../../globalState/auth/authApis";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../../../globalState/notification/notificationSlice";
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-
+import { useSearchParams } from "react-router-dom";
 
 function Signup() {
+
+    const [searchParams] = useSearchParams();
+    const referralCode = searchParams.get("referral");
 
     const dispatch = useDispatch()
     const matches = useMediaQuery('(min-width:700px)');
@@ -44,7 +47,6 @@ function Signup() {
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleClickShowCnfPassword = () => setShowCnfPassword((show) => !show);
 
-
     const [signUp, { isLoading }] = useSignUpMutation();
 
 
@@ -52,7 +54,7 @@ function Signup() {
         name: "",
         email: "",
         mobile: "",
-        referral: "",
+        referral: referralCode || "",
         password: "",
         cnfPassword: "",
     };
@@ -61,6 +63,19 @@ function Signup() {
         resolver: zodResolver(signupSchema),
         defaultValues: defaultValues
     });
+
+    const { data, isError, error } = useReferralInfoQuery({ referralCode }, { skip: !referralCode })
+
+    const referralInfo = data?.error?.message
+
+    const referrarName = data?.data
+
+    // setError("referral", isError && error?.data?.message)
+    useEffect(() => {
+        if (isError && error?.data?.message) {
+            setError("referral", { type: "manual", message: error.data.message });
+        }
+    }, [isError, error, setError]);
 
     const onSubmit = async (data) => {
 
@@ -226,6 +241,7 @@ function Signup() {
                                 startAdornment={<InputAdornment position="start"><PeopleIcon sx={{ color: '#8703ef', fontSize: "20px" }} /></InputAdornment>}
                                 sx={{ ...inputStyles }}
                             />
+                            <InputLabel sx={{ mt: "2px", color: "white", fontSize: "12px" }}>Referral name: {referrarName?.name}</InputLabel>
                             {errors.referral && <Typography color="error">{errors.referral.message}</Typography>}
                         </Grid>
                     </Grid>

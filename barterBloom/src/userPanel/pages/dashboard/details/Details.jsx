@@ -16,6 +16,22 @@ function Details() {
         rank: `Rank - ${userData?.rank}`
     }
 
+    const income = {
+        "BUSD balance": userData?.BUSDBalance,
+        "Trade balance": userData?.TRADEBalance,
+        "Air dorpLevel": userData?.airDorpLevel,
+        "Bonus balance": userData?.bonusBalance,
+        "Total staked balance": userData?.totalStakedBalance,
+        "Total withdrawal balance": userData?.totalWithdrawalBalance,
+        "Total team turnover balance": userData?.totalTeamTurnoverBalance,
+        "Total direct team turnover balance": userData?.totalDirectTeamTurnoverBalance
+    }
+
+    const totalIncomeAndWidthdrawal = {
+        "Total Income": `$ ${userData?.totalRewardBalance}`,
+        "Total Withdrawal": `$ ${userData?.totalWithdrawalBalance}`
+    }
+
     const matches = useMediaQuery('(max-width:450px)');
 
     const { activeTheme } = useSelector((state) => state.themeMode);
@@ -31,14 +47,14 @@ function Details() {
                         my: "2rem"
                     }}
                 >
-                    <Box>
+                    {/* <Box>
                         <Typography variant="h5" fontWeight="bold" color="primary.main">
                             TLC-USD Trading Pair
                         </Typography>
                         <Typography variant="body2" color="textSecondary">
                             1 TLC = 128 USD
                         </Typography>
-                    </Box>
+                    </Box> */}
                     <Box>
                         <Typography fontWeight={"bold"} mb={".5rem"} color="primary.main">Referral Link</Typography>
                         <Card
@@ -55,7 +71,8 @@ function Details() {
                                 bgcolor: activeTheme === "dark" ? "" : "#ebe8e8"
                             }}
                         >
-                            <Typography>http://secure.botbro.biz/signup?referral=ROBO118603</Typography>
+                            <Typography>https://barterbloom.com/signup?referral={userData?.referralCode}</Typography>
+                            {/* <Typography>https://barterbloom.com/signup?referral=abcdefg</Typography> */}
                             <Tooltip title="Copy" sx={{ border: "1px solid primary.main", borderRadius: "10px", my: "0" }}>
                                 <IconButton>
                                     <ContentCopyOutlinedIcon />
@@ -93,7 +110,7 @@ function Details() {
                                     Referral Code
                                 </Typography>
                                 <Typography variant="h6" color="textSecondary">
-                                    #ROBO118603
+                                    {userData?.referralCode}
                                 </Typography>
                             </Box>
                         </Grid>
@@ -102,7 +119,7 @@ function Details() {
                 <Grid container spacing={2} size={12}>
                     {
                         Object.entries(income).map(([keys, values]) => (
-                            <Grid item size={{ xs: 6, sm: 3, md: 2 }} key={keys}>
+                            <Grid item size={{ xs: 6, sm: 3 }} key={keys}>
                                 <Typography variant="body2" color="textSecondary">
                                     {keys}
                                 </Typography>

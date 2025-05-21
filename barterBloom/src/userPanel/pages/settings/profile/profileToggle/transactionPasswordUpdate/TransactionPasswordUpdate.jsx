@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setNotification } from '../../../../../../globalState/notification/notificationSlice';
-import { useUpdateTransactionPasswordMutation } from '../../../../../../globalState/settings/profileSettingApi';
+import { useUpdateTransactionPasswordMutation } from '../../../../../../globalState/walletState/walletStateApis';
 
 function TransactionPasswordUpdate() {
 
@@ -24,10 +24,10 @@ function TransactionPasswordUpdate() {
         setShowPassword((prev) => ({ ...prev, [field]: !prev[field] }));
     };
 
-    const [changePassword] = useUpdateTransactionPasswordMutation();
+    const [updateTransactionPassword, { isLoading }] = useUpdateTransactionPasswordMutation();
 
     const defaultValues = {
-        currPassword: "",
+        prevPassword: "",
         newPassword: "",
         cnfPassword: ""
     };
@@ -39,7 +39,7 @@ function TransactionPasswordUpdate() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await changePassword(data).unwrap();
+            const response = await updateTransactionPassword(data).unwrap();
             if (response?.status) {
                 reset(defaultValues)
                 dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
@@ -63,10 +63,10 @@ function TransactionPasswordUpdate() {
             onSubmit={handleSubmit(onSubmit)}
         >
             <Grid container size={12} spacing={3}>
-                {["currPassword", "newPassword", "cnfPassword"].map((field) => (
+                {["prevPassword", "newPassword", "cnfPassword"].map((field) => (
                     <Grid key={field} item size={{ xs: 12, sm: 6, md: 4 }}>
                         <InputLabel sx={{ mb: ".5rem" }}>
-                            {field === "currPassword" ? "Current Transaction Password" :
+                            {field === "prevPassword" ? "Current Transaction Password" :
                                 field === "newPassword" ? "New Transaction Password" :
                                     "Confirm Transaction Password"}
                         </InputLabel>
@@ -96,6 +96,7 @@ function TransactionPasswordUpdate() {
                 type="submit"
                 size="small"
                 variant="contained"
+                disabled={isLoading}
                 sx={{
                     textTransform: "capitalize",
                     boxShadow: "none",

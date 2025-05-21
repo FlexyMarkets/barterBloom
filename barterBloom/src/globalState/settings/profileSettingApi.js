@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const profileSettingApi = createApi({
     reducerPath: "profileSettingApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: `${import.meta.env.VITE_BASE_URL}/user`,
+        baseUrl: `${import.meta.env.VITE_BASE_URL}`,
         prepareHeaders: (headers) => {
             const token = localStorage.getItem("token");
             if (token) {
@@ -14,31 +14,6 @@ export const profileSettingApi = createApi({
     }),
     tagTypes: ["bankDetails"],
     endpoints: (builder) => ({
-        setTransactionPassword: builder.mutation({
-            query: (data) => ({
-                url: "/create/trxpassword",
-                method: "POST",
-                body: data
-            })
-        }),
-        updateTransactionPassword: builder.mutation({
-            query: (data) => ({
-                url: "/change/trxpassword",
-                method: "PUT",
-                body: data
-            })
-        }),
-        bankKYC: builder.mutation({
-            query: (data) => ({
-                url: "/add/bank/account",
-                method: "POST",
-                body: data
-            })
-        }),
-        getBankDetails: builder.query({
-            query: () => `/fetch/bank`,
-            providesTags: ['bankDetails'],
-        }),
         updateProfile: builder.mutation({
             query: (data) => ({
                 url: "/profile/update",
@@ -57,9 +32,9 @@ export const profileSettingApi = createApi({
                 return `transaction/list?${params.toString()}`;
             }
         }),
-        getReferralList: builder.query({
-            query: () => `/referral/list`,
-        }),
+        // getReferralList: builder.query({
+        //     query: () => `/referral/list`,
+        // }),
     })
 })
 
@@ -70,5 +45,5 @@ export const {
     useGetBankDetailsQuery,
     useUpdateProfileMutation,
     useGetTransactionDataQuery,
-    useGetReferralListQuery
+    // useGetReferralListQuery
 } = profileSettingApi;

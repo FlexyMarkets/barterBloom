@@ -3,7 +3,7 @@ import { Container, Typography } from '@mui/material';
 function Footer() {
     return (
         <Container sx={{ pt: 6, pb: 2 }}>
-            <Typography color='primary.main' textAlign={"center"}>Copyright © Designed & Developed by Boostbullion 2025</Typography>
+            <Typography color='primary.main' textAlign={"center"}>Copyright © Designed & Developed by BarterBloom 2025</Typography>
         </Container>
     )
 }

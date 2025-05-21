@@ -18,16 +18,18 @@ function Dashboard() {
                 </Typography>
             </Container>
             <Details />
-            <Wallets />
+            {/* <Wallets /> */}
             <LoginHistoryTable />
             <Container sx={{ mt: "4rem" }}>
-                <Grid container size={12} spacing={2}>
-                    <Grid item size={{ xs: 12, lg: 6 }}>
+                <Grid container size={12}
+                // spacing={2}
+                >
+                    {/* <Grid item size={{ xs: 12, lg: 6 }}>
                         <AboutUser />
-                    </Grid>
-                    <Grid item size={{ xs: 12, lg: 6 }}>
-                        <TopTenTransactionHistory />
-                    </Grid>
+                    </Grid> */}
+                    {/* <Grid item size={{ xs: 12, lg: 6 }}> */}
+                    <TopTenTransactionHistory />
+                    {/* </Grid> */}
                 </Grid>
             </Container>
             <ForexCrossRatesWidget />

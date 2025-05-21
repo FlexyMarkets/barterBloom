@@ -57,7 +57,7 @@ export const authApi = createApi({
         }),
         changePassword: builder.mutation({
             query: (data) => ({
-                url: "/change/login/password",
+                url: "/change/password",
                 method: "PUT",
                 body: data
             })
@@ -99,7 +99,20 @@ export const authApi = createApi({
                     body: data
                 }
             )
-        })
+        }),
+        referralInfo: builder.query({
+            query: ({ referralCode }) => {
+
+                const params = {};
+                if (referralCode) params.referralCode = referralCode;
+
+                return {
+                    url: "/referral/info",
+                    params,
+                };
+
+            }
+        }),
     })
 })
 
@@ -112,5 +125,6 @@ export const {
     useForgotPasswordVerifyOTPMutation,
     useResetPasswordMutation,
     useVerifyEmailAndMobileMutation,
-    useVerifyEmailAndMobileOtpMutation
+    useVerifyEmailAndMobileOtpMutation,
+    useReferralInfoQuery
 } = authApi;

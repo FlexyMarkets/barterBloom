@@ -1,10 +1,16 @@
 import { Stack, Avatar, Typography, Tooltip, IconButton, Box, Popper } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../globalState/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 
 function AccountDetails({ sidebarOpen }) {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     const [anchorEl, setAnchorEl] = useState(null);
     const popperRef = useRef(null);
     const avatarRef = useRef(null);
@@ -13,8 +19,8 @@ function AccountDetails({ sidebarOpen }) {
 
     const accountDetailsData = {
         avatar: "/avatar.png",
-        name: userData?.fullName,
-        rank: "Rank - SR. MANAGER"
+        name: userData?.name,
+        rank: `Rank - ${userData?.rank}`
     }
 
     const handleClick = (event) => {
@@ -46,6 +52,12 @@ function AccountDetails({ sidebarOpen }) {
 
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
+
+    function handleLogOut() {
+        console.log("working")
+        dispatch(logout());
+        navigate("/");
+    }
 
     return (
         <Stack
@@ -93,7 +105,7 @@ function AccountDetails({ sidebarOpen }) {
                         <Typography variant="body2" color="textSecondary">{accountDetailsData.rank}</Typography>
                     </Stack>
                     <Tooltip title="Logout" placement="right">
-                        <IconButton>
+                        <IconButton onClick={() => handleLogOut()}>
                             <LogoutIcon />
                         </IconButton>
                     </Tooltip>

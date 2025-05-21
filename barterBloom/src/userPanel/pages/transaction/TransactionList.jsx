@@ -15,7 +15,7 @@ import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
 import { useState, useMemo, useCallback } from 'react';
 import { transactionListHeaderColumn } from './transactionListHeaderColumn';
-import { useTransactionsListQuery } from '../../../globalState/transactionState/transactionStateApis';
+import { useTransactionsListQuery } from '../../../globalState/walletState/walletStateApis';
 // import Selector from '../../../components/Selector';
 import Selector from '../../userPanelComponent/Selector';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -24,7 +24,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 const STATUS_OPTIONS = ["PENDING", "COMPLETED", "PROCESSING", "REJECTED"];
-const TRANSACTION_TYPES = ["CLIENT-DEPOSIT", "CLIENT-WITHDRAW", "WALLET-DEPOSIT", "WALLET-WITHDRAW", "IB-WITHDRAW", "INTERNAL-TRANSFER"];
+// const TRANSACTION_TYPES = ["DEPOSIT", "STAKE-IN", "WITHDRAW", "REVERCED-USER", "REWARD", REFERRAL-INCOME, SYSTEM-REWARD, STAKING-REWARD, NETWORK-BONUS, SWAP-CMN-TO-CUSD, SWAP-CUSD-TO-CMN, INTERNAL-TRANSFER, GENERATION-REWARD, CONVERT-REWARD, BURN];
 
 const handleExportToExcel = (rows) => {
   const worksheet = XLSX.utils.json_to_sheet(rows);
@@ -132,7 +132,7 @@ function TransactionList() {
               width={{ xs: '100%', sm: 200 }}
             />
           </Stack>
-          <Stack>
+          {/* <Stack>
             <InputLabel sx={{ mb: 0.5, fontSize: 12 }}>Transaction Type</InputLabel>
             <Selector
               items={TRANSACTION_TYPES}
@@ -140,7 +140,7 @@ function TransactionList() {
               onChange={(e) => handleFilterChange('transactionType', e.target.value)}
               width={{ xs: '100%', sm: 200 }}
             />
-          </Stack>
+          </Stack> */}
         </Box>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>

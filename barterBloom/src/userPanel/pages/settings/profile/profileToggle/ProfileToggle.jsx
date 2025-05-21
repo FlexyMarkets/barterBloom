@@ -9,7 +9,7 @@ import TransactionPasswordUpdate from './transactionPasswordUpdate/TransactionPa
 const COMPONENTS = {
     Profile: ProfileUpdate,
     "Change Profile Password": PasswordUpdate,
-    "Update Email": EmailUpdate,
+    // "Update Email": EmailUpdate,
     "Change Transaction Password": TransactionPasswordUpdate
 };
 

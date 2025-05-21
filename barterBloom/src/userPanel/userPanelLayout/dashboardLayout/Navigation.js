@@ -36,11 +36,11 @@ export const NAVIGATION = [
                 title: 'Wallet Address',
                 icon: CircleOutlinedIcon,
             },
-            {
-                segment: '/dashboard/setting/bank-KYC',
-                title: 'Bank KYC',
-                icon: CircleOutlinedIcon,
-            },
+            // {
+            //     segment: '/dashboard/setting/bank-KYC',
+            //     title: 'Bank KYC',
+            //     icon: CircleOutlinedIcon,
+            // },
             {
                 segment: '/dashboard/setting/Set-transaction-password',
                 title: 'Set Transaction Password',
@@ -53,26 +53,36 @@ export const NAVIGATION = [
         icon: CellTowerOutlinedIcon,
         children: [
             {
-                segment: '/dashboard/network/direct-team',
-                title: 'Direct Team',
+                segment: '/dashboard/network/networkList',
+                title: 'Network List',
                 icon: CircleOutlinedIcon,
             },
             {
-                segment: '/dashboard/network/all-team',
-                title: 'All Team',
+                segment: '/dashboard/network/referralList',
+                title: 'Referral List',
                 icon: CircleOutlinedIcon,
             },
-            {
-                segment: '/dashboard/network/unilevel',
-                title: 'Unilevel',
-                icon: CircleOutlinedIcon,
-            },
-            {
-                segment: '/dashboard/network/business-history',
-                title: 'Business History',
-                icon: CircleOutlinedIcon,
-            },
+            // {
+            //     segment: '/dashboard/network/all-team',
+            //     title: 'All Team',
+            //     icon: CircleOutlinedIcon,
+            // },
+            // {
+            //     segment: '/dashboard/network/unilevel',
+            //     title: 'Unilevel',
+            //     icon: CircleOutlinedIcon,
+            // },
+            // {
+            //     segment: '/dashboard/network/business-history',
+            //     title: 'Business History',
+            //     icon: CircleOutlinedIcon,
+            // },
         ],
+    },
+    {
+        segment: '/dashboard/bond',
+        title: 'Bond',
+        icon: DashboardIcon,
     },
     {
         segment: '/dashboard/transaction',
@@ -181,27 +191,27 @@ export const NAVIGATION = [
     //         },
     //     ],
     // },
-    {
-        title: 'Staking',
-        icon: LayersIcon,
-        children: [
-            {
-                segment: '/dashboard/staking/staking-in-TLC',
-                title: 'Staking in TLC',
-                icon: CircleOutlinedIcon,
-            },
-            {
-                segment: '/dashboard/staking/staking-income',
-                title: 'Staking Income',
-                icon: CircleOutlinedIcon,
-            },
-            {
-                segment: '/dashboard/staking/staking-matching-income',
-                title: 'Staking Matching Income',
-                icon: CircleOutlinedIcon,
-            }
-        ],
-    },
+    // {
+    //     title: 'Staking',
+    //     icon: LayersIcon,
+    //     children: [
+    //         {
+    //             segment: '/dashboard/staking/staking-in-TLC',
+    //             title: 'Staking in TLC',
+    //             icon: CircleOutlinedIcon,
+    //         },
+    //         {
+    //             segment: '/dashboard/staking/staking-income',
+    //             title: 'Staking Income',
+    //             icon: CircleOutlinedIcon,
+    //         },
+    //         {
+    //             segment: '/dashboard/staking/staking-matching-income',
+    //             title: 'Staking Matching Income',
+    //             icon: CircleOutlinedIcon,
+    //         }
+    //     ],
+    // },
     // {
     //     title: 'TLC2.0',
     //     icon: TrackChangesIcon,
@@ -237,11 +247,11 @@ export const NAVIGATION = [
             //     title: 'Deposit via Gateway',
             //     icon: CircleOutlinedIcon,
             // },
-            {
-                segment: '/dashboard/Deposit/deposit-invoices',
-                title: 'Deposit Invoices',
-                icon: CircleOutlinedIcon,
-            },
+            // {
+            //     segment: '/dashboard/Deposit/deposit-invoices',
+            //     title: 'Deposit Invoices',
+            //     icon: CircleOutlinedIcon,
+            // },
             {
                 segment: '/dashboard/Deposit/deposit-crypto',
                 title: 'Deposit Crypto',

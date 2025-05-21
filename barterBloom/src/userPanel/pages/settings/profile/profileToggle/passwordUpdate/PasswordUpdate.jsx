@@ -24,7 +24,7 @@ function PasswordUpdate() {
     setShowPassword((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
-  const [changePassword] = useChangePasswordMutation();
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
 
   const defaultValues = {
     oldPassword: "",
@@ -96,6 +96,7 @@ function PasswordUpdate() {
         type="submit"
         size="small"
         variant="contained"
+        disabled={isLoading}
         sx={{
           textTransform: "capitalize",
           boxShadow: "none",

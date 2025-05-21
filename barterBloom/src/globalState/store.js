@@ -5,24 +5,26 @@ import notificationSlice from "./notification/notificationSlice"
 import { authApi } from './auth/authApis';
 import { profileSettingApi } from './settings/profileSettingApi';
 import { robotApi } from './robot/robotApi';
-import { transactionStateApis } from './transactionState/transactionStateApis';
+import { walletStateApis } from './walletState/walletStateApis';
+import walletStateSlice from "./walletState/walletStateSlice"
 
 const store = configureStore({
     reducer: {
         themeMode: themeModeSlice,
         auth: authSlice,
         notification: notificationSlice,
+        wallet: walletStateSlice,
         [authApi.reducerPath]: authApi.reducer,
         [profileSettingApi.reducerPath]: profileSettingApi.reducer,
         [robotApi.reducerPath]: robotApi.reducer,
-        [transactionStateApis.reducerPath]: transactionStateApis.reducer
+        [walletStateApis.reducerPath]: walletStateApis.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
         .concat(
             authApi.middleware,
             profileSettingApi.middleware,
             robotApi.middleware,
-            transactionStateApis.middleware
+            walletStateApis.middleware
         )
 });
 
