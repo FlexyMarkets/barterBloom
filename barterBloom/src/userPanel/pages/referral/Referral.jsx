@@ -1,5 +1,5 @@
 import { Stack, Typography, Container } from "@mui/material";
-import ReferralTable from "./referralTable/referralTable";
+import ReferralTable from "./referralTable/ReferralTable";
 
 function Referral() {
     return (
