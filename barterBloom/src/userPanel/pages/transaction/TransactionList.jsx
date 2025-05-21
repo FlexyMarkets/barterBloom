@@ -14,7 +14,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
 import { useState, useMemo, useCallback } from 'react';
-import { transactionListHeaderColumn } from './transactionListHeaderColumn';
+import { transactionListHeaderColumn } from './TransactionListHeaderColumn';
 import { useTransactionsListQuery } from '../../../globalState/walletState/walletStateApis';
 // import Selector from '../../../components/Selector';
 import Selector from '../../userPanelComponent/Selector';
