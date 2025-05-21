@@ -44,22 +44,22 @@ function App() {
             path="/signin"
             // path="/"
             element={
-              <ProtectedAuthRoute>
+              // <ProtectedAuthRoute>
                 <SignIn />
-              </ProtectedAuthRoute>
+              // {/* </ProtectedAuthRoute> */}
             }
           />
           <Route
             path="/signup"
             element={
-              <ProtectedAuthRoute>
+              // <ProtectedAuthRoute>
                 <Signup />
-              </ProtectedAuthRoute>
+              // {/* </ProtectedAuthRoute> */}
             }
           />
 
           <Route
-            element={<ProtectedRoute />}
+            // element={<ProtectedRoute />}
           >
             <Route path='/dashboard' element={<DashboardLayout />}>
               {

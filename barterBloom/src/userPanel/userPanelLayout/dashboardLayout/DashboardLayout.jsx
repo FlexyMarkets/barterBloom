@@ -101,7 +101,7 @@ function DashboardLayout() {
                             </Tooltip>
                             <Link to={"/"}>
                                 <Stack>
-                                    <img src="/logo512.png" alt="My Logo" style={{ width: "8rem" }} />
+                                    <img src={activeTheme === "dark" ? "/logo512.png":"/logoLightBackground.png"} alt="My Logo" style={{ width: "8rem" }} />
                                 </Stack>
                             </Link>
                         </Stack>
