@@ -1,6 +1,6 @@
-export const referralTableHeadData = [
-    "S/N",
-    "ID",
-    "Refferal Name",
-    "Created At"
-]
+// export const referralTableHeadData = [
+//     "S/N",
+//     "ID",
+//     "Refferal Name",
+//     "Created At"
+// ]
