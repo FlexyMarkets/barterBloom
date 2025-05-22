@@ -2,7 +2,7 @@ import { lazy } from "react";
 
 const Profile = lazy(() => import("../pages/settings/profile/Profile"));
 const WalletAddress = lazy(() => import("../pages/settings/walletAddress/WalletAddress"));
-const BankKYC = lazy(() => import("../pages/settings/bankKYC/BankKYC"));
+// const BankKYC = lazy(() => import("../pages/settings/bankKYC/BankKYC"));
 const SetTransactionPassword = lazy(() => import("../pages/settings/setTransactionPassword/SetTransactionPassword"));
 const DirectTeam = lazy(() => import("../pages/network/directTeam/DirectTeam"));
 const AllTeam = lazy(() => import("../pages/network/allTeam/AllTeam"));
@@ -28,10 +28,10 @@ const Portfolio = lazy(() => import("../pages/robot/portfolio/Portfolio"));
 const TradingToCompounding = lazy(() => import("../pages/robot/portfolio/tradingPortfolio/TradingToCompounding/TradingToCompounding"));
 const StakingInTLC = lazy(() => import("../pages/staking/stakingInTLC/StakingInTLC"));
 const StakingIncome = lazy(() => import("../pages/staking/stakingIncome/StakingIncome"));
-const TLCTwoPointOICO = lazy(() => import("../pages/TLCTwoPointO/TLCTwoPointOICO/TLCTwoPointOICO"));
-const TLCTwoPointOICOLevelIncome = lazy(() => import("../pages/TLCTwoPointO/TLCTwoPointOICOLevelIncome/TLCTwoPointOICOLevelIncome"));
-const TLCTwoPointOLevelIncome = lazy(() => import("../pages/TLCTwoPointO/TLCTwoPointOLevelIncome/TLCTwoPointOLevelIncomeTotal"));
-const TLCTwoPointOProfit = lazy(() => import("../pages/TLCTwoPointO/TLCTwoPointOProfit/TLCTwoPointOProfit"));
+// const TLCTwoPointOICO = lazy(() => import("../pages/TLCTwoPointO/TLCTwoPointOICO/TLCTwoPointOICO"));
+// const TLCTwoPointOICOLevelIncome = lazy(() => import("../pages/TLCTwoPointO/TLCTwoPointOICOLevelIncome/TLCTwoPointOICOLevelIncome"));
+// const TLCTwoPointOLevelIncome = lazy(() => import("../pages/TLCTwoPointO/TLCTwoPointOLevelIncome/TLCTwoPointOLevelIncomeTotal"));
+// const TLCTwoPointOProfit = lazy(() => import("../pages/TLCTwoPointO/TLCTwoPointOProfit/TLCTwoPointOProfit"));
 const DepositCrypto = lazy(() => import("../pages/deposit/depositCrypto/DepositCrypto"));
 const DepositINRPackage = lazy(() => import("../pages/deposit/depositINRPackage/DepositINRPackage"));
 const DepositInvoices = lazy(() => import("../pages/deposit/depositInvoices/DepositInvoices"));
@@ -46,12 +46,12 @@ const TransferReport = lazy(() => import("../pages/transfer/transferReport/Trans
 const ReceiveReport = lazy(() => import("../pages/transfer/receiveReport/ReceiveReport"));
 const SellTLC = lazy(() => import("../pages/buySell/sellTLC/SellTLC"));
 const BuySellReport = lazy(() => import("../pages/buySell/buySellReport/BuySellReport"));
-const WithdrawalAmountUSDT = lazy(() => import("../pages/Financial/withdrawalAmountUSDT/WithdrawalAmountUSDT"));
+// const WithdrawalAmountUSDT = lazy(() => import("../pages/Financial/withdrawalAmountUSDT/WithdrawalAmountUSDT"));
 const WithdrawalAmountCRYPTOforIndians = lazy(() => import("../pages/Financial/withdrawalAmountCRYPTOforIndians/WithdrawalAmountCRYPTOforIndians"));
-const WithdrawalAmountINR = lazy(() => import("../pages/Financial/withdrawalAmountINR/WithdrawalAmountINR"));
-const WithdrawalTradingUSDT = lazy(() => import("../pages/Financial/withdrawalTradingUSDT/WithdrawalTradingUSDT"));
+// const WithdrawalAmountINR = lazy(() => import("../pages/Financial/withdrawalAmountINR/WithdrawalAmountINR"));
+// const WithdrawalTradingUSDT = lazy(() => import("../pages/Financial/withdrawalTradingUSDT/WithdrawalTradingUSDT"));
 const WithdrawalTradingCRYPTO = lazy(() => import("../pages/Financial/withdrawalTradingCRYPTO/WithdrawalTradingCRYPTO"));
-const WithdrawalTradingINR = lazy(() => import("../pages/Financial/withdrawalTradingINR/WithdrawalTradingINR"));
+// const WithdrawalTradingINR = lazy(() => import("../pages/Financial/withdrawalTradingINR/WithdrawalTradingINR"));
 const WithdrawalReport = lazy(() => import("../pages/Financial/withdrawalReport/WithdrawalReport"));
 const AccountStatement = lazy(() => import("../pages/Financial/accountStatement/AccountStatement"));
 const IncomeSummary = lazy(() => import("../pages/Financial/incomeSummary/IncomeSummary"));
@@ -72,7 +72,7 @@ export const routing = [
     { path: "", element: <Dashboard /> },
     { path: "setting/profile", element: <Profile /> },
     { path: "setting/wallet-address", element: <WalletAddress /> },
-    { path: "setting/bank-KYC", element: <BankKYC /> },
+    // { path: "setting/bank-KYC", element: <BankKYC /> },
     { path: "setting/set-transaction-password", element: <SetTransactionPassword /> },
     { path: "network/networkList", element: <DirectTeam /> },
     { path: "network/referralList", element: <ReferralList /> },
@@ -101,10 +101,10 @@ export const routing = [
     { path: "staking/staking-in-TLC", element: <StakingInTLC /> },
     { path: "staking/staking-income", element: <StakingIncome /> },
     { path: "staking/staking-matching-income", element: <StackingMatchingIncome /> },
-    { path: "TLC2.0/TLC2.0-ICO", element: <TLCTwoPointOICO /> },
-    { path: "TLC2.0/TLC2.0-ICO-level-income", element: <TLCTwoPointOICOLevelIncome /> },
-    { path: "TLC2.0/TLC2.0-level-income", element: <TLCTwoPointOLevelIncome /> },
-    { path: "TLC2.0/TLC2.0-profit", element: <TLCTwoPointOProfit /> },
+    // { path: "TLC2.0/TLC2.0-ICO", element: <TLCTwoPointOICO /> },
+    // { path: "TLC2.0/TLC2.0-ICO-level-income", element: <TLCTwoPointOICOLevelIncome /> },
+    // { path: "TLC2.0/TLC2.0-level-income", element: <TLCTwoPointOLevelIncome /> },
+    // { path: "TLC2.0/TLC2.0-profit", element: <TLCTwoPointOProfit /> },
     { path: "wallet/deposit", element: <DepositCrypto /> },
     { path: "wallet/swap", element: <Swap /> },
     { path: "wallet/convertWallet", element: <ConvertWallet /> },
@@ -122,12 +122,12 @@ export const routing = [
     { path: "transfer/receive-report", element: <ReceiveReport /> },
     { path: "Buy&Sell/sell-TLC", element: <SellTLC /> },
     { path: "Buy&Sell/buy-sell-report", element: <BuySellReport /> },
-    { path: "financial/withdrawal-amount-(USDT)", element: <WithdrawalAmountUSDT /> },
+    // { path: "financial/withdrawal-amount-(USDT)", element: <WithdrawalAmountUSDT /> },
     { path: "financial/withdrawal-amount-(CRYPTO)-for-indians", element: <WithdrawalAmountCRYPTOforIndians /> },
-    { path: "financial/withdrawal-amount-(INR)", element: <WithdrawalAmountINR /> },
-    { path: "financial/withdrawal-trading-(USDT)", element: <WithdrawalTradingUSDT /> },
+    // { path: "financial/withdrawal-amount-(INR)", element: <WithdrawalAmountINR /> },
+    // { path: "financial/withdrawal-trading-(USDT)", element: <WithdrawalTradingUSDT /> },
     { path: "financial/withdrawal-trading-(CRYPTO)", element: <WithdrawalTradingCRYPTO /> },
-    { path: "financial/withdrawal-trading-(INR)", element: <WithdrawalTradingINR /> },
+    // { path: "financial/withdrawal-trading-(INR)", element: <WithdrawalTradingINR /> },
     { path: "financial/withdrawal-report", element: <WithdrawalReport /> },
     { path: "financial/account-statement", element: <AccountStatement /> },
     { path: "financial/income-summary", element: <IncomeSummary /> },
