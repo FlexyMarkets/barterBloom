@@ -13,18 +13,22 @@ import {
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { referralListColumnHeader } from './referralListColumnHeader';
 import { useGetReferralInfoQuery } from '../../../../../globalState/walletState/walletStateApis';
+import { walletStateApis } from '../../../../../globalState/walletState/walletStateApis';
 // import Selector from '../../../components/Selector';
 // import Selector from '../../userPanelComponent/Selector';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import { useGetReferralListQuery } from '../../../../../globalState/walletState/walletStateApis';
+import { parseReferralTree, collectAllReferralCodes } from '../../../../utils/parseReferralTree';
+import { useDispatch } from 'react-redux';
 
-const STATUS_OPTIONS = ["PENDING", "COMPLETED", "PROCESSING", "REJECTED"];
-const TRANSACTION_TYPES = ["CLIENT-DEPOSIT", "CLIENT-WITHDRAW", "WALLET-DEPOSIT", "WALLET-WITHDRAW", "IB-WITHDRAW", "INTERNAL-TRANSFER"];
+// const STATUS_OPTIONS = ["PENDING", "COMPLETED", "PROCESSING", "REJECTED"];
+// const TRANSACTION_TYPES = ["CLIENT-DEPOSIT", "CLIENT-WITHDRAW", "WALLET-DEPOSIT", "WALLET-WITHDRAW", "IB-WITHDRAW", "INTERNAL-TRANSFER"];
 
 // const handleExportToExcel = (rows) => {
 //     const worksheet = XLSX.utils.json_to_sheet(rows);
@@ -35,16 +39,51 @@ const TRANSACTION_TYPES = ["CLIENT-DEPOSIT", "CLIENT-WITHDRAW", "WALLET-DEPOSIT"
 
 function ReferralList() {
 
-    const { data: referralInfoData, isLoading } = useGetReferralInfoQuery({ referralCode: "7UHJZVBM" })
+    // const dispatch = useDispatch();
+    // const [referralUsers, setReferralUsers] = useState([]);
+    // const [loading, setLoading] = useState(true);
+
+    const { userData } = useSelector(state => state.auth)
+
+    // const { data, isLoading: referralListLoading } = useGetReferralListQuery()
+
+    // const listData = data?.data ? parseReferralTree(data?.data) : [];
+
+    // const allReferralCodes = collectAllReferralCodes(listData);
+
+    // console.log(allReferralCodes)
+
+    const { data: referralInfoData, isLoading } = useGetReferralInfoQuery({ referralCode: userData?.referralCode }, { skip: !userData?.referralCode })
+
+    // useEffect(() => {
+    //     if (!allReferralCodes || allReferralCodes.length === 0) return;
+
+    //     const fetchAll = async () => {
+    //         setLoading(true);
+    //         try {
+    //             const promises = allReferralCodes.map(code =>
+    //                 dispatch(walletStateApis.endpoints.getReferralInfo.initiate({ referralCode: code })).unwrap()
+    //             );
+
+    //             const results = await Promise.all(promises);
+    //             setReferralUsers(results.map(res => res.data));
+    //         } catch (err) {
+    //             console.error("Error fetching referral infos:", err);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+
+    //     fetchAll();
+    // }, [allReferralCodes, dispatch]);
 
     const referralInfo = referralInfoData?.data
 
-    const columns = useMemo(() => referralListColumnHeader, []);
-    const data = useMemo(() => [referralInfo], [referralInfo]);
+    console.log(referralInfo)
 
     const table = useMaterialReactTable({
-        columns,
-        data,
+        columns: referralListColumnHeader,
+        data: [referralInfo],
         enableColumnFilters: false,
         enableSorting: false,
         enableColumnActions: false,

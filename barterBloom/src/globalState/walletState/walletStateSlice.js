@@ -6,7 +6,7 @@ const initialState = {
 };
 
 const walletStateSlice = createSlice({
-    name: "wallet",
+    name: 'wallet',
     initialState,
     reducers: {
         setDepositQRData: (state, action) => {
@@ -14,11 +14,15 @@ const walletStateSlice = createSlice({
             localStorage.setItem("depositQRData", JSON.stringify(action.payload));
         },
         setSelectedReferralCode: (state, action) => {
-            state.selectedReferralCode = action.payload
+            console.log(action.payload)
             localStorage.setItem("selectedReferralCode", action.payload)
+            state.selectedReferralCode = action.payload
         }
     }
 });
 
-export const { setDepositQRData, setSelectedReferralCode } = walletStateSlice.actions;
+export const {
+    setDepositQRData,
+    setSelectedReferralCode
+} = walletStateSlice.actions;
 export default walletStateSlice.reducer;

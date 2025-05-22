@@ -1,17 +1,23 @@
-import { Card, Container, Stack, Typography, Box } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { useGetReferralInfoQuery } from '../../../../../globalState/walletState/walletStateApis';
+import { Card, Container, Stack, Typography, Box, Divider } from '@mui/material';
+import Loading from '../../../../userPanelComponent/Loading';
 
-function ReferralInfo() {
+function ReferralInfo({ data, loading }) {
 
-  const { selectedReferralCode } = useSelector(state => state.wallet)
-
-  const { data: referralInfoData } = useGetReferralInfoQuery({ referralCode: selectedReferralCode }, { skip: !selectedReferralCode })
-
-  const referralInfo = referralInfoData?.data
+  const dataInfo = {
+    "Name": data?.name,
+    "Referral code": data?.referralCode,
+    Email: data?.email,
+    Sponser: data?.sponser,
+    "Total team turnover balance": data?.totalTeamTurnoverBalance,
+    "Total team": data?.totalTeam,
+    "Total reward balance": data?.totalRewardBalance,
+    "Total staked balance": data?.totalStakedBalance,
+    "Login id": data?.loginId,
+    "Direct referral team": data?.directReferralTeam
+  }
 
   return (
-    <Stack mt={"2rem"}>
+    <Stack>
       <Container>
         <Card
           sx={{
@@ -23,22 +29,26 @@ function ReferralInfo() {
             boxShadow: "0 0px 0px 0 rgba(0, 0, 0, 0.19), 0 0px 8px 0 rgba(0, 0, 0, 0.19)",
           }}
         >
-          <Typography variant="h4" fontWeight="bold" mb={"2rem"}>Referral User data</Typography>
+          <Typography variant="h5" fontWeight="bold">Referral User data</Typography>
+          <Divider sx={{ my: "5px" }} />
           {
-            selectedReferralCode &&
-            Object.entries(referralInfo)?.map(([keys, values], i) => (
-              <Box
-                key={i}
-                sx={{
-                  display: "flex",
-                  gap: "1rem",
-                  justifyContent: "space-between"
-                }}
-              >
-                <Typography sx={{ width: "30%" }}>{keys} :</Typography>
-                <Typography sx={{ width: "70%" }}>{values}</Typography>
-              </Box>
-            ))
+            loading
+              ?
+              <Loading />
+              :
+              Object.entries(dataInfo)?.map(([keys, values], i) => (
+                <Box
+                  key={i}
+                  sx={{
+                    display: "flex",
+                    gap: "1rem",
+                    justifyContent: "space-between"
+                  }}
+                >
+                  <Typography>{keys} :</Typography>
+                  <Typography>{values}</Typography>
+                </Box>
+              ))
           }
         </Card>
       </Container>

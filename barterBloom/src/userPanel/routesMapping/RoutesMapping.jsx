@@ -66,6 +66,7 @@ const Bond = lazy(() => import("../pages/bond/Bond"))
 const Swap = lazy(() => import("../pages/deposit/swap/Swap"));
 const ConvertWallet = lazy(() => import("../pages/deposit/convertWallet/ConvertWallet"));
 const TransferFund = lazy(() => import("../pages/deposit/transferFund/TransferFund"));
+const WithdrawAmount = lazy(() => import("../pages/deposit/withdrawAmount/WithdrawAmount"));
 
 
 export const routing = [
@@ -106,6 +107,7 @@ export const routing = [
     // { path: "TLC2.0/TLC2.0-level-income", element: <TLCTwoPointOLevelIncome /> },
     // { path: "TLC2.0/TLC2.0-profit", element: <TLCTwoPointOProfit /> },
     { path: "wallet/deposit", element: <DepositCrypto /> },
+    { path: "wallet/withdraw", element: <WithdrawAmount /> },
     { path: "wallet/swap", element: <Swap /> },
     { path: "wallet/convertWallet", element: <ConvertWallet /> },
     { path: "wallet/transferFund", element: <TransferFund /> },

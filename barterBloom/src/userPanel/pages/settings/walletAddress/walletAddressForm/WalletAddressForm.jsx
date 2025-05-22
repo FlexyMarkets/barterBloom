@@ -1,14 +1,19 @@
-import { Button, Card, Container, Divider, Stack, Typography, useMediaQuery } from '@mui/material'
+import { Button, Card, Container, Divider, Stack, Typography } from '@mui/material'
 import { TextField, InputLabel, OutlinedInput, IconButton, InputAdornment } from '@mui/material'
 import { useState } from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Grid from "@mui/material/Grid2"
 import Selector from '../../../../userPanelComponent/Selector';
+import { useDispatch, useSelector } from 'react-redux';
+import { useUpdateWalletAddressMutation } from '../../../../../globalState/walletState/walletStateApis';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { walletAddressFormSchema } from './walletAddressFormSchema';
 
 function WalletAddressForm() {
 
-    const matches = useMediaQuery('(max-width:800px)');
+    const { userData } = useSelector(state => state.auth)
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -22,6 +27,39 @@ function WalletAddressForm() {
         event.preventDefault();
     };
 
+    const dispatch = useDispatch()
+
+    const defaultValues = {
+        address: "",
+        password: ""
+    };
+
+    const { register, watch, setValue, handleSubmit, setError, reset, formState: { errors } } = useForm({
+        resolver: zodResolver(walletAddressFormSchema),
+        defaultValues
+    });
+
+    const [updateWalletAddress, { isLoading }] = useUpdateWalletAddressMutation()
+
+    const onSubmit = async (data) => {
+
+        try {
+            const response = await updateWalletAddress(data).unwrap();
+
+            if (response?.status) {
+                reset(defaultValues);
+                dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
+            }
+        } catch (error) {
+            if (error?.data?.data) {
+                Object.entries(error.data.data).forEach(([field, message]) => {
+                    setError(field, { type: "server", message });
+                });
+            } else {
+                dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to submit. Please try again later.", severity: "error" }));
+            }
+        }
+    };
 
     return (
         <Stack>
@@ -33,21 +71,35 @@ function WalletAddressForm() {
                         boxShadow: "0 0px 0px 0 rgba(0, 0, 0, 0.19), 0 0px 8px 0 rgba(0, 0, 0, 0.19)",
                     }}
                 >
-                    <Typography variant='h6' m={{ xs: "1rem", sm: "0" }}>Add New USDT.TRC20 Address to Receive Profits</Typography>
+                    <Typography variant='h6' m={{ xs: "1rem", sm: "0" }}>Add New USDT.BEP20 Address to Receive Profits</Typography>
                     <Divider sx={{ my: "1.2rem" }} />
-                    <Stack gap={"2rem"} component={"form"}>
-                        <Grid container size={12} spacing={3}>
-                            <Grid item size={{ xs: 12, sm: 6 }}>
+                    <Stack
+                        gap={"2rem"}
+                        component={"form"}
+                        onSubmit={handleSubmit(onSubmit)}
+                    >
+                        <Grid container size={12} spacing={2}>
+                            <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
                                 <InputLabel sx={{ mb: ".5rem" }}>Select Wallet</InputLabel>
-                                <Selector items={["Tether USD (Tron/TRC20)"]} shouldBeFullWidth={true} />
+                                <Selector
+                                    value={watch()}
+                                    items={["Tether USD (BEP20)"]}
+                                    shouldBeFullWidth={true}
+                                    showDefaultOption={true}
+                                    onChange={(e) => setValue("", e.target.value, { shouldValidate: true })}
+                                />
+                                {/* {errors.amount && <Typography color="error">{errors.amount.message}</Typography>} */}
                             </Grid>
-                            <Grid item size={{ xs: 12, sm: 6 }}>
+                            <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
                                 <InputLabel sx={{ mb: ".5rem" }}>Address</InputLabel>
-                                <TextField fullWidth placeholder="hello@example.com" variant="outlined" />
+                                <TextField {...register("address", { required: true })} size='small' fullWidth placeholder="Wallet address" variant="outlined" />
+                                {errors.address && <Typography color="error">{errors.address.message}</Typography>}
                             </Grid>
-                            <Grid item size={{ xs: 12, sm: 6 }}>
+                            <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
                                 <InputLabel sx={{ mb: ".5rem" }}>Transaction Password</InputLabel>
                                 <OutlinedInput
+                                    {...register("amount", { required: true })}
+                                    size='small'
                                     placeholder='********'
                                     fullWidth
                                     type={showPassword ? 'text' : 'password'}
@@ -67,47 +119,26 @@ function WalletAddressForm() {
                                         </InputAdornment>
                                     }
                                 />
-                            </Grid>
-                            <Grid item size={{ xs: 12, sm: 6 }}>
-                                <InputLabel sx={{ mb: ".5rem" }}>One Time Password</InputLabel>
-                                <OutlinedInput
-                                    placeholder={matches ? "Enter OTP" : 'Enter One Time Password'}
-                                    fullWidth
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <Button
-                                                variant='contained'
-                                                edge="end"
-                                                sx={{
-                                                    height: "100%",
-                                                    boxShadow: "none",
-                                                    bgcolor: "primary.main",
-                                                    textTransform: "capitalize",
-                                                    color: "white",
-                                                    "&:hover": { boxShadow: "none" }
-                                                }}
-                                            >
-                                                {matches ? "OTP" : "Send OTP"}
-                                            </Button>
-                                        </InputAdornment>
-                                    }
-                                />
+                                {/* {errors.amount && <Typography color="error">{errors.amount.message}</Typography>} */}
                             </Grid>
                         </Grid>
                         <Button
                             variant='contained'
+                            size='small'
+                            type='submit'
+                            disabled={isLoading}
                             sx={{
                                 textTransform: "capitalize",
-                                width: "5rem",
                                 boxShadow: "none",
                                 bgcolor: "primary.main",
-                                fontSize: "1.1rem",
+                                fontSize: "1rem",
+                                alignSelf: "flex-start",
                                 color: "white",
                                 "&:hover": {
                                     boxShadow: "none"
                                 }
                             }}
-                        >Add</Button>
+                        >Submit</Button>
                     </Stack>
                 </Card>
             </Container>

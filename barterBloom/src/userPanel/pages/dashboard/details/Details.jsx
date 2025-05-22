@@ -28,10 +28,10 @@ function Details() {
     }
 
     const income = {
-        "BUSD balance": userData?.BUSDBalance,
+        "Main balance": userData?.BUSDBalance,
         "Trade balance": userData?.TRADEBalance,
         "Air dorp level": userData?.airDorpLevel,
-        "Bonus balance": userData?.bonusBalance,
+        "Affiliate balance": userData?.bonusBalance,
         "Total staked balance": userData?.totalStakedBalance,
         "Total withdrawal balance": userData?.totalWithdrawalBalance,
         "Total team turnover balance": userData?.totalTeamTurnoverBalance,

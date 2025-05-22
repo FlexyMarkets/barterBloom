@@ -38,7 +38,7 @@ function App() {
         severity={severity}
         autoHideDuration={autoHideDuration}
       />
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<Loading mt={"20rem"} />}>
         <Routes>
           <Route path="/" element={<Navigate to="/signin" replace />} />
           <Route

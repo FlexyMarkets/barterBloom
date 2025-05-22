@@ -20,7 +20,6 @@ function DepositAmountForm() {
         amount: ""
     };
 
-
     const { register, handleSubmit, setError, reset, formState: { errors } } = useForm({
         resolver: zodResolver(walletDepositeSchema),
         defaultValues

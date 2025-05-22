@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setDepositQRData } from "./walletStateSlice";
 
 export const walletStateApis = createApi({
-    reducerPath: "wallet",
+    reducerPath: "walletApi",
     baseQuery: fetchBaseQuery({
         baseUrl: `${import.meta.env.VITE_BASE_URL}`,
         prepareHeaders: (headers) => {
@@ -62,6 +62,13 @@ export const walletStateApis = createApi({
                 };
 
             }
+        }),
+        swapBUSDToTrade: builder.mutation({
+            query: (data) => ({
+                url: "/wallet/swap",
+                method: "POST",
+                body: data
+            })
         }),
         // clientWithdraw: builder.mutation({
         //     query: (data) => ({
@@ -133,6 +140,13 @@ export const walletStateApis = createApi({
             }),
             invalidatesTags: [{ type: "transactionList", id: "PARTIAL-LIST" }]
         }),
+        updateWalletAddress: builder.mutation({
+            query: (data) => ({
+                url: "/wallet/update/address",
+                method: "PUT",
+                body: data
+            })
+        }),
         // pendingTransactionList: builder.query({
         //     query: ({ page = 1, sizePerPage = 10, search = "", status, transactionType, paymentMethod, fromDate, toDate }) => {
         //         const params = {};
@@ -195,7 +209,9 @@ export const {
     useTransactionsListQuery,
     useGetReferralListQuery,
     useGetReferralInfoQuery,
-    useStackingMutation
+    useStackingMutation,
+    useSwapBUSDToTradeMutation,
+    useUpdateWalletAddressMutation
     // usePendingTransactionListQuery,
     // usePendingTransactionByIdQuery,
     // useEditPendingTransactionStatusMutation

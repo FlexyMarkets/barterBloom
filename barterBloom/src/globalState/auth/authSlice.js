@@ -20,8 +20,9 @@ const authSlice = createSlice({
         logout: (state) => {
             state.token = null;
             state.userData = null;
-            localStorage.removeItem('token');
-            localStorage.removeItem('userData');
+            // localStorage.removeItem('token');
+            // localStorage.removeItem('userData');
+            localStorage.clear()
         },
         setUserData: (state, action) => {
             state.userData = action.payload;

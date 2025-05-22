@@ -2,11 +2,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import themeModeSlice from "./themeMode/themeModeSlice"
 import authSlice from "./auth/authSlice"
 import notificationSlice from "./notification/notificationSlice"
+import walletStateSlice from "./walletState/walletStateSlice"
 import { authApi } from './auth/authApis';
 import { profileSettingApi } from './settings/profileSettingApi';
 import { robotApi } from './robot/robotApi';
 import { walletStateApis } from './walletState/walletStateApis';
-import walletStateSlice from "./walletState/walletStateSlice"
 
 const store = configureStore({
     reducer: {

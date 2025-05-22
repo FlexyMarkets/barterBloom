@@ -260,20 +260,25 @@ export const NAVIGATION = [
                 icon: CircleOutlinedIcon,
             },
             {
+                segment: '/dashboard/wallet/withdraw',
+                title: 'Withdraw',
+                icon: CircleOutlinedIcon,
+            },
+            {
                 segment: '/dashboard/wallet/swap',
                 title: 'Swap',
                 icon: CircleOutlinedIcon,
             },
-            {
-                segment: '/dashboard/wallet/convertWallet',
-                title: 'Convert wallet',
-                icon: CircleOutlinedIcon,
-            },
-            {
-                segment: '/dashboard/wallet/transferFund',
-                title: 'Transfer fund',
-                icon: CircleOutlinedIcon,
-            },
+            // {
+            //     segment: '/dashboard/wallet/convertWallet',
+            //     title: 'Convert wallet',
+            //     icon: CircleOutlinedIcon,
+            // },
+            // {
+            //     segment: '/dashboard/wallet/transferFund',
+            //     title: 'Transfer fund',
+            //     icon: CircleOutlinedIcon,
+            // },
             // {
             //     segment: '/dashboard/Deposit/deposit-invoices-(Crypto)',
             //     title: 'Deposit Invoices (Crypto)',
