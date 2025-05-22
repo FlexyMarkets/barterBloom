@@ -352,9 +352,7 @@ function SignIn() {
     const onSubmit = async (data) => {
 
         try {
-            console.log(data)
             const response = await signIn(data).unwrap();
-            console.log(response)
 
             if (response?.status) {
                 navigate("/dashboard")

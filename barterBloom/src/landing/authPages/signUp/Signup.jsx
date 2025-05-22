@@ -81,7 +81,6 @@ function Signup() {
 
         try {
             const response = await signUp(data).unwrap();
-            console.log(response?.data?.userData?.loginId)
             const userLogInId = response?.data?.userData?.loginId
             if (response.status) {
                 navigate("/signin")

@@ -5,10 +5,21 @@ import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import { Tooltip } from "@mui/material";
 import { Avatar } from "@mui/material";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 function Details() {
 
     const { userData } = useSelector(state => state.auth)
+
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = (text) => {
+        navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => {
+            setCopied(false);
+        }, 1500);
+    };
 
     const profileData = {
         avatar: "/avatar.png",
@@ -73,8 +84,8 @@ function Details() {
                         >
                             <Typography>https://barterbloom.com/signup?referral={userData?.referralCode}</Typography>
                             {/* <Typography>https://barterbloom.com/signup?referral=abcdefg</Typography> */}
-                            <Tooltip title="Copy" sx={{ border: "1px solid primary.main", borderRadius: "10px", my: "0" }}>
-                                <IconButton>
+                            <Tooltip title={copied ? "Copied!" : "Copy"} sx={{ border: "1px solid primary.main", borderRadius: "10px", my: "0" }}>
+                                <IconButton onClick={() => handleCopy(`https://barterbloom.com/signup?referral=${userData?.referralCode}`)}>
                                     <ContentCopyOutlinedIcon />
                                 </IconButton>
                             </Tooltip>
@@ -100,8 +111,8 @@ function Details() {
                             </Typography>
                         </Grid>
                         <Grid item size={matches ? 12 : 6} textAlign={matches ? "left" : "right"}>
-                            <Tooltip title="Copy">
-                                <IconButton>
+                            <Tooltip title={copied ? "Copied!" : "Copy"}>
+                                <IconButton onClick={() => handleCopy(userData?.referralCode)}>
                                     <ContentCopyOutlinedIcon />
                                 </IconButton>
                             </Tooltip>

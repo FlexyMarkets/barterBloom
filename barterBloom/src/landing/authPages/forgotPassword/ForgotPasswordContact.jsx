@@ -35,9 +35,9 @@ function ForgotPasswordContact() {
             // const payload = contact === 'email'
             //     ? { email: data.email }
             //     : { mobile: data.mobile };
-            console.log(data)
+           
             const response = await forgotPasswordSendOTP(data).unwrap();
-            console.log(response)
+           
             if (response?.status) {
                 dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
                 dispatch(setEmailOnOtpSent(data?.email))

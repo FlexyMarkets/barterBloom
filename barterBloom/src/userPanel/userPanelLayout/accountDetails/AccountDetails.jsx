@@ -54,9 +54,8 @@ function AccountDetails({ sidebarOpen }) {
     const id = open ? 'simple-popper' : undefined;
 
     function handleLogOut() {
-        console.log("working")
         dispatch(logout());
-        navigate("/");
+        navigate("/", { replace: true });
     }
 
     return (
@@ -86,7 +85,7 @@ function AccountDetails({ sidebarOpen }) {
                         <Typography variant="body2" color="textSecondary">{accountDetailsData.rank}</Typography>
                     </Stack>
                     <Tooltip title="Logout" placement="right">
-                        <IconButton>
+                        <IconButton onClick={handleLogOut}>
                             <LogoutIcon />
                         </IconButton>
                     </Tooltip>
@@ -105,7 +104,7 @@ function AccountDetails({ sidebarOpen }) {
                         <Typography variant="body2" color="textSecondary">{accountDetailsData.rank}</Typography>
                     </Stack>
                     <Tooltip title="Logout" placement="right">
-                        <IconButton onClick={() => handleLogOut()}>
+                        <IconButton onClick={handleLogOut}>
                             <LogoutIcon />
                         </IconButton>
                     </Tooltip>

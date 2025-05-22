@@ -42,29 +42,25 @@ function App() {
           <Route path="/" element={<Navigate to="/signin" replace />} />
           <Route
             path="/signin"
-            // path="/"
             element={
-              // <ProtectedAuthRoute>
+              <ProtectedAuthRoute>
                 <SignIn />
-              // {/* </ProtectedAuthRoute> */}
+              </ProtectedAuthRoute>
             }
           />
           <Route
             path="/signup"
             element={
-              // <ProtectedAuthRoute>
+              <ProtectedAuthRoute>
                 <Signup />
-              // {/* </ProtectedAuthRoute> */}
+              </ProtectedAuthRoute>
             }
           />
-
-          <Route
-            // element={<ProtectedRoute />}
-          >
+          <Route element={<ProtectedRoute />}>
             <Route path='/dashboard' element={<DashboardLayout />}>
               {
                 routing.map((route, index) => (
-                  <Route key={index} path={`/dashboard/${route.path}`} element={route.element} />
+                  <Route key={route.path} path={`/dashboard/${route.path}`} element={route.element} />
                 ))
               }
             </Route>

@@ -6,13 +6,9 @@ function ReferralInfo() {
 
   const { selectedReferralCode } = useSelector(state => state.wallet)
 
-  console.log(selectedReferralCode)
-
   const { data: referralInfoData } = useGetReferralInfoQuery({ referralCode: selectedReferralCode }, { skip: !selectedReferralCode })
 
   const referralInfo = referralInfoData?.data
-
-  console.log(referralInfo)
 
   return (
     <Stack mt={"2rem"}>

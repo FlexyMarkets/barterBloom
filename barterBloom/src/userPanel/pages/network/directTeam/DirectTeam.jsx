@@ -16,7 +16,6 @@ function DirectTeam() {
     function onReferralCodeClick(referralCode) {
         const match = referralCode?.match(/-(\w+)-/);
         const refCode = match ? match[1] : null;
-        console.log(refCode)
         dispatch(setSelectedReferralCode(refCode))
     }
 
