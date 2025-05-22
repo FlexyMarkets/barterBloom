@@ -82,9 +82,9 @@ function Details() {
                                 bgcolor: activeTheme === "dark" ? "" : "#ebe8e8"
                             }}
                         >
-                            <Typography>http://user.barterbloom.com/signup?referral={userData?.referralCode}</Typography>
+                            <Typography>https://user.barterbloom.com/signup?referral={userData?.referralCode}</Typography>
                             <Tooltip title={copied ? "Copied!" : "Copy"} sx={{ border: "1px solid primary.main", borderRadius: "10px", my: "0" }}>
-                                <IconButton onClick={() => handleCopy(`https://barterbloom.com/signup?referral=${userData?.referralCode}`)}>
+                                <IconButton onClick={() => handleCopy(`https://user.barterbloom.com/signup?referral=${userData?.referralCode}`)}>
                                     <ContentCopyOutlinedIcon />
                                 </IconButton>
                             </Tooltip>
