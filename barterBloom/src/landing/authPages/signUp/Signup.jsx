@@ -83,7 +83,7 @@ function Signup() {
             const response = await signUp(data).unwrap();
             const userLogInId = response?.data?.userData?.loginId
             if (response.status) {
-                navigate("/signin")
+                navigate("/signInDetails")
                 dispatch(setNotification({ open: true, message: `${response?.message} and your Login id is (${userLogInId})`, severity: "success", autoHideDuration: null }));
             }
 

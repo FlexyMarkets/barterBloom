@@ -32,18 +32,14 @@ export const profileSettingApi = createApi({
                 return `transaction/list?${params.toString()}`;
             }
         }),
-        // getReferralList: builder.query({
-        //     query: () => `/referral/list`,
-        // }),
+        getUserProfile: builder.query({
+            query: () => `/profile`,
+        }),
     })
 })
 
 export const {
-    useSetTransactionPasswordMutation,
-    useUpdateTransactionPasswordMutation,
-    useBankKYCMutation,
-    useGetBankDetailsQuery,
     useUpdateProfileMutation,
     useGetTransactionDataQuery,
-    // useGetReferralListQuery
+    useGetUserProfileQuery
 } = profileSettingApi;

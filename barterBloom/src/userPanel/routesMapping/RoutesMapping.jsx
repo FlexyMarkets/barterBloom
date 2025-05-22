@@ -63,6 +63,9 @@ const TransactionList = lazy(() => import("../pages/transaction/TransactionList"
 const Referral = lazy(() => import("../pages/referral/Referral"))
 const ReferralList = lazy(() => import("../pages/network/directTeam/referralList/ReferralList"))
 const Bond = lazy(() => import("../pages/bond/Bond"))
+const Swap = lazy(() => import("../pages/deposit/swap/Swap"));
+const ConvertWallet = lazy(() => import("../pages/deposit/convertWallet/ConvertWallet"));
+const TransferFund = lazy(() => import("../pages/deposit/transferFund/TransferFund"));
 
 
 export const routing = [
@@ -102,7 +105,10 @@ export const routing = [
     { path: "TLC2.0/TLC2.0-ICO-level-income", element: <TLCTwoPointOICOLevelIncome /> },
     { path: "TLC2.0/TLC2.0-level-income", element: <TLCTwoPointOLevelIncome /> },
     { path: "TLC2.0/TLC2.0-profit", element: <TLCTwoPointOProfit /> },
-    { path: "Deposit/deposit-crypto", element: <DepositCrypto /> },
+    { path: "wallet/deposit", element: <DepositCrypto /> },
+    { path: "wallet/swap", element: <Swap /> },
+    { path: "wallet/convertWallet", element: <ConvertWallet /> },
+    { path: "wallet/transferFund", element: <TransferFund /> },
     { path: "Deposit/deposit-INR-(Package)", element: <DepositINRPackage /> },
     { path: "Deposit/deposit-invoices", element: <DepositInvoices /> },
     { path: "Deposit/deposit-invoices-(Crypto)", element: <DepositInvoicesCrypto /> },

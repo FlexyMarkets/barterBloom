@@ -14,6 +14,8 @@ import StarRateIcon from '@mui/icons-material/StarRate';
 import HelpIcon from '@mui/icons-material/Help';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import HandshakeIcon from '@mui/icons-material/Handshake';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 
 export const NAVIGATION = [
@@ -82,7 +84,7 @@ export const NAVIGATION = [
     {
         segment: '/dashboard/bond',
         title: 'Bond',
-        icon: DashboardIcon,
+        icon: HandshakeIcon,
     },
     {
         segment: '/dashboard/transaction',
@@ -239,8 +241,8 @@ export const NAVIGATION = [
     //     ],
     // },
     {
-        title: 'Deposit',
-        icon: CheckCircleOutlineIcon,
+        title: 'Wallet',
+        icon: AccountBalanceWalletIcon,
         children: [
             // {
             //     segment: '/dashboard/Deposit/deposit-via-gateway',
@@ -253,8 +255,23 @@ export const NAVIGATION = [
             //     icon: CircleOutlinedIcon,
             // },
             {
-                segment: '/dashboard/Deposit/deposit-crypto',
-                title: 'Deposit Crypto',
+                segment: '/dashboard/wallet/deposit',
+                title: 'Deposit',
+                icon: CircleOutlinedIcon,
+            },
+            {
+                segment: '/dashboard/wallet/swap',
+                title: 'Swap',
+                icon: CircleOutlinedIcon,
+            },
+            {
+                segment: '/dashboard/wallet/convertWallet',
+                title: 'Convert wallet',
+                icon: CircleOutlinedIcon,
+            },
+            {
+                segment: '/dashboard/wallet/transferFund',
+                title: 'Transfer fund',
                 icon: CircleOutlinedIcon,
             },
             // {

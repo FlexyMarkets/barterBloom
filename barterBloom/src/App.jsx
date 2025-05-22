@@ -7,6 +7,7 @@ import GoToTop from "./userPanel/userPanelComponent/GoToTop.jsx";
 import Loading from "./userPanel/userPanelComponent/Loading.jsx";
 import SignIn from "./landing/authPages/signIn/SignIn.jsx";
 import Signup from "./landing/authPages/signUp/Signup.jsx";
+import SignInDetails from "./landing/authPages/signInDetails/SignInDetails.jsx";
 import ProtectedRoute from "./userPanel/userPanelComponent/ProtectedRoute.jsx";
 import ProtectedAuthRoute from "./userPanel/userPanelComponent/ProtectedAuthRoute.jsx";
 import Notify from "./userPanel/userPanelComponent/Notify.jsx";
@@ -56,7 +57,17 @@ function App() {
               </ProtectedAuthRoute>
             }
           />
-          <Route element={<ProtectedRoute />}>
+          <Route
+            path="/signInDetails"
+            element={
+              <ProtectedAuthRoute>
+                <SignInDetails />
+              </ProtectedAuthRoute>
+            }
+          />
+          <Route
+            element={<ProtectedRoute />}
+          >
             <Route path='/dashboard' element={<DashboardLayout />}>
               {
                 routing.map((route, index) => (

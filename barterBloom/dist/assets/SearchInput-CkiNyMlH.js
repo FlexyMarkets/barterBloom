@@ -1,0 +1,1 @@
+import{j as n,S as e,O as o,I as t,f as a}from"./index-DCfUnDlJ.js";import{S as i}from"./Search-CvJd_KaX.js";function d({stactSx:r,inputWidth:s}){return n.jsx(e,{sx:r,children:n.jsx(o,{size:"small",sx:{width:s||"250px"},endAdornment:n.jsx(t,{position:"end",children:n.jsx(a,{edge:"end",children:n.jsx(i,{sx:{color:"primary.main"}})})})})})}export{d as S};
