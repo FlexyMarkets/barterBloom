@@ -15,34 +15,3 @@ export function parseReferralTree(data) {
 
   return result;
 }
-
-
-// export function collectAllTitles(tree) {
-//   let titles = [];
-
-//   tree.forEach(node => {
-//     titles.push(node.title);
-//     if (node.children && node.children.length > 0) {
-//       titles = titles.concat(collectAllTitles(node.children));
-//     }
-//   });
-
-//   return titles;
-// }
-
-export function collectAllReferralCodes(tree) {
-  let codes = [];
-
-  tree.forEach(node => {
-    const match = node.title?.match(/-(\w+)-/);
-    if (match && match[1]) {
-      codes.push(match[1]); // only push the referral code
-    }
-
-    if (node.children && node.children.length > 0) {
-      codes = codes.concat(collectAllReferralCodes(node.children));
-    }
-  });
-
-  return codes;
-}

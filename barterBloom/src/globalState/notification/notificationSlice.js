@@ -3,8 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   open: false,
   message: '',
-  severity: 'success',
-  autoHideDuration: 4000
+  severity: 'success'
 };
 
 const notificationSlice = createSlice({

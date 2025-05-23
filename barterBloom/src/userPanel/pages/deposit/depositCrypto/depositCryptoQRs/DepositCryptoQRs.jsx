@@ -1,53 +1,92 @@
-import { Card, CardContent, Container, Stack, Typography, useMediaQuery } from "@mui/material";
-import { depositCryptoQRsData } from "./depositCryptoQRsData";
-import Grid from "@mui/material/Grid2"
+import {
+    Card,
+    CardContent,
+    Container,
+    Stack,
+    Typography,
+    Tooltip,
+    IconButton
+} from "@mui/material";
 import { useSelector } from "react-redux";
+import CountdownTimer from "../../../../userPanelComponent/CountdownTimer";
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import { useState } from "react";
 
 function DepositCryptoQRs() {
 
-    const { activeTheme } = useSelector((state) => state.themeMode);
-    const matches = useMediaQuery('(max-width:750px)');
+    const { depositQRData } = useSelector(state => state.wallet);
+    const depositQR = depositQRData;
+
+    console.log(depositQR);
+
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = (text) => {
+        navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => {
+            setCopied(false);
+        }, 1500);
+    };
 
     return (
         <Stack mt={"2rem"}>
             <Container>
-                <Grid container size={12} spacing={4}>
-                    {
-                        depositCryptoQRsData.map((data, i) => (
-                            <Grid item size={matches ? 12 : 6}>
-                                <Card
-                                    key={i}
-                                    sx={{
-                                        boxShadow: "0 0px 0px 0 rgba(0, 0, 0, 0.19), 0 0px 8px 0 rgba(0, 0, 0, 0.19)",
-                                        borderRadius: "2rem",
-                                        height: "100%",
-                                        padding: { xs: "1rem", md: "2rem" }
-                                    }}
-                                >
-                                    <CardContent
-                                        sx={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            gap: "1rem",
-                                            wordBreak: "break-all"
-                                        }}
-                                    >
-                                        <Typography>{data.QRType}</Typography>
-                                        <Stack width={"250px"} sx={{ bgcolor: activeTheme === "dark" ? "#ebe8e8" : "" }}>
-                                            <img src={data.QR} alt="error" width={"100%"} />
-                                        </Stack>
-                                        <Typography>{data.code}</Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        ))
-                    }
-                </Grid>
+                <Card
+                    sx={{
+                        boxShadow: "0 0px 0px 0 rgba(0, 0, 0, 0.19), 0 0px 8px 0 rgba(0, 0, 0, 0.19)",
+                        borderRadius: "2rem",
+                        height: "100%",
+                        padding: { xs: "1rem", md: "2rem" }
+                    }}
+                >
+                    <CardContent
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: "1rem",
+                            wordBreak: "break-word"
+                        }}
+                    >
+                        <Typography variant='h6'>Scan QR Code to Complete Deposit</Typography>
+                        {depositQR ? (
+                            <img
+                                src={depositQR?.data}
+                                alt="Deposit QR"
+                                style={{
+                                    maxWidth: "150px",
+                                    width: "100%",
+                                    height: "auto",
+                                    border: "1px solid #ccc",
+                                    borderRadius: "8px"
+                                }}
+                            />
+                        ) : (
+                            <Typography color="text.secondary">
+                                QR Code not available
+                            </Typography>
+                        )}
+                        <CountdownTimer />
+                        <Stack
+                            sx={{
+                                flexDirection: "row",
+                                alignItems: "center"
+                            }}
+                        >
+                            <Typography>Deposit Address: {depositQR?.depositAddress}</Typography>
+                            <Tooltip title={copied ? "Copied!" : "Copy"}>
+                                <IconButton onClick={() => handleCopy(depositQR?.depositAddress)}>
+                                    <ContentCopyOutlinedIcon sx={{ fontSize: "20px" }} />
+                                </IconButton>
+                            </Tooltip>
+                        </Stack>
+                    </CardContent>
+                </Card>
             </Container>
         </Stack>
-    )
+    );
 }
 
 export default DepositCryptoQRs;

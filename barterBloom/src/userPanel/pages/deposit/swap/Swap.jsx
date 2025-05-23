@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid2"
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { setNotification } from "../../../../globalState/notification/notificationSlice"
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { swapSchema } from './swapSchema';
 import { useSwapBUSDToTradeMutation } from '../../../../globalState/walletState/walletStateApis';
 import Selector from "../../../userPanelComponent/Selector"
@@ -22,7 +22,6 @@ function Swap() {
         password: "",
         wallet: ""
     };
-
 
     const { register, handleSubmit, watch, setValue, setError, reset, formState: { errors } } = useForm({
         resolver: zodResolver(swapSchema),
@@ -70,9 +69,9 @@ function Swap() {
                         component={"form"}
                         onSubmit={handleSubmit(onSubmit)}
                     >
-                        <Grid container size={12} spacing={3}>
-                            <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
-                                <InputLabel sx={{ mb: ".5rem" }}>Wallet *</InputLabel>
+                        <Grid container size={12} spacing={2}>
+                            <Grid item size={{ xs: 12, sm: 6 }}>
+                                <InputLabel sx={{ mb: ".5rem" }}>Transfer from wallet *</InputLabel>
                                 <Selector
                                     items={["MAIN", "AFFLIATE"]}
                                     shouldBeFullWidth={true}
@@ -81,11 +80,11 @@ function Swap() {
                                 />
                                 {errors.wallet && <Typography color="error" fontSize={"13px"}>{errors.wallet.message}</Typography>}
                             </Grid>
-                            <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
+                            <Grid item size={{ xs: 12, sm: 6 }}>
                                 <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
                                     <InputLabel sx={{ mb: ".5rem" }}>Amount transfer *</InputLabel>
                                     <InputLabel sx={{ mb: ".5rem" }}>
-                                        Current Balance: {watch("wallet") === "MAIN" ? (userDataLoading ? <Skeleton /> : userData?.BUSDBalance) : watch("wallet") === "AFFLIATE" ? (userDataLoading ? <Skeleton /> : userData?.AFFLIATEBalance) : 0}
+                                        Balance: {watch("wallet") === "MAIN" ? (userDataLoading ? <Skeleton /> : userData?.BUSDBalance) : watch("wallet") === "AFFLIATE" ? (userDataLoading ? <Skeleton /> : userData?.AFFLIATEBalance) : 0}
                                     </InputLabel>
                                 </Stack>
                                 <TextField
@@ -93,7 +92,16 @@ function Swap() {
                                     size='small' fullWidth placeholder="Amount transfer" variant="outlined" />
                                 {errors.amount && <Typography color="error" fontSize={"13px"}>{errors.amount.message}</Typography>}
                             </Grid>
-                            <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
+                            <Grid item size={{ xs: 12, sm: 6 }}>
+                                <InputLabel sx={{ mb: ".5rem" }}>Transfet to wallet *</InputLabel>
+                                <Selector
+                                    items={["TRADE"]}
+                                    shouldBeFullWidth={true}
+                                    shouldBeDisabled={true}
+                                    value={["TRADE"]}
+                                />
+                            </Grid>
+                            <Grid item size={{ xs: 12, sm: 6 }}>
                                 <InputLabel sx={{ mb: ".5rem" }}>Transaction password *</InputLabel>
                                 <TextField
                                     {...register("password", { require: true })}

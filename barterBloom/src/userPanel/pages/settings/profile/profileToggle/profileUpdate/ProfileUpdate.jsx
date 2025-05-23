@@ -1,8 +1,8 @@
-import { Button, Stack } from '@mui/material'
+import { Button, Skeleton, Stack } from '@mui/material'
 import { TextField, InputLabel, OutlinedInput, InputAdornment } from '@mui/material'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Grid from "@mui/material/Grid2"
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { profileUpdateSchema } from './profileUpdateSchema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,20 +19,24 @@ function ProfileUpdate() {
 
     const userData = data?.data
 
+    const defaultValues = {
+        name: ""
+    }
+
     const [verifyingType, setVerifyingType] = useState(null);
     const [otp, setOtp] = useState("")
     const [otpVerifyType, setOtpVerifyType] = useState(null)
 
-    const defaultValues = {
-        name: userData?.name || "",
-        email: userData?.email || "",
-        mobile: userData?.mobile || "",
-    };
-
     const { register, handleSubmit, reset, watch, setValue, setError, formState: { errors } } = useForm({
         resolver: zodResolver(profileUpdateSchema),
-        defaultValues: defaultValues
+        defaultValues
     });
+
+    useEffect(() => {
+        reset({
+            name: userData?.name
+        })
+    }, [userData])
 
     const [updateProfile, { isLoading }] = useUpdateProfileMutation()
 
@@ -40,9 +44,7 @@ function ProfileUpdate() {
 
         try {
 
-            console.log(data)
             const response = await updateProfile(data).unwrap();
-            console.log(response)
 
             if (response.status) {
                 dispatch(setUserData(response?.data))
@@ -50,9 +52,11 @@ function ProfileUpdate() {
             }
 
         } catch (error) {
-            if (error?.data?.data) {
+
+            if (error?.data) {
                 dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to submit. Please try again later.", severity: "error" }))
             }
+
         }
     };
 
@@ -114,7 +118,6 @@ function ProfileUpdate() {
     }
 
 
-
     return (
         <Stack
             mt={"2rem"}
@@ -173,9 +176,10 @@ function ProfileUpdate() {
                             />
                             :
                             <OutlinedInput
+                                disabled
                                 size='small'
                                 placeholder='Your email'
-                                {...register("email", { required: true })}
+                                value={userDataLoading ? <Skeleton /> : userData?.email}
                                 fullWidth
                                 endAdornment={
                                     userData?.isEmailVerified ? null
@@ -239,7 +243,9 @@ function ProfileUpdate() {
                             />
                             :
                             <OutlinedInput
+                                disabled
                                 size='small'
+                                value={userDataLoading ? <Skeleton /> : userData?.mobile}
                                 placeholder='Your mobile'
                                 {...register("mobile", { required: true })}
                                 fullWidth

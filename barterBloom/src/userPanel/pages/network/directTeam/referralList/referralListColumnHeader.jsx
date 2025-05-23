@@ -21,7 +21,7 @@ export const referralListColumnHeader = [
         size: 40,
         Cell: ({ row }) => (
             <Typography>
-                {new Date(row.original.createdAt).toLocaleString()}
+                {new Date(row.original.date).toLocaleString()}
             </Typography>
         ),
     }),

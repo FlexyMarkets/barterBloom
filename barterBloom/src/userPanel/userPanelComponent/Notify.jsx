@@ -5,7 +5,7 @@ import { clearNotification } from '../../globalState/notification/notificationSl
 
 function Notify() {
     const dispatch = useDispatch();
-    const { open, message, severity, autoHideDuration } = useSelector(state => state.notification);
+    const { open, message, severity } = useSelector(state => state.notification);
 
     const handleClose = () => {
         dispatch(clearNotification());
@@ -13,8 +13,8 @@ function Notify() {
 
     return (
         <Snackbar
+            autoHideDuration={4000}
             open={open}
-            autoHideDuration={autoHideDuration}
             onClose={handleClose}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             sx={{ mt: "70px" }}

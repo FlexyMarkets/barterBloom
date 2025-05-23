@@ -82,8 +82,8 @@ export const NAVIGATION = [
         ],
     },
     {
-        segment: '/dashboard/bond',
-        title: 'Bond',
+        segment: '/dashboard/trade',
+        title: 'Trade',
         icon: HandshakeIcon,
     },
     {

@@ -20,13 +20,15 @@ const authSlice = createSlice({
         logout: (state) => {
             state.token = null;
             state.userData = null;
-            // localStorage.removeItem('token');
-            // localStorage.removeItem('userData');
             localStorage.clear()
         },
         setUserData: (state, action) => {
             state.userData = action.payload;
             localStorage.setItem("userData", JSON.stringify(action.payload));
+        },
+        removeUserData: () => {
+            state.userData = null;
+            localStorage.removeItem("userData")
         },
         initializeAuth: (state) => {
             const storedToken = localStorage.getItem("token");
@@ -53,6 +55,7 @@ export const {
     login,
     logout,
     setUserData,
+    removeUserData,
     initializeAuth,
     setForgotPasswordActiveStep,
     setSelectedContactForOtp,

@@ -37,18 +37,14 @@ function DepositAmountForm() {
                 dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
             }
         } catch (error) {
-            if (error?.data?.data) {
-                Object.entries(error.data.data).forEach(([field, message]) => {
-                    setError(field, { type: "server", message });
-                });
-            } else {
+            if (error?.data) {
                 dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to submit. Please try again later.", severity: "error" }));
             }
         }
     };
 
     return (
-        <Stack mt={"2rem"}>
+        <Stack mt={"1.2rem"}>
             <Container>
                 <Card
                     sx={{

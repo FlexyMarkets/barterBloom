@@ -1,19 +1,23 @@
 import { Button, Card, Container, Divider, Stack, Typography } from '@mui/material'
 import { TextField, InputLabel, OutlinedInput, IconButton, InputAdornment } from '@mui/material'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Grid from "@mui/material/Grid2"
 import Selector from '../../../../userPanelComponent/Selector';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useUpdateWalletAddressMutation } from '../../../../../globalState/walletState/walletStateApis';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { walletAddressFormSchema } from './walletAddressFormSchema';
+import { useGetUserProfileQuery } from '../../../../../globalState/settings/profileSettingApi';
+import { setNotification } from '../../../../../globalState/notification/notificationSlice';
 
 function WalletAddressForm() {
 
-    const { userData } = useSelector(state => state.auth)
+    const { data, refetch } = useGetUserProfileQuery()
+
+    const userData = data?.data
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -31,7 +35,7 @@ function WalletAddressForm() {
 
     const defaultValues = {
         address: "",
-        password: ""
+        // password: ""
     };
 
     const { register, watch, setValue, handleSubmit, setError, reset, formState: { errors } } = useForm({
@@ -39,23 +43,27 @@ function WalletAddressForm() {
         defaultValues
     });
 
+    useEffect(() => {
+        reset({
+            address: userData?.walletAddress || ""
+        })
+    }, [userData])
+
     const [updateWalletAddress, { isLoading }] = useUpdateWalletAddressMutation()
 
     const onSubmit = async (data) => {
 
         try {
             const response = await updateWalletAddress(data).unwrap();
-
+            console.log(response)
             if (response?.status) {
+                refetch()
                 reset(defaultValues);
                 dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
             }
         } catch (error) {
-            if (error?.data?.data) {
-                Object.entries(error.data.data).forEach(([field, message]) => {
-                    setError(field, { type: "server", message });
-                });
-            } else {
+            if (error?.data) {
+                console.log(error?.data)
                 dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to submit. Please try again later.", severity: "error" }));
             }
         }
@@ -82,11 +90,12 @@ function WalletAddressForm() {
                             <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
                                 <InputLabel sx={{ mb: ".5rem" }}>Select Wallet</InputLabel>
                                 <Selector
-                                    value={watch()}
+                                    shouldBeDisabled={true}
+                                    value={"Tether USD (BEP20)"}
                                     items={["Tether USD (BEP20)"]}
                                     shouldBeFullWidth={true}
                                     showDefaultOption={true}
-                                    onChange={(e) => setValue("", e.target.value, { shouldValidate: true })}
+                                // onChange={(e) => setValue("", e.target.value, { shouldValidate: true })}
                                 />
                                 {/* {errors.amount && <Typography color="error">{errors.amount.message}</Typography>} */}
                             </Grid>

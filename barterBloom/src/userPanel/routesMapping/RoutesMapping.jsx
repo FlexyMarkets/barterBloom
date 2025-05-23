@@ -62,7 +62,7 @@ const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
 const TransactionList = lazy(() => import("../pages/transaction/TransactionList"));
 const Referral = lazy(() => import("../pages/referral/Referral"))
 const ReferralList = lazy(() => import("../pages/network/directTeam/referralList/ReferralList"))
-const Bond = lazy(() => import("../pages/bond/Bond"))
+const Trade = lazy(() => import("../pages/trade/Trade"));
 const Swap = lazy(() => import("../pages/deposit/swap/Swap"));
 const ConvertWallet = lazy(() => import("../pages/deposit/convertWallet/ConvertWallet"));
 const TransferFund = lazy(() => import("../pages/deposit/transferFund/TransferFund"));
@@ -79,7 +79,7 @@ export const routing = [
     { path: "network/referralList", element: <ReferralList /> },
     { path: "network/all-team", element: <AllTeam /> },
     { path: "network/unilevel", element: <UniLevel /> },
-    { path: "bond", element: <Bond /> },
+    { path: "trade", element: <Trade /> },
     { path: "network/business-history", element: <BusinessHistory /> },
     { path: "income/level-income", element: <LevelIncome /> },
     { path: "income/matching-income", element: <MatchingIncome /> },

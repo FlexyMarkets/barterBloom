@@ -1,20 +1,22 @@
 import { Button, Card, Container, Divider, Stack, Typography, TextField, InputLabel } from '@mui/material'
 import Grid from "@mui/material/Grid2"
-import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { setNotification } from '../../../globalState/notification/notificationSlice';
 import { useDispatch } from 'react-redux';
 import * as z from 'zod';
 import { useStackingMutation } from '../../../globalState/walletState/walletStateApis';
+import { useGetUserProfileQuery } from "../../../globalState/settings/profileSettingApi"
 
 const walletDepositeSchema = z.object({
     amount: z.string().min(1, "Please type your deposit amount")
 })
 
-function Bond() {
+function Trade() {
 
-    const { userData } = useSelector(state => state.auth)
+    const { data, refetch } = useGetUserProfileQuery()
+
+    const userData = data?.data
 
     const dispatch = useDispatch()
 
@@ -23,7 +25,7 @@ function Bond() {
     };
 
 
-    const { register, handleSubmit, setError, reset, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: zodResolver(walletDepositeSchema),
         defaultValues
     });
@@ -37,14 +39,11 @@ function Bond() {
 
             if (response?.status) {
                 reset(defaultValues);
+                refetch()
                 dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
             }
         } catch (error) {
-            if (error?.data?.data) {
-                Object.entries(error.data.data).forEach(([field, message]) => {
-                    setError(field, { type: "server", message });
-                });
-            } else {
+            if (error?.data) {
                 dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to submit. Please try again later.", severity: "error" }));
             }
         }
@@ -52,7 +51,7 @@ function Bond() {
 
     return (
         <Container sx={{ mt: "100px" }}>
-            <Typography variant="h4" fontWeight="bold" mb={"2rem"}>Bond</Typography>
+            <Typography variant="h4" fontWeight="bold" mb={"2rem"}>Trade</Typography>
             <Card
                 sx={{
                     padding: { xs: "1rem", sm: "2rem" },
@@ -75,12 +74,12 @@ function Bond() {
                                     justifyContent: "space-between"
                                 }}
                             >
-                                <InputLabel sx={{ mb: ".5rem" }}>Amount to Bond</InputLabel>
-                                <InputLabel sx={{ mb: ".5rem" }}>Trade Balance : {userData?.TRADEBalance}</InputLabel>
+                                <InputLabel sx={{ mb: ".5rem" }}>Amount to trade</InputLabel>
+                                <InputLabel sx={{ mb: ".5rem" }}>Trade balance : {userData?.TRADEBalance || 0}</InputLabel>
                             </Stack>
                             <TextField
                                 {...register("amount", { require: true })}
-                                size='small' fullWidth placeholder="Amount to Bond" variant="outlined" />
+                                size='small' fullWidth placeholder="Amount to trade in" variant="outlined" />
                             {errors.amount && <Typography color="error">{errors.amount.message}</Typography>}
                         </Grid>
                     </Grid>
@@ -107,4 +106,4 @@ function Bond() {
     )
 }
 
-export default Bond;
+export default Trade;

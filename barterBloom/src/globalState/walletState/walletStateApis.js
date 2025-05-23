@@ -24,8 +24,10 @@ export const walletStateApis = createApi({
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
+                    console.log(data)
                     if (data) {
                         dispatch(setDepositQRData(data))
+                        localStorage.removeItem("countdown_has_timed_out");
                     }
                 } catch (error) {
                     console.error("Failed:", error);

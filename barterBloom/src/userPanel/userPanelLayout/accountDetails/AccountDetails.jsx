@@ -1,9 +1,10 @@
-import { Stack, Avatar, Typography, Tooltip, IconButton, Box, Popper } from "@mui/material";
+import { Stack, Avatar, Typography, Tooltip, IconButton, Box, Popper, Skeleton } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../globalState/auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import { useGetUserProfileQuery } from "../../../globalState/settings/profileSettingApi";
 
 
 function AccountDetails({ sidebarOpen }) {
@@ -15,7 +16,11 @@ function AccountDetails({ sidebarOpen }) {
     const popperRef = useRef(null);
     const avatarRef = useRef(null);
 
-    const { userData } = useSelector(state => state.auth)
+    const { data, isLoading } = useGetUserProfileQuery()
+
+    const { activeTheme } = useSelector((state) => state.themeMode);
+
+    const userData = data?.data
 
     const accountDetailsData = {
         avatar: "/avatar.png",
@@ -68,7 +73,8 @@ function AccountDetails({ sidebarOpen }) {
                 alignItems: "center",
                 py: ".5rem",
                 px: sidebarOpen && ".5rem",
-                whiteSpace: "nowrap"
+                whiteSpace: "nowrap",
+                borderTop: activeTheme === "dark" ? "0" : "1px solid black"
             }}
         >
             <Avatar
@@ -81,8 +87,8 @@ function AccountDetails({ sidebarOpen }) {
             {sidebarOpen &&
                 <>
                     <Stack>
-                        <Typography>{accountDetailsData.name}</Typography>
-                        <Typography variant="body2" color="textSecondary">{accountDetailsData.rank}</Typography>
+                        <Typography>{isLoading ? <Skeleton width={100} height={15} /> : accountDetailsData.name}</Typography>
+                        <Typography variant="body2" color="textSecondary">{isLoading ? <Skeleton width={100} height={15} /> : accountDetailsData.rank}</Typography>
                     </Stack>
                     <Tooltip title="Logout" placement="right">
                         <IconButton onClick={handleLogOut}>
@@ -100,8 +106,8 @@ function AccountDetails({ sidebarOpen }) {
             >
                 <Box ref={popperRef} sx={{ border: 1, p: 1, bgcolor: 'background.paper', display: "flex", flexDirection: "row", gap: "10px" }}>
                     <Stack>
-                        <Typography>{accountDetailsData.name}</Typography>
-                        <Typography variant="body2" color="textSecondary">{accountDetailsData.rank}</Typography>
+                        <Typography>{isLoading ? <Skeleton width={100} height={15} /> : accountDetailsData.name}</Typography>
+                        <Typography variant="body2" color="textSecondary">{isLoading ? <Skeleton width={100} height={15} /> : accountDetailsData.rank}</Typography>
                     </Stack>
                     <Tooltip title="Logout" placement="right">
                         <IconButton onClick={handleLogOut}>

@@ -101,7 +101,7 @@ function DashboardLayout() {
                             </Tooltip>
                             <Link to={"/"}>
                                 <Stack>
-                                    <img src={activeTheme === "dark" ? "/logo512.png":"/logoLightBackground.png"} alt="My Logo" style={{ width: "8rem" }} />
+                                    <img src={activeTheme === "dark" ? "/logo512.png" : "/logoLightBackground.png"} alt="My Logo" style={{ width: "8rem" }} />
                                 </Stack>
                             </Link>
                         </Stack>
@@ -147,7 +147,7 @@ function DashboardLayout() {
                             theme={theme}
                         />
                     </Stack>
-                    <Stack
+                    {/* <Stack
                         sx={{
                             position: "sticky",
                             bottom: 0,
@@ -158,7 +158,33 @@ function DashboardLayout() {
                         <AccountDetails
                             sidebarOpen={sidebarOpen}
                         />
-                    </Stack>
+                    </Stack> */}
+                    {isMobile ? (
+                        <Box
+                            sx={{
+                                position: "fixed",
+                                bottom: 0,
+                                width: "100%",
+                                bgcolor: activeTheme === "dark" ? "#121212" : "#fff",
+                                zIndex: theme.zIndex.appBar + 1,
+                            }}
+                        >
+                            <AccountDetails sidebarOpen={true} />
+                        </Box>
+                    ) : (
+                        sidebarOpen && (
+                            <Stack
+                                sx={{
+                                    position: "sticky",
+                                    bottom: 0,
+                                    bgcolor: activeTheme === "dark" ? "#272727" : "#ffffff",
+                                    width: "100%"
+                                }}
+                            >
+                                <AccountDetails sidebarOpen={sidebarOpen} />
+                            </Stack>
+                        )
+                    )}
                 </Drawer>
                 <Box
                     id="main-content"

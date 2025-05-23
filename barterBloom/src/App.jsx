@@ -19,7 +19,7 @@ const DashboardLayout = lazy(() => import("./userPanel/userPanelLayout/dashboard
 
 function App() {
 
-  const { open, message, severity, autoHideDuration } = useSelector((state) => state.notification);
+  const { open, message, severity } = useSelector((state) => state.notification);
   const dispatch = useDispatch();
 
   const handleCloseNotify = () => dispatch(clearNotification());
@@ -36,7 +36,6 @@ function App() {
         onClose={handleCloseNotify}
         message={message}
         severity={severity}
-        autoHideDuration={autoHideDuration}
       />
       <Suspense fallback={<Loading mt={"20rem"} />}>
         <Routes>

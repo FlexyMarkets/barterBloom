@@ -12,14 +12,15 @@ export const profileSettingApi = createApi({
             return headers;
         }
     }),
-    tagTypes: ["bankDetails"],
+    tagTypes: ["bankDetails", "userProfile"],
     endpoints: (builder) => ({
         updateProfile: builder.mutation({
             query: (data) => ({
                 url: "/profile/update",
                 method: "PUT",
                 body: data
-            })
+            }),
+            invalidatesTags: ["userProfile"]
         }),
         getTransactionData: builder.query({
             query: ({ page = 1, sizePerPage = 10, status = "", transactionType = "" }) => {
@@ -33,7 +34,8 @@ export const profileSettingApi = createApi({
             }
         }),
         getUserProfile: builder.query({
-            query: () => `/profile`
+            query: () => `/profile`,
+            providesTags: ["userProfile"]
         }),
         getReferralList: builder.query({
             query: () => `/profile/referral/list`

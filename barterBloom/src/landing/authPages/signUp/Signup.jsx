@@ -66,11 +66,8 @@ function Signup() {
 
     const { data, isError, error } = useReferralInfoQuery({ referralCode }, { skip: !referralCode })
 
-    const referralInfo = data?.error?.message
-
     const referrarName = data?.data
 
-    // setError("referral", isError && error?.data?.message)
     useEffect(() => {
         if (isError && error?.data?.message) {
             setError("referral", { type: "manual", message: error.data.message });
@@ -81,19 +78,14 @@ function Signup() {
 
         try {
             const response = await signUp(data).unwrap();
-            const userLogInId = response?.data?.userData?.loginId
             if (response.status) {
                 navigate("/signInDetails")
-                dispatch(setNotification({ open: true, message: `${response?.message} and your Login id is (${userLogInId})`, severity: "success", autoHideDuration: null }));
+                dispatch(setNotification({ open: true, message: `${response?.message}`, severity: "success" }));
             }
 
         } catch (error) {
-            if (error?.data?.data) {
-                Object.entries(error.data?.data).forEach(([field, message]) => {
-                    setError(field, { type: "server", message });
-                });
-            } else {
-                dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to sign up. Please try again later.", severity: "error", autoHideDuration: 4000 }));
+            if (error?.data) {
+                dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to sign up. Please try again later.", severity: "error" }));
             }
         }
     };
@@ -240,7 +232,7 @@ function Signup() {
                                 startAdornment={<InputAdornment position="start"><PeopleIcon sx={{ color: '#8703ef', fontSize: "20px" }} /></InputAdornment>}
                                 sx={{ ...inputStyles }}
                             />
-                            <InputLabel sx={{ mt: "2px", color: "white", fontSize: "12px" }}>Referral name: {referrarName?.name}</InputLabel>
+                            <InputLabel sx={{ mt: "2px", color: "white", fontSize: "12px" }}>{referrarName && `Referral name: ${referrarName?.name}`}</InputLabel>
                             {errors.referral && <Typography color="error">{errors.referral.message}</Typography>}
                         </Grid>
                     </Grid>

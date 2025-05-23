@@ -34,7 +34,7 @@ function Details() {
         "Main balance": userData?.BUSDBalance,
         "Trade balance": userData?.TRADEBalance,
         "Air dorp level": userData?.airDorpLevel,
-        "Affiliate balance": userData?.bonusBalance,
+        "Affiliate balance": userData?.AFFLIATEBalance,
         "Total staked balance": userData?.totalStakedBalance,
         "Total withdrawal balance": userData?.totalWithdrawalBalance,
         "Total team turnover balance": userData?.totalTeamTurnoverBalance,
@@ -85,7 +85,7 @@ function Details() {
                                 bgcolor: activeTheme === "dark" ? "" : "#ebe8e8"
                             }}
                         >
-                            <Typography>
+                            <Typography sx={{ wordBreak: "break-all" }}>
                                 {isLoading ? <Skeleton width={200} height={30} /> : `https://user.barterbloom.com/signup?referral=${userData?.referralCode}` || null}
                             </Typography>
                             <Tooltip title={copied ? "Copied!" : "Copy"} sx={{ border: "1px solid primary.main", borderRadius: "10px", my: "0" }}>
