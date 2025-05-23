@@ -20,11 +20,6 @@ export const transactionListHeaderColumn = [
         header: 'Balance Type',
         size: 120,
     }),
-    columnHelper.accessor('currentBalance', {
-        header: 'Current Balance',
-        size: 120,
-    }),
-
     columnHelper.accessor('transactionType', {
         header: 'Transaction Type',
         size: 150,

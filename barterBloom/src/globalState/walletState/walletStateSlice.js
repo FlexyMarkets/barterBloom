@@ -10,11 +10,11 @@ const walletStateSlice = createSlice({
     initialState,
     reducers: {
         setDepositQRData: (state, action) => {
+            console.log(action.payload)
             state.depositQRData = action.payload;
             localStorage.setItem("depositQRData", JSON.stringify(action.payload));
         },
         setSelectedReferralCode: (state, action) => {
-            console.log(action.payload)
             localStorage.setItem("selectedReferralCode", action.payload)
             state.selectedReferralCode = action.payload
         }

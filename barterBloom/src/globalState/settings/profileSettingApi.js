@@ -33,7 +33,10 @@ export const profileSettingApi = createApi({
             }
         }),
         getUserProfile: builder.query({
-            query: () => `/profile`,
+            query: () => `/profile`
+        }),
+        getReferralList: builder.query({
+            query: () => `/profile/referral/list`
         }),
     })
 })
@@ -41,5 +44,6 @@ export const profileSettingApi = createApi({
 export const {
     useUpdateProfileMutation,
     useGetTransactionDataQuery,
-    useGetUserProfileQuery
+    useGetUserProfileQuery,
+    useGetReferralListQuery
 } = profileSettingApi;

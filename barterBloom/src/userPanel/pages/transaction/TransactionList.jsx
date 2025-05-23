@@ -67,7 +67,7 @@ function TransactionList() {
     enableColumnActions: false,
     manualPagination: true,
     manualFiltering: true,
-    rowCount: listData?.data?.totalRecords || 0,
+    rowCount: listData?.data?.totalDocs || 0,
     state: {
       pagination,
       isLoading,

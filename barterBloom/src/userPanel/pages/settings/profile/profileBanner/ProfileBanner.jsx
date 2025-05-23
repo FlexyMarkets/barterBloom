@@ -1,13 +1,18 @@
-import { Card, Container, Stack, Typography, Avatar } from '@mui/material';
+import { Card, Container, Stack, Typography, Avatar, Skeleton } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { useGetUserProfileQuery } from '../../../../../globalState/settings/profileSettingApi';
 
 function ProfileBanner() {
-    const { userData } = useSelector(state => state.auth);
+    // const { userData } = useSelector(state => state.auth);
+
+    const { data, isLoading } = useGetUserProfileQuery()
+
+    const userData = data?.data
 
     const profileBannerData = {
         avatar: "/avatar.png",
         name: userData?.name,
-        place: userData?.country,
+        // place: userData?.country,
         email: userData?.email,
     };
 
@@ -53,7 +58,7 @@ function ProfileBanner() {
                                         <Typography
                                             sx={{ flex: 1 }}
                                         >
-                                            {value || "N/A"}
+                                            {isLoading ? <Skeleton width={200} height={30} /> : value || "N/A"}
                                         </Typography>
                                     </>
                                 )}

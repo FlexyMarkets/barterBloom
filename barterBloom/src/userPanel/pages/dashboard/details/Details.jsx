@@ -1,4 +1,4 @@
-import { Card, Typography, Box, IconButton, Container, Stack, useMediaQuery } from "@mui/material";
+import { Card, Typography, Box, IconButton, Container, Stack, useMediaQuery, Skeleton } from "@mui/material";
 import Grid from "@mui/material/Grid2"
 import { income, totalIncomeAndWidthdrawal, userData } from "./detailsData";
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
@@ -6,10 +6,13 @@ import { Tooltip } from "@mui/material";
 import { Avatar } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { useGetUserProfileQuery } from "../../../../globalState/settings/profileSettingApi";
 
 function Details() {
 
-    const { userData } = useSelector(state => state.auth)
+    const { data, isLoading } = useGetUserProfileQuery()
+
+    const userData = data?.data
 
     const [copied, setCopied] = useState(false);
 
@@ -82,7 +85,9 @@ function Details() {
                                 bgcolor: activeTheme === "dark" ? "" : "#ebe8e8"
                             }}
                         >
-                            <Typography>https://user.barterbloom.com/signup?referral={userData?.referralCode}</Typography>
+                            <Typography>
+                                {isLoading ? <Skeleton width={200} height={30} /> : `https://user.barterbloom.com/signup?referral=${userData?.referralCode}` || null}
+                            </Typography>
                             <Tooltip title={copied ? "Copied!" : "Copy"} sx={{ border: "1px solid primary.main", borderRadius: "10px", my: "0" }}>
                                 <IconButton onClick={() => handleCopy(`https://user.barterbloom.com/signup?referral=${userData?.referralCode}`)}>
                                     <ContentCopyOutlinedIcon />
@@ -103,10 +108,10 @@ function Details() {
                         <Grid item size={matches ? 12 : 6}>
                             <Avatar alt="Cindy Baker" src={profileData.avatar} sx={{ border: "1px solid black", mb: ".5rem" }} />
                             <Typography variant="h5" fontWeight="bold">
-                                {profileData.name}
+                                {isLoading ? <Skeleton width={200} height={30} /> : profileData.name || 0}
                             </Typography>
                             <Typography variant="body2" color="textSecondary">
-                                {profileData.rank}
+                                {isLoading ? <Skeleton width={200} height={30} /> : profileData.rank || 0}
                             </Typography>
                         </Grid>
                         <Grid item size={matches ? 12 : 6} textAlign={matches ? "left" : "right"}>
@@ -120,7 +125,7 @@ function Details() {
                                     Referral Code
                                 </Typography>
                                 <Typography variant="h6" color="textSecondary">
-                                    {userData?.referralCode}
+                                    {isLoading ? <Skeleton /> : userData?.referralCode || 0}
                                 </Typography>
                             </Box>
                         </Grid>
@@ -134,7 +139,7 @@ function Details() {
                                     {keys}
                                 </Typography>
                                 <Typography variant="h6" fontWeight="bold">
-                                    {values}
+                                    {isLoading ? <Skeleton width={200} height={30} /> : values || 0}
                                 </Typography>
                             </Grid>
                         ))
@@ -163,7 +168,7 @@ function Details() {
                                         {keys}
                                     </Typography>
                                     <Typography variant="h5" fontWeight="bold" sx={{ color: "primary.main" }}>
-                                        {values}
+                                        {isLoading ? <Skeleton width={200} height={30} /> : values || 0}
                                     </Typography>
                                 </Grid>
                             ))
@@ -176,160 +181,3 @@ function Details() {
 };
 
 export default Details;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { Card, Typography, Box, IconButton, Container, Stack, useMediaQuery } from "@mui/material";
-// import Grid from "@mui/material/Grid2"
-// import { income, totalIncomeAndWidthdrawal, userData } from "./detailsData";
-// import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
-// import { Tooltip } from "@mui/material";
-// import { Avatar } from "@mui/material";
-// import { useSelector } from "react-redux";
-
-// function Details() {
-
-//     const matches = useMediaQuery('(max-width:450px)');
-
-//     const { activeTheme } = useSelector((state) => state.themeMode);
-
-//     return (
-//         <Stack height={"100%"}>
-//             <Card
-//                 sx={{
-//                     display: 'flex',
-//                     flexDirection: "column",
-//                     gap: "10px",
-//                     padding: 2,
-//                     boxShadow: "none",
-//                     bgcolor: activeTheme === "dark" ? "" : "#ebe8e8"
-//                 }}
-//             >
-//                 <Box
-//                     item
-//                     size={matches ? 12 : 6}
-//                     sx={{
-//                         display: "flex",
-//                         gap: "5px",
-//                         alignItems: 'center',
-//                         bgcolor: activeTheme === "dark" ? "" : "#ebe8e8",
-//                         boxShadow: 'none'
-//                     }}
-//                 >
-//                     <Avatar alt="Cindy Baker" src={userData.avatar} sx={{ border: "1px solid black" }} />
-//                     <Box>
-//                         <Typography fontSize={"1.2rem"} fontWeight="bold">
-//                             {userData.name}
-//                         </Typography>
-//                         <Typography fontSize={"13px"} color="textSecondary">
-//                             {userData.rank}
-//                         </Typography>
-//                     </Box>
-//                 </Box>
-//                 <Box
-//                     sx={{
-//                         boxShadow: "none",
-//                         bgcolor: activeTheme === "dark" ? "" : "#ebe8e8",
-//                         display: "flex",
-//                         gap: "5px"
-//                     }}
-//                 >
-//                     {
-//                         Object.entries(totalIncomeAndWidthdrawal).map(([keys, values]) => (
-//                             <Card
-//                                 item
-//                                 key={keys}
-//                                 sx={{
-//                                     p: ".5rem",
-//                                     boxShadow: 'none',
-//                                     bgcolor: activeTheme === "dark" ? "" : "#ebe8e8",
-//                                 }}
-//                             >
-//                                 <Typography variant="body2" fontWeight="bold">
-//                                     {keys}
-//                                 </Typography>
-//                                 <Typography fontSize={"1rem"} fontWeight="bold" sx={{ color: "primary.main" }}>
-//                                     {values}
-//                                 </Typography>
-//                             </Card>
-//                         ))
-//                     }
-//                 </Box>
-//                 {/* <Grid item size={matches ? 12 : 6} textAlign={matches ? "left" : "right"}>
-//                         <Tooltip title="Copy">
-//                             <IconButton>
-//                                 <ContentCopyOutlinedIcon />
-//                             </IconButton>
-//                         </Tooltip>
-//                         <Box>
-//                             <Typography variant="body2" fontWeight="bold">
-//                                 Referral Code
-//                             </Typography>
-//                             <Typography variant="h6" color="textSecondary">
-//                                 #ROBO118603
-//                             </Typography>
-//                         </Box>
-//                     </Grid> */}
-//             </Card>
-//             {/* <Grid container spacing={2} size={12}>
-//                 {
-//                     Object.entries(income).map(([keys, values]) => (
-//                         <Grid item size={{ xs: 6, sm: 3, md: 2 }} key={keys}>
-//                             <Typography variant="body2" color="textSecondary">
-//                                 {keys}
-//                             </Typography>
-//                             <Typography variant="h6" fontWeight="bold">
-//                                 {values}
-//                             </Typography>
-//                         </Grid>
-//                     ))
-//                 }
-//             </Grid> */}
-//             {/* <Card
-//                 sx={{
-//                     marginTop: 3,
-//                     padding: 2,
-//                     boxShadow: "none",
-//                     bgcolor: activeTheme === "dark" ? "" : "#ebe8e8"
-//                 }}
-//             >
-//                 <Grid container spacing={2} sx={{ display: "flex", flexDirection: matches && "column" }}>
-//                     {
-//                         Object.entries(totalIncomeAndWidthdrawal).map(([keys, values]) => (
-//                             <Grid
-//                                 item
-//                                 size={matches ? 12 : 6}
-//                                 key={keys}
-//                                 sx={{
-//                                     textAlign: (keys === "Total Withdrawal" && !matches) ? { xs: "end", sm: "start" } : "start"
-//                                 }}
-//                             >
-//                                 <Typography variant="body2" fontWeight="bold">
-//                                     {keys}
-//                                 </Typography>
-//                                 <Typography variant="h5" fontWeight="bold" sx={{ color: "primary.main" }}>
-//                                     {values}
-//                                 </Typography>
-//                             </Grid>
-//                         ))
-//                     }
-//                 </Grid>
-//             </Card> */}
-//         </Stack>
-//     );
-// };
-
-// export default Details;

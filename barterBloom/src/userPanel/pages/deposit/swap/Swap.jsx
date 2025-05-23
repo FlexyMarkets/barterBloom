@@ -1,4 +1,4 @@
-import { Button, Card, Container, Divider, Stack, Typography, TextField, InputLabel } from '@mui/material'
+import { Button, Card, Container, Divider, Stack, Typography, TextField, InputLabel, Skeleton } from '@mui/material'
 import Grid from "@mui/material/Grid2"
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -7,10 +7,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { swapSchema } from './swapSchema';
 import { useSwapBUSDToTradeMutation } from '../../../../globalState/walletState/walletStateApis';
 import Selector from "../../../userPanelComponent/Selector"
+import { useGetUserProfileQuery } from '../../../../globalState/settings/profileSettingApi';
 
 function Swap() {
 
-    const { userData } = useSelector(state => state.auth)
+    const { data, isLoading: userDataLoading, refetch } = useGetUserProfileQuery()
+
+    const userData = data?.data
 
     const dispatch = useDispatch()
 
@@ -35,6 +38,7 @@ function Swap() {
 
             if (response?.status) {
                 reset(defaultValues);
+                refetch()
                 dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
             }
         } catch (error) {
@@ -80,7 +84,9 @@ function Swap() {
                             <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
                                 <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
                                     <InputLabel sx={{ mb: ".5rem" }}>Amount transfer *</InputLabel>
-                                    <InputLabel sx={{ mb: ".5rem" }}>Current Balance: {watch("wallet") === "MAIN" ? userData?.BUSDBalance : watch("wallet") === "AFFLIATE" ? userData?.AFFLIATEBalance : 0}</InputLabel>
+                                    <InputLabel sx={{ mb: ".5rem" }}>
+                                        Current Balance: {watch("wallet") === "MAIN" ? (userDataLoading ? <Skeleton /> : userData?.BUSDBalance) : watch("wallet") === "AFFLIATE" ? (userDataLoading ? <Skeleton /> : userData?.AFFLIATEBalance) : 0}
+                                    </InputLabel>
                                 </Stack>
                                 <TextField
                                     {...register("amount", { require: true })}
