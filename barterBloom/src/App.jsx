@@ -12,10 +12,10 @@ import ProtectedRoute from "./userPanel/userPanelComponent/ProtectedRoute.jsx";
 import ProtectedAuthRoute from "./userPanel/userPanelComponent/ProtectedAuthRoute.jsx";
 import Notify from "./userPanel/userPanelComponent/Notify.jsx";
 import { clearNotification } from "./globalState/notification/notificationSlice.js";
-// import NotFound from "./common/NotFound.jsx"; // Create this component for 404 pages
+import NotFound from "./userPanel/pages/NotFound.jsx";
 
 // Lazy-loaded components
-const LandingPage = lazy(() => import("./landing/LandingPage.jsx"));
+// const LandingPage = lazy(() => import("./landing/LandingPage.jsx"));
 const DashboardLayout = lazy(() => import("./userPanel/userPanelLayout/dashboardLayout/DashboardLayout.jsx"));
 
 function App() {
@@ -78,7 +78,7 @@ function App() {
           </Route>
 
           {/* Catch-All Route for 404 */}
-          {/* <Route path="*" element={<NotFound />} /> */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

@@ -55,7 +55,6 @@ function SignIn() {
             const response = await signIn(data).unwrap();
 
             if (response?.status) {
-                console.log(response)
                 navigate("/dashboard")
                 dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
                 dispatch(removeUserData())

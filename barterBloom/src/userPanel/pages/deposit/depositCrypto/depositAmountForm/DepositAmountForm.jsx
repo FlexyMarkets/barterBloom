@@ -14,7 +14,7 @@ const walletDepositeSchema = z.object({
 
 function DepositAmountForm() {
 
-    const { depositQRData, hasTimedOut } = useSelector(state => state.wallet);
+    const { countdownEndTime } = useSelector(state => state.wallet);
 
     const dispatch = useDispatch()
 
@@ -73,7 +73,7 @@ function DepositAmountForm() {
                             variant='contained'
                             size='small'
                             type='submit'
-                            disabled={isLoading}
+                            disabled={isLoading || countdownEndTime}
                             sx={{
                                 textTransform: "capitalize",
                                 width: "5rem",

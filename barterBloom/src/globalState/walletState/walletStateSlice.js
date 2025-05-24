@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     depositQRData: JSON.parse(localStorage.getItem("depositQRData")) || null,
     selectedReferralCode: localStorage.getItem("selectedReferralCode") || null,
-    hasTimedOut: localStorage.getItem("countdown_has_timed_out") === 'true'
+    hasTimedOut: localStorage.getItem("countdown_has_timed_out") === 'true',
+    countdownEndTime: parseInt(localStorage.getItem("countdown_end_time")) || null
 };
 
 const walletStateSlice = createSlice({
@@ -26,10 +27,15 @@ const walletStateSlice = createSlice({
             state.hasTimedOut = action.payload;
             if (action.payload) {
                 localStorage.setItem("countdown_has_timed_out", "true");
+                state.countdownEndTime = null;
                 localStorage.removeItem("countdown_end_time");
             } else {
                 localStorage.removeItem("countdown_has_timed_out");
             }
+        },
+        setCountdownEndTime: (state, action) => {
+            state.countdownEndTime = action.payload;
+            localStorage.setItem("countdown_end_time", action.payload);
         }
     }
 });
@@ -38,6 +44,7 @@ export const {
     setDepositQRData,
     removeDepositQRData,
     setSelectedReferralCode,
-    setHasTimedOut
+    setHasTimedOut,
+    setCountdownEndTime
 } = walletStateSlice.actions;
 export default walletStateSlice.reducer;
