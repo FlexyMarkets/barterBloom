@@ -18,6 +18,7 @@ import { useState } from "react";
 import { useVerifyTransactionHashMutation } from "../../../../../globalState/walletState/walletStateApis";
 import { useForm } from "react-hook-form";
 import { setNotification } from "../../../../../globalState/notification/notificationSlice";
+import { removeDepositQRData, setHasTimedOut } from "../../../../../globalState/walletState/walletStateSlice";
 
 function DepositCryptoQRs() {
 
@@ -52,12 +53,15 @@ function DepositCryptoQRs() {
             if (response?.status) {
                 reset(defaultValues);
                 dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
+                dispatch(removeDepositQRData())
+                dispatch(setHasTimedOut(true));
             }
         } catch (error) {
             if (error?.data) {
                 dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to submit. Please try again later.", severity: "error" }));
             }
         }
+
     };
 
     return (
@@ -115,28 +119,28 @@ function DepositCryptoQRs() {
                                 </IconButton>
                             </Tooltip>
                         </Stack>
-                            <Stack width={matchs ? "100%" : "400px"}>
-                                <InputLabel sx={{ mb: ".5rem" }}>Transaction hash</InputLabel>
-                                <TextField multiline {...register("transactionHash", { require: true })} size='small' fullWidth placeholder="Transaction hash" variant="outlined" />
-                                <Button
-                                    variant='contained'
-                                    size='small'
-                                    type='submit'
-                                    disabled={isLoading}
-                                    sx={{
-                                        textTransform: "capitalize",
-                                        width: "5rem",
-                                        mt: "1rem",
-                                        boxShadow: "none",
-                                        bgcolor: "primary.main",
-                                        fontSize: "1rem",
-                                        color: "white",
-                                        "&:hover": {
-                                            boxShadow: "none"
-                                        }
-                                    }}
-                                >Verify</Button>
-                            </Stack>
+                        <Stack width={matchs ? "100%" : "400px"}>
+                            <InputLabel sx={{ mb: ".5rem" }}>Transaction hash</InputLabel>
+                            <TextField multiline {...register("transactionHash", { require: true })} size='small' fullWidth placeholder="Transaction hash" variant="outlined" />
+                            <Button
+                                variant='contained'
+                                size='small'
+                                type='submit'
+                                disabled={isLoading}
+                                sx={{
+                                    textTransform: "capitalize",
+                                    width: "5rem",
+                                    mt: "1rem",
+                                    boxShadow: "none",
+                                    bgcolor: "primary.main",
+                                    fontSize: "1rem",
+                                    color: "white",
+                                    "&:hover": {
+                                        boxShadow: "none"
+                                    }
+                                }}
+                            >Verify</Button>
+                        </Stack>
                     </CardContent>
                 </Card>
             </Container>
