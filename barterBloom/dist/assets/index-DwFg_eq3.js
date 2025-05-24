@@ -1,1 +1,0 @@
-import{r as e,j as i}from"./index-DSQ-3O48.js";function d({controlled:t,default:s,name:v,state:f="value"}){const{current:a}=e.useRef(t!==void 0),[u,n]=e.useState(s),r=a?t:u,l=e.useCallback(c=>{a||n(c)},[]);return[r,l]}const o=e.createContext();function C({value:t,...s}){return i.jsx(o.Provider,{value:t??!0,...s})}const R=()=>e.useContext(o)??!1;export{C as R,d as a,R as u};
