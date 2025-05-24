@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { login, setUserData } from "./authSlice";
+import { setRole } from "../admin/adminStateSlice";
 
 export const authApi = createApi({
     reducerPath: "authApi",
@@ -44,6 +45,7 @@ export const authApi = createApi({
                     const { data } = await queryFulfilled;
                     if (data?.data) {
                         dispatch(login(data?.data?.token));
+                        dispatch(setRole(data?.data?.sendData?.role))
                     }
                 } catch (error) {
                     console.error("Login failed:", error);

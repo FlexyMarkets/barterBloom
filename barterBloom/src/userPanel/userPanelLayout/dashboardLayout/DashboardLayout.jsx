@@ -5,7 +5,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { NAVIGATION } from "./Navigation";
+import { AdminNAVIGATION, userNavigation } from "./Navigation";
 import RecursiveNavigation from "./RecursiveNavigation";
 import { Link, Outlet } from "react-router-dom";
 import Footer from '../footer/Footer';
@@ -20,6 +20,10 @@ import { Suspense } from "react";
 const drawerWidth = 320;
 
 function DashboardLayout() {
+
+    const { role } = useSelector(state => state.admin)
+
+    console.log(role)
 
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const sidebarRef = useRef(null);
@@ -150,7 +154,7 @@ function DashboardLayout() {
                         sx={{ py: "5rem", flexGrow: "1" }}
                     >
                         <RecursiveNavigation
-                            items={NAVIGATION}
+                            items={role === "ADMIN" ? AdminNAVIGATION : userNavigation}
                             sidebarOpen={sidebarOpen}
                             toggleSidebarOpen={setSidebarOpen}
                             darkMode={activeTheme === "dark"}

@@ -57,7 +57,7 @@ function SignIn() {
             if (response?.status) {
                 navigate("/dashboard")
                 dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
-                dispatch(removeUserData())
+                // dispatch(removeUserData())
             }
 
         } catch (error) {
