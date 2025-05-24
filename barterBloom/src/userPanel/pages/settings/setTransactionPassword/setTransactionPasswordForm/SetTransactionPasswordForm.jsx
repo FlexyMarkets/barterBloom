@@ -50,7 +50,7 @@ function SetTransactionPasswordForm() {
   };
 
   return (
-    <Stack mt={"2rem"}>
+    <Stack>
       <Container>
         <Card
           sx={{
@@ -59,7 +59,7 @@ function SetTransactionPasswordForm() {
             boxShadow: "0 0px 0px 0 rgba(0, 0, 0, 0.19), 0 0px 8px 0 rgba(0, 0, 0, 0.19)",
           }}
         >
-          <Typography variant='h6' m={{ xs: "1rem", sm: "0" }}>Update your security questions</Typography>
+          <Typography variant='h6' m={{ xs: "1rem", sm: "0" }}>Fill details</Typography>
           <Divider sx={{ my: "1.2rem" }} />
           <Stack
             gap={"2rem"}
