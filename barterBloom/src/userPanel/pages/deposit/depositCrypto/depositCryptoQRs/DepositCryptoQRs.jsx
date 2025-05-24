@@ -25,7 +25,7 @@ function DepositCryptoQRs() {
 
     const dispatch = useDispatch()
 
-    const { depositQRData, hasTimedOut } = useSelector(state => state.wallet)
+    const { depositQRData } = useSelector(state => state.wallet)
 
     const depositQR = depositQRData;
 
@@ -115,8 +115,6 @@ function DepositCryptoQRs() {
                                 </IconButton>
                             </Tooltip>
                         </Stack>
-                        {
-                            !hasTimedOut &&
                             <Stack width={matchs ? "100%" : "400px"}>
                                 <InputLabel sx={{ mb: ".5rem" }}>Transaction hash</InputLabel>
                                 <TextField multiline {...register("transactionHash", { require: true })} size='small' fullWidth placeholder="Transaction hash" variant="outlined" />
@@ -139,7 +137,6 @@ function DepositCryptoQRs() {
                                     }}
                                 >Verify</Button>
                             </Stack>
-                        }
                     </CardContent>
                 </Card>
             </Container>
