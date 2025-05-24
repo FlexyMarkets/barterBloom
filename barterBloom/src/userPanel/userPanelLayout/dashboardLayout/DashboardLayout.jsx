@@ -11,9 +11,10 @@ import { Link, Outlet } from "react-router-dom";
 import Footer from '../footer/Footer';
 import { useSelector, useDispatch } from "react-redux";
 import { setThemeMode } from "../../../globalState/themeMode/themeModeSlice";
-import AccountDetails from "../accountDetails/AccountDetails";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuComponent from "../../userPanelComponent/MenuComponent";
+import Loading from "../../userPanelComponent/Loading";
+import { Suspense } from "react";
 
 
 const drawerWidth = 320;
@@ -156,44 +157,6 @@ function DashboardLayout() {
                             theme={theme}
                         />
                     </Stack>
-                    {/* <Stack
-                        sx={{
-                            position: "sticky",
-                            bottom: 0,
-                            bgcolor: activeTheme === "dark" ? "#272727" : "#ffffff",
-                            width: "100%"
-                        }}
-                    >
-                        <AccountDetails
-                            sidebarOpen={sidebarOpen}
-                        />
-                    </Stack> */}
-                    {/* {isMobile ? (
-                        <Box
-                            sx={{
-                                position: "fixed",
-                                bottom: 0,
-                                width: "100%",
-                                bgcolor: activeTheme === "dark" ? "#121212" : "#fff",
-                                zIndex: theme.zIndex.appBar + 1,
-                            }}
-                        >
-                            <AccountDetails sidebarOpen={true} />
-                        </Box>
-                    ) : (
-                        sidebarOpen && (
-                            <Stack
-                                sx={{
-                                    position: "sticky",
-                                    bottom: 0,
-                                    bgcolor: activeTheme === "dark" ? "#272727" : "#ffffff",
-                                    width: "100%"
-                                }}
-                            >
-                                <AccountDetails sidebarOpen={sidebarOpen} />
-                            </Stack>
-                        )
-                    )} */}
                 </Drawer>
                 <Box
                     id="main-content"
@@ -222,7 +185,9 @@ function DashboardLayout() {
                     }}
                 >
                     <Box sx={{ flex: 1 }}>
-                        <Outlet />
+                        <Suspense fallback={<Loading mt="20rem" />}>
+                            <Outlet />
+                        </Suspense>
                     </Box>
                     <Footer />
                 </Box>

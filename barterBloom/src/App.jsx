@@ -11,6 +11,7 @@ import SignInDetails from "./landing/authPages/signInDetails/SignInDetails.jsx";
 import ProtectedRoute from "./userPanel/userPanelComponent/ProtectedRoute.jsx";
 import ProtectedAuthRoute from "./userPanel/userPanelComponent/ProtectedAuthRoute.jsx";
 import Notify from "./userPanel/userPanelComponent/Notify.jsx";
+import { clearNotification } from "./globalState/notification/notificationSlice.js";
 // import NotFound from "./common/NotFound.jsx"; // Create this component for 404 pages
 
 // Lazy-loaded components

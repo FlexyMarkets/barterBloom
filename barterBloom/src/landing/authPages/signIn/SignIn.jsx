@@ -55,14 +55,15 @@ function SignIn() {
             const response = await signIn(data).unwrap();
 
             if (response?.status) {
-                dispatch(removeUserData())
+                console.log(response)
                 navigate("/dashboard")
                 dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
+                dispatch(removeUserData())
             }
 
         } catch (error) {
             if (error?.data) {
-                  dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to sign in. Please try again later.", severity: "error" }));
+                dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to sign in. Please try again later.", severity: "error" }));
             }
         }
     };

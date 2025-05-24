@@ -69,26 +69,23 @@ function DepositAmountForm() {
                                 {errors.amount && <Typography color="error">{errors.amount.message}</Typography>}
                             </Grid>
                         </Grid>
-                        {
-                            (depositQRData && hasTimedOut) &&
-                            <Button
-                                variant='contained'
-                                size='small'
-                                type='submit'
-                                disabled={isLoading}
-                                sx={{
-                                    textTransform: "capitalize",
-                                    width: "5rem",
-                                    boxShadow: "none",
-                                    bgcolor: "primary.main",
-                                    fontSize: "1rem",
-                                    color: "white",
-                                    "&:hover": {
-                                        boxShadow: "none"
-                                    }
-                                }}
-                            >Submit</Button>
-                        }
+                        <Button
+                            variant='contained'
+                            size='small'
+                            type='submit'
+                            disabled={isLoading}
+                            sx={{
+                                textTransform: "capitalize",
+                                width: "5rem",
+                                boxShadow: "none",
+                                bgcolor: "primary.main",
+                                fontSize: "1rem",
+                                color: "white",
+                                "&:hover": {
+                                    boxShadow: "none"
+                                }
+                            }}
+                        >Submit</Button>
                     </Stack>
                 </Card>
             </Container>
