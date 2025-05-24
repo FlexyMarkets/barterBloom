@@ -3,7 +3,6 @@ import {
     ListItem,
     ListItemText,
     Collapse,
-    Container,
     Card,
     Button
 } from "@mui/material";
@@ -28,7 +27,7 @@ function ReferralNode({ node, onClick }) {
     return (
         <>
             <ListItem button onClick={handleNodeClick} sx={{ pl: 2 }}>
-                <ListItemText primary={node.title} sx={{ '& .MuiListItemText-primary': { fontSize: '12px' }, cursor: "pointer" }} />
+                <ListItemText primary={node.title} sx={{ '& .MuiListItemText-primary': { fontSize: '15px' }, cursor: "pointer" }} />
                 {node.hasChildren && (
                     <Button
                         onClick={handleToggleCollapse}
@@ -37,11 +36,13 @@ function ReferralNode({ node, onClick }) {
                         type='submit'
                         sx={{
                             textTransform: "capitalize",
-                            p: "5px",
+                            minWidth: "1.5rem",
+                            p: "4px",
                             boxShadow: "none",
                             bgcolor: "primary.main",
                             fontSize: "1rem",
                             color: "white",
+                            ml: "1rem",
                             "&:hover": {
                                 boxShadow: "none"
                             }
@@ -66,30 +67,28 @@ function ReferralNode({ node, onClick }) {
 
 export default function ReferralTree({ listData = [], onClick, loadingListData }) {
     return (
-        <Container>
-            <Card
-                sx={{
-                    p: "1rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: ".5rem",
-                    borderRadius: "2rem",
-                    boxShadow: "0 0px 0px 0 rgba(0, 0, 0, 0.19), 0 0px 8px 0 rgba(0, 0, 0, 0.19)",
-                }}
-            >
-                {
-                    loadingListData
-                        ?
-                        <Loading />
-                        :
-                        <List>
-                            {listData.map((node, idx) => (
-                                <ReferralNode key={idx} node={node} onClick={onClick} />
-                            ))}
-                        </List>
+        <Card
+            sx={{
+                p: "1rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: ".5rem",
+                borderRadius: "2rem",
+                boxShadow: "0 0px 0px 0 rgba(0, 0, 0, 0.19), 0 0px 8px 0 rgba(0, 0, 0, 0.19)",
+            }}
+        >
+            {
+                loadingListData
+                    ?
+                    <Loading />
+                    :
+                    <List>
+                        {listData.map((node, idx) => (
+                            <ReferralNode key={idx} node={node} onClick={onClick} />
+                        ))}
+                    </List>
 
-                }
-            </Card>
-        </Container>
+            }
+        </Card>
     );
 }

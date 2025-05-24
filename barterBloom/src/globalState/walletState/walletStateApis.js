@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setDepositQRData } from "./walletStateSlice";
+import { setDepositQRData, setHasTimedOut } from "./walletStateSlice";
 
 export const walletStateApis = createApi({
     reducerPath: "walletApi",
@@ -24,15 +24,22 @@ export const walletStateApis = createApi({
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    console.log(data)
                     if (data) {
                         dispatch(setDepositQRData(data))
-                        localStorage.removeItem("countdown_has_timed_out");
+                        dispatch(setHasTimedOut(false));
                     }
                 } catch (error) {
                     console.error("Failed:", error);
                 }
             },
+            invalidatesTags: [{ type: "transactionList", id: "PARTIAL-LIST" }]
+        }),
+        verifyTransactionHash: builder.mutation({
+            query: (data) => ({
+                url: "/wallet/verify/transactionhash",
+                method: "POST",
+                body: data
+            }),
             invalidatesTags: [{ type: "transactionList", id: "PARTIAL-LIST" }]
         }),
         setTransactionPassword: builder.mutation({
@@ -204,6 +211,7 @@ export const {
     // useClientDepositMutation,
     // useClientWithdrawMutation,
     useWalletDepositMutation,
+    useVerifyTransactionHashMutation,
     useSetTransactionPasswordMutation,
     useUpdateTransactionPasswordMutation,
     // useWalletWithdrawMutation,

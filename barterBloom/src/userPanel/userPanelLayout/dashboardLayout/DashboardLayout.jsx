@@ -12,6 +12,8 @@ import Footer from '../footer/Footer';
 import { useSelector, useDispatch } from "react-redux";
 import { setThemeMode } from "../../../globalState/themeMode/themeModeSlice";
 import AccountDetails from "../accountDetails/AccountDetails";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MenuComponent from "../../userPanelComponent/MenuComponent";
 
 
 const drawerWidth = 320;
@@ -105,11 +107,18 @@ function DashboardLayout() {
                                 </Stack>
                             </Link>
                         </Stack>
-                        <Tooltip title={activeTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}>
-                            <IconButton color="inherit" onClick={toggleTheme}>
-                                {activeTheme === "dark" ? <LightModeIcon sx={{ color: "primary.main" }} /> : <ModeNightIcon sx={{ color: "primary.main" }} />}
-                            </IconButton>
-                        </Tooltip>
+                        <Stack
+                            sx={{
+                                flexDirection: "row"
+                            }}
+                        >
+                            <MenuComponent Icon={AccountCircleIcon} />
+                            <Tooltip title={activeTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}>
+                                <IconButton color="inherit" onClick={toggleTheme}>
+                                    {activeTheme === "dark" ? <LightModeIcon sx={{ color: "primary.main" }} /> : <ModeNightIcon sx={{ color: "primary.main" }} />}
+                                </IconButton>
+                            </Tooltip>
+                        </Stack>
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -159,7 +168,7 @@ function DashboardLayout() {
                             sidebarOpen={sidebarOpen}
                         />
                     </Stack> */}
-                    {isMobile ? (
+                    {/* {isMobile ? (
                         <Box
                             sx={{
                                 position: "fixed",
@@ -184,7 +193,7 @@ function DashboardLayout() {
                                 <AccountDetails sidebarOpen={sidebarOpen} />
                             </Stack>
                         )
-                    )}
+                    )} */}
                 </Drawer>
                 <Box
                     id="main-content"

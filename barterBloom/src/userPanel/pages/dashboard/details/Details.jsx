@@ -1,14 +1,16 @@
 import { Card, Typography, Box, IconButton, Container, Stack, useMediaQuery, Skeleton } from "@mui/material";
 import Grid from "@mui/material/Grid2"
-import { income, totalIncomeAndWidthdrawal, userData } from "./detailsData";
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import { Tooltip } from "@mui/material";
 import { Avatar } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useGetUserProfileQuery } from "../../../../globalState/settings/profileSettingApi";
+import PaymentsIcon from '@mui/icons-material/Payments';
 
 function Details() {
+
+    const { activeTheme } = useSelector(state => state.themeMode)
 
     const { data, isLoading } = useGetUserProfileQuery()
 
@@ -47,8 +49,6 @@ function Details() {
     }
 
     const matches = useMediaQuery('(max-width:450px)');
-
-    const { activeTheme } = useSelector((state) => state.themeMode);
 
     return (
         <Stack>
@@ -134,13 +134,28 @@ function Details() {
                 <Grid container spacing={2} size={12}>
                     {
                         Object.entries(income).map(([keys, values]) => (
-                            <Grid item size={{ xs: 6, sm: 3 }} key={keys}>
-                                <Typography variant="body2" color="textSecondary">
-                                    {keys}
-                                </Typography>
-                                <Typography variant="h6" fontWeight="bold">
-                                    {isLoading ? <Skeleton width={200} height={30} /> : values || 0}
-                                </Typography>
+                            <Grid
+                                item
+                                size={{ xs: 6, sm: 4, md: 3 }}
+                                key={keys}
+                                sx={{
+                                    bgcolor: activeTheme === "dark" ? "#272727" : "#e9e6e6",
+                                    p: "1rem",
+                                    borderRadius: "1rem",
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center"
+                                }}
+                            >
+                                <Stack>
+                                    <Typography variant="body2" color="textSecondary">
+                                        {keys}
+                                    </Typography>
+                                    <Typography variant="h6" fontWeight="bold">
+                                        {isLoading ? <Skeleton width={200} height={30} /> : values || 0}
+                                    </Typography>
+                                </Stack>
+                                <PaymentsIcon />
                             </Grid>
                         ))
                     }

@@ -16,6 +16,9 @@ import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../globalState/auth/authSlice';
 
 
 export const NAVIGATION = [
@@ -414,4 +417,8 @@ export const NAVIGATION = [
     //     title: 'Support',
     //     icon: HelpIcon,
     // }
+    {
+        title: 'Log out',
+        icon: LogoutIcon
+    },
 ]

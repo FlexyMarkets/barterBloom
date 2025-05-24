@@ -55,7 +55,6 @@ function WalletAddressForm() {
 
         try {
             const response = await updateWalletAddress(data).unwrap();
-            console.log(response)
             if (response?.status) {
                 refetch()
                 reset(defaultValues);
@@ -63,7 +62,6 @@ function WalletAddressForm() {
             }
         } catch (error) {
             if (error?.data) {
-                console.log(error?.data)
                 dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to submit. Please try again later.", severity: "error" }));
             }
         }

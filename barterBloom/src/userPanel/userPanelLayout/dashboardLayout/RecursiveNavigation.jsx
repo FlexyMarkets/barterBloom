@@ -10,9 +10,15 @@ import {
 } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { useState, useEffect, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../globalState/auth/authSlice";
 
 function RecursiveNavigation({ items, sidebarOpen, toggleSidebarOpen, darkMode, theme }) {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     const location = useLocation();
     const [openSubmenu, setOpenSubmenu] = useState({});
     const isLgDown = useMediaQuery((theme) => theme.breakpoints.down("lg"));
@@ -50,6 +56,12 @@ function RecursiveNavigation({ items, sidebarOpen, toggleSidebarOpen, darkMode, 
         }
     };
 
+
+    function handleLogOut() {
+        dispatch(logout());
+        navigate("/", { replace: true });
+    }
+
     return (
         <List>
             {items.map((item) => {
@@ -61,7 +73,12 @@ function RecursiveNavigation({ items, sidebarOpen, toggleSidebarOpen, darkMode, 
                     <Tooltip title={!sidebarOpen ? item.title : ""} placement="right">
                         <ListItem
                             button
-                            onClick={() => handleToggleSubmenu(item.title, hasChildren, hasSegment)}
+                            onClick={
+                                item.title === 'Log out' ?
+                                    handleLogOut
+                                    :
+                                    () => handleToggleSubmenu(item.title, hasChildren, hasSegment)
+                            }
                             sx={{
                                 height: "3rem",
                                 cursor: "pointer",

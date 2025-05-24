@@ -5,19 +5,29 @@ import {
     Stack,
     Typography,
     Tooltip,
-    IconButton
+    IconButton,
+    InputLabel,
+    TextField,
+    Button,
+    useMediaQuery
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import CountdownTimer from "../../../../userPanelComponent/CountdownTimer";
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import { useState } from "react";
+import { useVerifyTransactionHashMutation } from "../../../../../globalState/walletState/walletStateApis";
+import { useForm } from "react-hook-form";
+import { setNotification } from "../../../../../globalState/notification/notificationSlice";
 
 function DepositCryptoQRs() {
 
-    const { depositQRData } = useSelector(state => state.wallet);
-    const depositQR = depositQRData;
+    const matchs = useMediaQuery("(max-width:500px)")
 
-    console.log(depositQR);
+    const dispatch = useDispatch()
+
+    const { depositQRData, hasTimedOut } = useSelector(state => state.wallet)
+
+    const depositQR = depositQRData;
 
     const [copied, setCopied] = useState(false);
 
@@ -27,6 +37,27 @@ function DepositCryptoQRs() {
         setTimeout(() => {
             setCopied(false);
         }, 1500);
+    };
+
+    const { register, handleSubmit, reset } = useForm({
+        defaultValues: { transactionHash: "" }
+    });
+
+    const [verifyTransactionHash, { isLoading }] = useVerifyTransactionHashMutation()
+
+    const onSubmit = async (data) => {
+
+        try {
+            const response = await verifyTransactionHash(data).unwrap();
+            if (response?.status) {
+                reset(defaultValues);
+                dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
+            }
+        } catch (error) {
+            if (error?.data) {
+                dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to submit. Please try again later.", severity: "error" }));
+            }
+        }
     };
 
     return (
@@ -39,6 +70,8 @@ function DepositCryptoQRs() {
                         height: "100%",
                         padding: { xs: "1rem", md: "2rem" }
                     }}
+                    component={"form"}
+                    onSubmit={handleSubmit(onSubmit)}
                 >
                     <CardContent
                         sx={{
@@ -82,6 +115,31 @@ function DepositCryptoQRs() {
                                 </IconButton>
                             </Tooltip>
                         </Stack>
+                        {
+                            !hasTimedOut &&
+                            <Stack width={matchs ? "100%" : "400px"}>
+                                <InputLabel sx={{ mb: ".5rem" }}>Transaction hash</InputLabel>
+                                <TextField multiline {...register("transactionHash", { require: true })} size='small' fullWidth placeholder="Transaction hash" variant="outlined" />
+                                <Button
+                                    variant='contained'
+                                    size='small'
+                                    type='submit'
+                                    disabled={isLoading}
+                                    sx={{
+                                        textTransform: "capitalize",
+                                        width: "5rem",
+                                        mt: "1rem",
+                                        boxShadow: "none",
+                                        bgcolor: "primary.main",
+                                        fontSize: "1rem",
+                                        color: "white",
+                                        "&:hover": {
+                                            boxShadow: "none"
+                                        }
+                                    }}
+                                >Verify</Button>
+                            </Stack>
+                        }
                     </CardContent>
                 </Card>
             </Container>

@@ -4,7 +4,7 @@ import { useWalletDepositMutation } from '../../../../../globalState/walletState
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { setNotification } from '../../../../../globalState/notification/notificationSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import * as z from 'zod';
 
@@ -14,13 +14,15 @@ const walletDepositeSchema = z.object({
 
 function DepositAmountForm() {
 
+    const { depositQRData, hasTimedOut } = useSelector(state => state.wallet);
+
     const dispatch = useDispatch()
 
     const defaultValues = {
         amount: ""
     };
 
-    const { register, handleSubmit, setError, reset, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: zodResolver(walletDepositeSchema),
         defaultValues
     });
@@ -67,23 +69,26 @@ function DepositAmountForm() {
                                 {errors.amount && <Typography color="error">{errors.amount.message}</Typography>}
                             </Grid>
                         </Grid>
-                        <Button
-                            variant='contained'
-                            size='small'
-                            type='submit'
-                            disabled={isLoading}
-                            sx={{
-                                textTransform: "capitalize",
-                                width: "5rem",
-                                boxShadow: "none",
-                                bgcolor: "primary.main",
-                                fontSize: "1rem",
-                                color: "white",
-                                "&:hover": {
-                                    boxShadow: "none"
-                                }
-                            }}
-                        >Submit</Button>
+                        {
+                            (depositQRData && hasTimedOut) &&
+                            <Button
+                                variant='contained'
+                                size='small'
+                                type='submit'
+                                disabled={isLoading}
+                                sx={{
+                                    textTransform: "capitalize",
+                                    width: "5rem",
+                                    boxShadow: "none",
+                                    bgcolor: "primary.main",
+                                    fontSize: "1rem",
+                                    color: "white",
+                                    "&:hover": {
+                                        boxShadow: "none"
+                                    }
+                                }}
+                            >Submit</Button>
+                        }
                     </Stack>
                 </Card>
             </Container>
