@@ -11,7 +11,7 @@ import { useGetUserProfileQuery } from '../../../../globalState/settings/profile
 
 function Swap() {
 
-    const { data, isLoading: userDataLoading, refetch } = useGetUserProfileQuery()
+    const { data, refetch } = useGetUserProfileQuery()
 
     const userData = data?.data
 
