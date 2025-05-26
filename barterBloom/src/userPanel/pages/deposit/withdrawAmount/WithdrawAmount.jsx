@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { setNotification } from '../../../../globalState/notification/notificationSlice';
 import { useDispatch } from 'react-redux';
-import { withdrawAmountSchema } from './WithdrawAmountSchema';
+import { withdrawAmountSchema } from './withdrawAmountSchema';
 import Selector from "../../../userPanelComponent/Selector"
 import { useWalletWithdrawMutation } from '../../../../globalState/walletState/walletStateApis';
 import { useGetUserProfileQuery } from '../../../../globalState/settings/profileSettingApi';
