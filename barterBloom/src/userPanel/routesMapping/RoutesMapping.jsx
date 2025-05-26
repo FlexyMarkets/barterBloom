@@ -68,7 +68,7 @@ const ConvertWallet = lazy(() => import("../pages/deposit/convertWallet/ConvertW
 const TransferFund = lazy(() => import("../pages/deposit/transferFund/TransferFund"));
 const WithdrawAmount = lazy(() => import("../pages/deposit/withdrawAmount/WithdrawAmount"));
 const AddFund = lazy(() => import("../pages/deposit/addFund/AddFund"));
-const InternalTransfer = lazy(() => import("../pages/deposit/internalTransfer/InternalTransfer.JSX"));
+const InternalTransfer = lazy(() => import("../pages/deposit/internalTransfer/InternalTransfer"));
 
 
 export const routing = [
