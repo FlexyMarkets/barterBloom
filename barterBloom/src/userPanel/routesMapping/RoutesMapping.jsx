@@ -68,6 +68,7 @@ const ConvertWallet = lazy(() => import("../pages/deposit/convertWallet/ConvertW
 const TransferFund = lazy(() => import("../pages/deposit/transferFund/TransferFund"));
 const WithdrawAmount = lazy(() => import("../pages/deposit/withdrawAmount/WithdrawAmount"));
 const AddFund = lazy(() => import("../pages/deposit/addFund/AddFund"));
+const InternalTransfer = lazy(() => import("../pages/deposit/internalTransfer/InternalTransfer.JSX"));
 
 
 export const routing = [
@@ -113,6 +114,8 @@ export const routing = [
     { path: "wallet/swap", element: <Swap /> },
     { path: "wallet/convertWallet", element: <ConvertWallet /> },
     { path: "wallet/transferFund", element: <TransferFund /> },
+    { path: "wallet/internalTransfer", element: <InternalTransfer /> },
+    // { path: "wallet/internalTransfer", element: <InternalTransfer /> },
     { path: "Deposit/deposit-INR-(Package)", element: <DepositINRPackage /> },
     { path: "Deposit/deposit-invoices", element: <DepositInvoices /> },
     { path: "Deposit/deposit-invoices-(Crypto)", element: <DepositInvoicesCrypto /> },

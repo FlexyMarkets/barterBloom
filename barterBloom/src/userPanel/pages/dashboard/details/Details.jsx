@@ -35,7 +35,7 @@ function Details() {
     const income = {
         "Main balance": userData?.BUSDBalance,
         "Trade balance": userData?.TRADEBalance,
-        "Air dorp level": userData?.airDorpLevel,
+        "Package": userData?.airDorpLevel,
         "Affiliate balance": userData?.AFFLIATEBalance,
         "Total staked balance": userData?.totalStakedBalance,
         "Total withdrawal balance": userData?.totalWithdrawalBalance,

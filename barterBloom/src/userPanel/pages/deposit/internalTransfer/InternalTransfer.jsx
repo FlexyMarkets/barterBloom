@@ -1,43 +1,65 @@
-import { Button, Card, Container, Divider, Stack, Typography, TextField, InputLabel, Skeleton } from '@mui/material'
+import { Button, Card, Container, Divider, Stack, Typography, TextField, InputLabel } from '@mui/material'
 import Grid from "@mui/material/Grid2"
+import { useInternalTransferMutation } from '../../../../globalState/walletState/walletStateApis';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { setNotification } from "../../../../globalState/notification/notificationSlice"
+import { setNotification } from '../../../../globalState/notification/notificationSlice';
 import { useDispatch } from 'react-redux';
-import { swapSchema } from './swapSchema';
-import { useSwapBUSDToTradeMutation } from '../../../../globalState/walletState/walletStateApis';
-import Selector from "../../../userPanelComponent/Selector"
-import { useGetUserProfileQuery } from '../../../../globalState/settings/profileSettingApi';
+import { internalTransferSchema } from './internalTransferSchema';
+import { useGetReferralInfoQuery } from '../../../../globalState/walletState/walletStateApis';
 
-function Swap() {
-
-    const { data, isLoading: userDataLoading, refetch } = useGetUserProfileQuery()
-
-    const userData = data?.data
+function InternalTransfer() {
 
     const dispatch = useDispatch()
 
     const defaultValues = {
         amount: "",
-        password: "",
-        wallet: ""
+        referralCode: "",
+        password: ""
     };
 
-    const { register, handleSubmit, watch, setValue, setError, reset, formState: { errors } } = useForm({
-        resolver: zodResolver(swapSchema),
+    const { register, handleSubmit, watch, setError, reset, formState: { errors } } = useForm({
+        resolver: zodResolver(internalTransferSchema),
         defaultValues
     });
 
-    const [walletDeposit, { isLoading }] = useSwapBUSDToTradeMutation()
+    const [internalTransfer, { isLoading }] = useInternalTransferMutation()
+
+    const referal = watch("referralCode")
+
+    const {
+        data: referralData,
+        isError,
+        error,
+        isFetching
+    } = useGetReferralInfoQuery(
+        { referralCode: referal },
+        {
+            skip: !referal,
+            refetchOnMountOrArgChange: true,
+            refetchOnReconnect: true,
+        }
+    );
+
+    let referalName = null;
+
+    if (!referal || referal.trim() === "") {
+        referalName = null;
+    } else if (isFetching) {
+        referalName = <Typography>Loading...</Typography>;
+    } else if (isError) {
+        referalName = <Typography color='red'>{error?.data?.message}</Typography>;
+    } else if (referralData?.data?.name) {
+        referalName = <Typography>{referralData?.data?.name}</Typography>;
+    }
 
     const onSubmit = async (data) => {
 
         try {
-            const response = await walletDeposit(data).unwrap();
+            const response = await internalTransfer(data).unwrap();
 
             if (response?.status) {
                 reset(defaultValues);
-                refetch()
                 dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
             }
         } catch (error) {
@@ -54,7 +76,7 @@ function Swap() {
     return (
         <Stack mt={"100px"}>
             <Container>
-                <Typography variant="h4" fontWeight="bold" mb={"2rem"}>Swap wallet transfer</Typography>
+                <Typography variant="h4" fontWeight="bold" mb={"2rem"}>Internal Transfer</Typography>
                 <Card
                     sx={{
                         padding: { xs: "1rem", sm: "2rem" },
@@ -71,42 +93,27 @@ function Swap() {
                     >
                         <Grid container size={12} spacing={2}>
                             <Grid item size={{ xs: 12, sm: 6 }}>
-                                <InputLabel sx={{ mb: ".5rem" }}>Transfer from wallet *</InputLabel>
-                                <Selector
-                                    items={["MAIN", "AFFLIATE", "PACKAGE"]}
-                                    shouldBeFullWidth={true}
-                                    value={watch("wallet")}
-                                    onChange={(e) => setValue("wallet", e.target.value, { shouldValidate: true })}
-                                />
-                                {errors.wallet && <Typography color="error" fontSize={"13px"}>{errors.wallet.message}</Typography>}
-                            </Grid>
-                            <Grid item size={{ xs: 12, sm: 6 }}>
-                                <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                    <InputLabel sx={{ mb: ".5rem" }}>Amount transfer *</InputLabel>
-                                    <InputLabel sx={{ mb: ".5rem" }}>
-                                        Balance: {watch("wallet") === "MAIN" ? userData?.BUSDBalance : watch("wallet") === "AFFLIATE" ? userData?.AFFLIATEBalance : watch("wallet") === "PACKAGE" ? userData?.airDorpLevel : 0}
-                                    </InputLabel>
-                                </Stack>
+                                {/* <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}> */}
+                                <InputLabel sx={{ mb: ".5rem" }}>Amount to Fund Transfer *</InputLabel>
+                                {/* <InputLabel sx={{ mb: ".5rem" }}>Trade Balance : </InputLabel> */}
+                                {/* </Stack> */}
                                 <TextField
                                     {...register("amount", { require: true })}
                                     size='small' fullWidth placeholder="Amount transfer" variant="outlined" />
-                                {errors.amount && <Typography color="error" fontSize={"13px"}>{errors.amount.message}</Typography>}
+                                {errors.amount && <Typography color="error">{errors.amount.message}</Typography>}
                             </Grid>
                             <Grid item size={{ xs: 12, sm: 6 }}>
-                                <InputLabel sx={{ mb: ".5rem" }}>Transfet to wallet *</InputLabel>
-                                <Selector
-                                    items={["TRADE"]}
-                                    shouldBeFullWidth={true}
-                                    shouldBeDisabled={true}
-                                    value={["TRADE"]}
-                                />
+                                <InputLabel sx={{ mb: ".5rem" }}>Referral Code *</InputLabel>
+                                <TextField  {...register("referralCode", { require: true })} size='small' fullWidth placeholder="Referral code" variant="outlined" />
+                                <InputLabel sx={{ mb: ".5rem" }}>{referalName}</InputLabel>
+                                {errors.referralCode && <Typography color="error">{errors.referralCode.message}</Typography>}
                             </Grid>
                             <Grid item size={{ xs: 12, sm: 6 }}>
                                 <InputLabel sx={{ mb: ".5rem" }}>Transaction password *</InputLabel>
                                 <TextField
                                     {...register("password", { require: true })}
                                     size='small' fullWidth placeholder="Transaction password" variant="outlined" />
-                                {errors.password && <Typography fontSize={"13px"} color="error">{errors.password.message}</Typography>}
+                                {errors.password && <Typography color="error">{errors.password.message}</Typography>}
                             </Grid>
                         </Grid>
                         <Button
@@ -133,4 +140,4 @@ function Swap() {
     )
 }
 
-export default Swap;
+export default InternalTransfer;

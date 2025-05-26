@@ -59,20 +59,39 @@ function Signup() {
         cnfPassword: "",
     };
 
-    const { register, handleSubmit, setError, formState: { errors } } = useForm({
+    const { register, handleSubmit, watch, setError, formState: { errors } } = useForm({
         resolver: zodResolver(signupSchema),
         defaultValues: defaultValues
     });
 
-    const { data, isError, error } = useReferralInfoQuery({ referralCode }, { skip: !referralCode })
+    const watchedReferralCode = watch("referral");
 
-    const referrarName = data?.data
-
-    useEffect(() => {
-        if (isError && error?.data?.message) {
-            setError("referral", { type: "manual", message: error.data.message });
+    // const { data, isError, error } = useReferralInfoQuery({ referralCode: watchedReferralCode }, { skip: !referralCode })
+    const {
+        data: referralData,
+        isError,
+        error,
+        isFetching
+    } = useReferralInfoQuery(
+        { referralCode: watchedReferralCode },
+        {
+            skip: !watchedReferralCode,
+            refetchOnMountOrArgChange: true,
         }
-    }, [isError, error, setError]);
+    );
+
+    let referalName = null;
+
+    if (!watchedReferralCode || watchedReferralCode.trim() === "") {
+        referalName = null;
+    } else if (isFetching) {
+        referalName = "Checking referral...";
+    } else if (isError) {
+        referalName = error?.data?.message || "Invalid referral code";
+    } else if (referralData?.data?.name) {
+        referalName = referralData.data.name;
+    }
+
 
     const onSubmit = async (data) => {
 
@@ -232,7 +251,13 @@ function Signup() {
                                 startAdornment={<InputAdornment position="start"><PeopleIcon sx={{ color: '#8703ef', fontSize: "20px" }} /></InputAdornment>}
                                 sx={{ ...inputStyles }}
                             />
-                            <InputLabel sx={{ mt: "2px", color: "white", fontSize: "12px" }}>{referrarName && `Referral name: ${referrarName?.name}`}</InputLabel>
+                            <InputLabel sx={{ mt: "2px", color: "white", fontSize: "12px" }}>
+                                {referalName && (
+                                    <InputLabel sx={{ mt: "2px", color: isError ? "red" : "white", fontSize: "12px" }}>
+                                        {isError ? referalName : `Referral name: ${referalName}`}
+                                    </InputLabel>
+                                )}
+                            </InputLabel>
                             {errors.referral && <Typography color="error">{errors.referral.message}</Typography>}
                         </Grid>
                     </Grid>

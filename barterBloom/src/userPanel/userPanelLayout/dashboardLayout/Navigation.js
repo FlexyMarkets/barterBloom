@@ -20,11 +20,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../globalState/auth/authSlice';
 
-
-const role = JSON.parse(localStorage.getItem("userData"))
-
-console.log(role?.role)
-
 export const AdminNAVIGATION = [
     {
         segment: '/dashboard',
@@ -681,6 +676,11 @@ export const userNavigation = [
             {
                 segment: '/dashboard/wallet/swap',
                 title: 'Swap',
+                icon: CircleOutlinedIcon,
+            },
+            {
+                segment: '/dashboard/wallet/internalTransfer',
+                title: 'Internal transfer',
                 icon: CircleOutlinedIcon,
             },
             // {
