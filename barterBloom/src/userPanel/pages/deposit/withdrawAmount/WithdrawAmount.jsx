@@ -1,48 +1,52 @@
 import { Button, Card, Container, Divider, Stack, Typography, TextField, InputLabel } from '@mui/material'
 import Grid from "@mui/material/Grid2"
-// import { useWalletDepositMutation } from '../../../../../globalState/walletState/walletStateApis';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-// import { setNotification } from '../../../../../globalState/notification/notificationSlice';
+import { setNotification } from '../../../../globalState/notification/notificationSlice';
 import { useDispatch } from 'react-redux';
-// import { swapSchema } from './swapSchema';
+import { withdrawAmountSchema } from './WithdrawAmountSchema';
+import Selector from "../../../userPanelComponent/Selector"
+import { useWalletWithdrawMutation } from '../../../../globalState/walletState/walletStateApis';
+import { useGetUserProfileQuery } from '../../../../globalState/settings/profileSettingApi';
 
 function WithdrawAmount() {
 
-    // const dispatch = useDispatch()
+    const { data, isLoading: userDataLoading, refetch } = useGetUserProfileQuery()
 
-    // const defaultValues = {
-    //     amount: "",
-    //     password: ""
-    // };
+    const userData = data?.data
+
+    const dispatch = useDispatch()
+
+    const defaultValues = {
+        wallet: "",
+        amount: "",
+        password: ""
+    };
 
 
-    // const { register, handleSubmit, setError, reset, formState: { errors } } = useForm({
-    //     resolver: zodResolver(swapSchema),
-    //     defaultValues
-    // });
+    const { register, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm({
+        resolver: zodResolver(withdrawAmountSchema),
+        defaultValues
+    });
 
-    // const [walletDeposit, { isLoading }] = useWalletDepositMutation()
+    const [walletWithdraw, { isLoading }] = useWalletWithdrawMutation()
 
-    // const onSubmit = async (data) => {
+    const onSubmit = async (data) => {
 
-    //     try {
-    //         const response = await walletDeposit(data).unwrap();
+        try {
+            const response = await walletWithdraw(data).unwrap();
 
-    //         if (response?.status) {
-    //             reset(defaultValues);
-    //             dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
-    //         }
-    //     } catch (error) {
-    //         if (error?.data?.data) {
-    //             Object.entries(error.data.data).forEach(([field, message]) => {
-    //                 setError(field, { type: "server", message });
-    //             });
-    //         } else {
-    //             dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to submit. Please try again later.", severity: "error" }));
-    //         }
-    //     }
-    // };
+            if (response?.status) {
+                reset(defaultValues);
+                refetch()
+                dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
+            }
+        } catch (error) {
+            if (error?.data) {
+                dispatch(setNotification({ open: true, message: error?.data?.message || "Failed to submit. Please try again later.", severity: "error" }));
+            }
+        }
+    };
 
     return (
         <Stack mt={"100px"}>
@@ -60,32 +64,44 @@ function WithdrawAmount() {
                     <Stack
                         gap={"2rem"}
                         component={"form"}
-                    // onSubmit={handleSubmit(onSubmit)}
+                        onSubmit={handleSubmit(onSubmit)}
                     >
-                        <Grid container size={12} spacing={3}>
+                        <Grid container size={12} spacing={2}>
+                            <Grid item size={{ xs: 12, sm: 6 }}>
+                                <InputLabel sx={{ mb: ".5rem" }}>Withdraw from wallet *</InputLabel>
+                                <Selector
+                                    items={["MAIN", "AFFLIATE"]}
+                                    shouldBeFullWidth={true}
+                                    value={watch("wallet")}
+                                    onChange={(e) => setValue("wallet", e.target.value, { shouldValidate: true })}
+                                />
+                                {errors.wallet && <Typography color="error" fontSize={"13px"}>{errors.wallet.message}</Typography>}
+                            </Grid>
                             <Grid item size={{ xs: 12, sm: 6 }}>
                                 <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
                                     <InputLabel sx={{ mb: ".5rem" }}>Amount to withdraw *</InputLabel>
-                                    <InputLabel sx={{ mb: ".5rem" }}>Balance: </InputLabel>
+                                    <InputLabel sx={{ mb: ".5rem" }}>
+                                        Balance: {watch("wallet") === "MAIN" ? (userDataLoading ? <Skeleton /> : userData?.BUSDBalance) : watch("wallet") === "AFFLIATE" ? (userDataLoading ? <Skeleton /> : userData?.AFFLIATEBalance) : 0}
+                                    </InputLabel>
                                 </Stack>
                                 <TextField
-                                    // {...register("amount", { require: true })} 
+                                    {...register("amount", { require: true })}
                                     size='small' fullWidth placeholder="Amount transfer" variant="outlined" />
-                                {/* {errors.amount && <Typography color="error">{errors.amount.message}</Typography>} */}
+                                {errors.amount && <Typography color="error">{errors.amount.message}</Typography>}
                             </Grid>
                             <Grid item size={{ xs: 12, sm: 6 }}>
                                 <InputLabel sx={{ mb: ".5rem" }}>Transaction password *</InputLabel>
                                 <TextField
-                                    // {...register("amount", { require: true })}
+                                    {...register("password", { require: true })}
                                     size='small' fullWidth placeholder="Transaction password" variant="outlined" />
-                                {/* {errors.amount && <Typography color="error">{errors.amount.message}</Typography>} */}
+                                {errors.amount && <Typography color="error">{errors.amount.message}</Typography>}
                             </Grid>
                         </Grid>
                         <Button
                             variant='contained'
                             size='small'
                             type='submit'
-                            // disabled={isLoading}
+                            disabled={isLoading}
                             sx={{
                                 textTransform: "capitalize",
                                 width: "5rem",

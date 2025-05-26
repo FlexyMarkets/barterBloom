@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -8,8 +7,6 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../../globalState/auth/authSlice';
@@ -17,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 
-function MenuComponent({ Icon }) {
+function MenuComponent({ Icon, userData }) {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -86,6 +83,15 @@ function MenuComponent({ Icon }) {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
+                <MenuItem sx={{
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    py: 0
+                }}>
+                    <Typography>Name: {userData?.name}</Typography>
+                    <Typography>Rank: {userData?.rank}</Typography>
+                </MenuItem>
+                <Divider />
                 <MenuItem onClick={handleClose} component={Link} to={"/dashboard/setting/profile"}>
                     <ListItemIcon>
                         <PermIdentityOutlinedIcon fontSize="small" />

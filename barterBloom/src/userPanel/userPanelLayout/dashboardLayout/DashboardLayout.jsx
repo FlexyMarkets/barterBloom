@@ -15,15 +15,18 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuComponent from "../../userPanelComponent/MenuComponent";
 import Loading from "../../userPanelComponent/Loading";
 import { Suspense } from "react";
+import { useGetUserProfileQuery } from "../../../globalState/settings/profileSettingApi";
 
 
 const drawerWidth = 320;
 
 function DashboardLayout() {
 
-    const { role } = useSelector(state => state.admin)
+    const { data, isLoading } = useGetUserProfileQuery()
 
-    console.log(role)
+    const userData = data?.data
+
+    const role = !isLoading && data?.data?.role
 
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const sidebarRef = useRef(null);
@@ -117,7 +120,7 @@ function DashboardLayout() {
                                 flexDirection: "row"
                             }}
                         >
-                            <MenuComponent Icon={AccountCircleIcon} />
+                            <MenuComponent Icon={AccountCircleIcon} userData={userData} />
                             <Tooltip title={activeTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}>
                                 <IconButton color="inherit" onClick={toggleTheme}>
                                     {activeTheme === "dark" ? <LightModeIcon sx={{ color: "primary.main" }} /> : <ModeNightIcon sx={{ color: "primary.main" }} />}

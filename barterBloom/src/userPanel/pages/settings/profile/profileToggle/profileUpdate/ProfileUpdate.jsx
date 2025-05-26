@@ -9,7 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useVerifyEmailAndMobileMutation, useVerifyEmailAndMobileOtpMutation } from '../../../../../../globalState/auth/authApis';
 import { setNotification } from '../../../../../../globalState/notification/notificationSlice';
 import { useGetUserProfileQuery, useUpdateProfileMutation } from '../../../../../../globalState/settings/profileSettingApi';
-import { setUserData } from '../../../../../../globalState/auth/authSlice';
 
 function ProfileUpdate() {
 
@@ -47,7 +46,6 @@ function ProfileUpdate() {
             const response = await updateProfile(data).unwrap();
 
             if (response.status) {
-                dispatch(setUserData(response?.data))
                 dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
             }
 

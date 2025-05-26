@@ -34,6 +34,14 @@ export const walletStateApis = createApi({
             },
             invalidatesTags: [{ type: "transactionList", id: "PARTIAL-LIST" }]
         }),
+        walletWithdraw: builder.mutation({
+            query: (data) => ({
+                url: "/wallet/withdraw/usdt",
+                method: "POST",
+                body: data
+            }),
+            invalidatesTags: [{ type: "transactionList", id: "PARTIAL-LIST" }]
+        }),
         verifyTransactionHash: builder.mutation({
             query: (data) => ({
                 url: "/wallet/verify/transactionhash",
@@ -211,6 +219,7 @@ export const {
     // useClientDepositMutation,
     // useClientWithdrawMutation,
     useWalletDepositMutation,
+    useWalletWithdrawMutation,
     useVerifyTransactionHashMutation,
     useSetTransactionPasswordMutation,
     useUpdateTransactionPasswordMutation,

@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { useGetUserProfileQuery } from '../../../../../globalState/settings/profileSettingApi';
 
 function ProfileBanner() {
-    // const { userData } = useSelector(state => state.auth);
 
     const { data, isLoading } = useGetUserProfileQuery()
 
@@ -12,7 +11,6 @@ function ProfileBanner() {
     const profileBannerData = {
         avatar: "/avatar.png",
         name: userData?.name,
-        // place: userData?.country,
         email: userData?.email,
     };
 

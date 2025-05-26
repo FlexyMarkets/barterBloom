@@ -45,7 +45,6 @@ export const authApi = createApi({
                     const { data } = await queryFulfilled;
                     if (data?.data) {
                         dispatch(login(data?.data?.token));
-                        dispatch(setRole(data?.data?.sendData?.role))
                     }
                 } catch (error) {
                     console.error("Login failed:", error);
