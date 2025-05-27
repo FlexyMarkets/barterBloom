@@ -84,7 +84,7 @@ function Swap() {
                                 <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
                                     <InputLabel sx={{ mb: ".5rem" }}>Amount transfer *</InputLabel>
                                     <InputLabel sx={{ mb: ".5rem" }}>
-                                        Balance: {watch("wallet") === "MAIN" ? userData?.BUSDBalance : watch("wallet") === "AFFLIATE" ? userData?.AFFLIATEBalance : watch("wallet") === "PACKAGE" ? userData?.airDorpLevel : 0}
+                                        Balance: {watch("wallet") === "MAIN" ? userData?.BUSDBalance : watch("wallet") === "AFFLIATE" ? userData?.AFFLIATEBalance : watch("wallet") === "PACKAGE" ? userData?.PACKAGEBalance : 0}
                                     </InputLabel>
                                 </Stack>
                                 <TextField
