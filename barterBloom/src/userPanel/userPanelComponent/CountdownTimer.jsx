@@ -7,7 +7,7 @@ import {
   setCountdownEndTime
 } from '../../globalState/walletState/walletStateSlice';
 
-const COUNTDOWN_DURATION = 1 * 60 * 1000;
+const COUNTDOWN_DURATION = 15 * 60 * 1000;
 
 function CountdownTimer() {
   const dispatch = useDispatch();
