@@ -18,10 +18,10 @@ export const transactionListHeaderColumn = [
         header: 'Balance Type',
         size: 120,
     }),
-    columnHelper.accessor('transactionType', {
-        header: 'Transaction Type',
-        size: 150,
-    }),
+    // columnHelper.accessor('transactionType', {
+    //     header: 'Transaction Type',
+    //     size: 150,
+    // }),
     columnHelper.accessor('amount', {
         header: 'Amount',
         size: 150,
