@@ -73,7 +73,7 @@ function Swap() {
                             <Grid item size={{ xs: 12, sm: 6 }}>
                                 <InputLabel sx={{ mb: ".5rem" }}>Transfer from wallet *</InputLabel>
                                 <Selector
-                                    items={["MAIN", "AFFLIATE", "PACKAGE"]}
+                                    items={["Profit sharing", "Affiliate", "Referral"]}
                                     shouldBeFullWidth={true}
                                     value={watch("wallet")}
                                     onChange={(e) => setValue("wallet", e.target.value, { shouldValidate: true })}
@@ -84,7 +84,7 @@ function Swap() {
                                 <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
                                     <InputLabel sx={{ mb: ".5rem" }}>Amount transfer *</InputLabel>
                                     <InputLabel sx={{ mb: ".5rem" }}>
-                                        Balance: {watch("wallet") === "MAIN" ? userData?.BUSDBalance : watch("wallet") === "AFFLIATE" ? userData?.AFFLIATEBalance : watch("wallet") === "PACKAGE" ? userData?.PACKAGEBalance : 0}
+                                        Balance: {watch("wallet") === "Profit sharing" ? userData?.BUSDBalance : watch("wallet") === "Affiliate" ? userData?.AFFLIATEBalance : watch("wallet") === "Referral" ? userData?.PACKAGEBalance : 0}
                                     </InputLabel>
                                 </Stack>
                                 <TextField

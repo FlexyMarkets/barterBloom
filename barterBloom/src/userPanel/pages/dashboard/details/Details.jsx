@@ -33,14 +33,14 @@ function Details() {
     }
 
     const income = {
-        "Main balance": userData?.BUSDBalance,
-        "Trade balance": userData?.TRADEBalance,
-        "Package": userData?.PACKAGEBalance,
-        "Affiliate balance": userData?.AFFLIATEBalance,
-        "Total staked balance": userData?.totalStakedBalance,
-        "Total withdrawal balance": userData?.totalWithdrawalBalance,
-        "Total team turnover balance": userData?.totalTeamTurnoverBalance,
-        "Total direct team turnover balance": userData?.totalDirectTeamTurnoverBalance
+        "Profit sharing wallet": userData?.BUSDBalance,
+        "Trade wallet": userData?.TRADEBalance,
+        "Referral wallet": userData?.PACKAGEBalance,
+        "Affiliate wallet": userData?.AFFLIATEBalance,
+        "Total trade-in": userData?.totalStakedBalance,
+        "Total withdrawal": userData?.totalWithdrawalBalance,
+        "Total team turnover": userData?.totalTeamTurnoverBalance,
+        "Total direct team turnover": userData?.totalDirectTeamTurnoverBalance
     }
 
     const totalIncomeAndWidthdrawal = {
@@ -152,7 +152,7 @@ function Details() {
                                         {keys}
                                     </Typography>
                                     <Typography variant="h6" fontWeight="bold">
-                                        {isLoading ? <Skeleton width={200} height={30} /> : values || 0}
+                                        {isLoading ? <Skeleton width={200} height={30} /> : `$ ${values}` || 0}
                                     </Typography>
                                 </Stack>
                                 <PaymentsIcon />
