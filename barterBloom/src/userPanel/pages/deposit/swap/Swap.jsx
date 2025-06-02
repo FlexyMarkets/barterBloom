@@ -9,6 +9,12 @@ import { useSwapBUSDToTradeMutation } from '../../../../globalState/walletState/
 import Selector from "../../../userPanelComponent/Selector"
 import { useGetUserProfileQuery } from '../../../../globalState/settings/profileSettingApi';
 
+const transferFromWalletItems = [
+    { label: "Profit sharing", value: "MAIN" },
+    { label: "Affiliate", value: "AFFLIATE" },
+    { label: "Referral", value: "PACKAGE" },
+];
+
 function Swap() {
 
     const { data, refetch } = useGetUserProfileQuery()
@@ -73,7 +79,7 @@ function Swap() {
                             <Grid item size={{ xs: 12, sm: 6 }}>
                                 <InputLabel sx={{ mb: ".5rem" }}>Transfer from wallet *</InputLabel>
                                 <Selector
-                                    items={["Profit sharing", "Affiliate", "Referral"]}
+                                    items={transferFromWalletItems}
                                     shouldBeFullWidth={true}
                                     value={watch("wallet")}
                                     onChange={(e) => setValue("wallet", e.target.value, { shouldValidate: true })}
@@ -84,11 +90,11 @@ function Swap() {
                                 <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
                                     <InputLabel sx={{ mb: ".5rem" }}>Amount transfer *</InputLabel>
                                     <InputLabel sx={{ mb: ".5rem" }}>
-                                        Balance: {watch("wallet") === "Profit sharing" ? userData?.BUSDBalance : watch("wallet") === "Affiliate" ? userData?.AFFLIATEBalance : watch("wallet") === "Referral" ? userData?.PACKAGEBalance : 0}
+                                        Balance: {watch("wallet") === "MAIN" ? userData?.BUSDBalance : watch("wallet") === "AFFLIATE" ? userData?.AFFLIATEBalance : watch("wallet") === "PACKAGE" ? userData?.PACKAGEBalance : 0}
                                     </InputLabel>
                                 </Stack>
                                 <TextField
-                                    {...register("amount", { require: true })}
+                                    {...register("amount", { required: true })}
                                     size='small' fullWidth placeholder="Amount transfer" variant="outlined" />
                                 {errors.amount && <Typography color="error" fontSize={"13px"}>{errors.amount.message}</Typography>}
                             </Grid>
@@ -104,7 +110,7 @@ function Swap() {
                             <Grid item size={{ xs: 12, sm: 6 }}>
                                 <InputLabel sx={{ mb: ".5rem" }}>Transaction password *</InputLabel>
                                 <TextField
-                                    {...register("password", { require: true })}
+                                    {...register("password", { required: true })}
                                     size='small' fullWidth placeholder="Transaction password" variant="outlined" />
                                 {errors.password && <Typography fontSize={"13px"} color="error">{errors.password.message}</Typography>}
                             </Grid>
