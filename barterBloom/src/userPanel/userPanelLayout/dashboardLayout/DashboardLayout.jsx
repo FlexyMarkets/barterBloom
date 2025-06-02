@@ -16,11 +16,22 @@ import MenuComponent from "../../userPanelComponent/MenuComponent";
 import Loading from "../../userPanelComponent/Loading";
 import { Suspense } from "react";
 import { useGetUserProfileQuery } from "../../../globalState/settings/profileSettingApi";
+// import { setHasTimedOut, removeCreatedTime, removeDepositQRData, removeExpireTime, removePaymentLoading } from "../../../globalState/paymentState/paymentStateSlice";
 
 
 const drawerWidth = 320;
 
 function DashboardLayout() {
+
+    const dispatch = useDispatch()
+
+    // useEffect(() => {
+    //     dispatch(setHasTimedOut(true));
+    //     dispatch(removeDepositQRData());
+    //     dispatch(removePaymentLoading())
+    //     dispatch(removeCreatedTime())
+    //     dispatch(removeExpireTime())
+    // }, [])
 
     const { data, isLoading } = useGetUserProfileQuery()
 
@@ -31,8 +42,6 @@ function DashboardLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const sidebarRef = useRef(null);
     const mainContentRef = useRef(null);
-
-    const dispatch = useDispatch()
 
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
