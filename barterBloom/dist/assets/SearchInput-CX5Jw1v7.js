@@ -1,1 +1,0 @@
-import{j as n,S as r,O as o,I as t,e as a}from"./index-_df3xvrl.js";import{S as i}from"./Search-0wd9qbEo.js";function d({stactSx:e,inputWidth:s}){return n.jsx(r,{sx:e,children:n.jsx(o,{size:"small",sx:{width:s||"250px"},endAdornment:n.jsx(t,{position:"end",children:n.jsx(a,{edge:"end",children:n.jsx(i,{sx:{color:"primary.main"}})})})})})}export{d as S};
