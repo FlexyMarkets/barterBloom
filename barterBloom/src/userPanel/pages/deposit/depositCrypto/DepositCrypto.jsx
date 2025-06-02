@@ -4,18 +4,22 @@ import DepositCryptoNotice from "./depositCryptoNotice/DepositCryptoNotice.jsx";
 import DepositCryptoQRs from "./depositCryptoQRs/DepositCryptoQRs.jsx"
 import DepositAmountForm from "./depositAmountForm/DepositAmountForm.jsx";
 import { useSelector } from "react-redux";
+import TRCDepositForm from "./TRCDeposit/TRCDepositForm.jsx"
+import TRCDepositQR from "./TRCDeposit/TRCDepositQR.jsx";
+import Loading from "../../../userPanelComponent/Loading.jsx";
 
 function DepositCrypto() {
 
-  const { depositQRData } = useSelector(state => state.wallet)
+  const { depositQRData } = useSelector(state => state.payment)
 
   return (
     <Stack mt={"100px"}>
       <Container><Typography variant="h4" fontWeight="bold" mb={"2rem"}>Deposit Balance</Typography></Container>
       {/* <DepositCryptoNotice /> */}
-      <DepositAmountForm />
-      {/* <TRCDepositForm /> */}
-      {depositQRData && <DepositCryptoQRs />}
+      {/* <DepositAmountForm /> */}
+      <TRCDepositForm />
+      {depositQRData && <TRCDepositQR />}
+      {/* {depositQRData && <DepositCryptoQRs />} */}
       {/* <DepositCryptoForm /> */}
     </Stack>
   )

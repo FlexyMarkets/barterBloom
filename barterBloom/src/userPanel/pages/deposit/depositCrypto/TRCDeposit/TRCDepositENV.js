@@ -1,11 +1,11 @@
 import io from 'socket.io-client';
-import { setCreatedTime, setDepositQRData, setExpireTime } from '../../../../../globalState/paymentState/paymentStateSlice';
+import { removeDepositQRData, removePaymentLoading, removeCreatedTime, removeExpireTime, setCreatedTime, setDepositQRData, setExpireTime, setHasTimedOut } from '../../../../../globalState/paymentState/paymentStateSlice';
+import { setNotification } from '../../../../../globalState/notification/notificationSlice';
 
 export async function initiateSocketConnection({ token, network, amount, dispatch }) {
-    console.log({ token, network, amount });
 
     return new Promise((resolve, reject) => {
-        const socket = io('https://backend.boostbullion.com', {
+        const socket = io('https://barter.boostbullion.com', {
             autoConnect: false,
             extraHeaders: {
                 authorization: token
@@ -15,7 +15,7 @@ export async function initiateSocketConnection({ token, network, amount, dispatc
         socket.connect();
 
         socket.on('connect', () => {
-            console.log('✅ Connected');
+            // console.log('✅ Connected');
             socket.emit('startPayment', { network, amount });
         });
 
@@ -23,24 +23,32 @@ export async function initiateSocketConnection({ token, network, amount, dispatc
             dispatch(setDepositQRData(data?.data?.payment_info[0]))
             dispatch(setCreatedTime(data?.data?.created_time))
             dispatch(setExpireTime(data?.data?.expire_time))
-            console.log('📩 paymentReady:', data);
+            // console.log('📩 paymentReady:', data);
         });
 
         socket.on('paymentStatus', (data) => {
-            console.log('📩 paymentStatus:', data);
+            // console.log('📩 paymentStatus:', data);
+            if (data) {
+                dispatch(setNotification({ open: true, message: "Deposit done successfully", severity: "success" }));
+                dispatch(setHasTimedOut(true));
+                dispatch(removeDepositQRData());
+                dispatch(removePaymentLoading())
+                dispatch(removeCreatedTime())
+                dispatch(removeExpireTime())
+            }
             resolve(data);
-            socket.disconnect();
+            // socket.disconnect();
         });
 
-        socket.on('connect_error', (err) => {
-            console.error('Connection error:', err);
-            reject(err);
-            socket.disconnect();
-        });
+        // socket.on('connect_error', (err) => {
+        //     console.error('Connection error:', err);
+        //     reject(err);
+        //     socket.disconnect();
+        // });
 
-        socket.on('error', (err) => {
-            reject(err);
-            socket.disconnect();
-        });
+        // socket.on('error', (err) => {
+        //     reject(err);
+        //     socket.disconnect();
+        // });
     });
 }

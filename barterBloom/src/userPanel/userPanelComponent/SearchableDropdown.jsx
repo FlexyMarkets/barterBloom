@@ -1,7 +1,6 @@
 import { Autocomplete, TextField } from '@mui/material';
 
 function SearchableDropdown({ options, placeholder, sx, value, onChange }) {
-    console.log(value)
     return (
         <Autocomplete
             size="small"

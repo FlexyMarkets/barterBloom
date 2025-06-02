@@ -17,6 +17,7 @@ const initialState = {
     countdownEndTime: parseInt(localStorage.getItem("countdown_end_time")) || null,
     createdTime: parseInt(localStorage.getItem("created_time")) || null,
     expireTime: parseInt(localStorage.getItem("expire_time")) || null,
+    paymentLoading: localStorage.getItem("payment_loading") || false
 };
 
 const paymentStateSlice = createSlice({
@@ -36,17 +37,25 @@ const paymentStateSlice = createSlice({
             state.expireTime = action.payload;
             localStorage.setItem("expire_time", action.payload);
         },
+        setPaymentLoading: (state, action) => {
+            state.paymentLoading = action.payload;
+            localStorage.setItem("payment_loading", action.payload);
+        },
         removeDepositQRData: (state) => {
             state.depositQRData = null;
             localStorage.removeItem("depositQRData");
         },
-        removeCreatedTime: (state, action) => {
+        removeCreatedTime: (state) => {
             state.createdTime = null;
             localStorage.removeItem("created_time");
         },
-        removeExpireTime: (state, action) => {
+        removeExpireTime: (state) => {
             state.expireTime = null;
             localStorage.removeItem("expire_time");
+        },
+        removePaymentLoading: (state) => {
+            state.paymentLoading = null;
+            localStorage.removeItem("payment_loading");
         },
         setSelectedReferralCode: (state, action) => {
             localStorage.setItem("selectedReferralCode", action.payload)
@@ -71,10 +80,12 @@ export const {
     removeDepositQRData,
     removeCreatedTime,
     removeExpireTime,
+    removePaymentLoading,
     setSelectedReferralCode,
     setHasTimedOut,
     setCountdownEndTime,
     setCreatedTime,
-    setExpireTime
+    setExpireTime,
+    setPaymentLoading
 } = paymentStateSlice.actions;
 export default paymentStateSlice.reducer;

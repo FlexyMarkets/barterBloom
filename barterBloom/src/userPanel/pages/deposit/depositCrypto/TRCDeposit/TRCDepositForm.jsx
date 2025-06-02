@@ -9,25 +9,33 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { initiateSocketConnection } from './TRCDepositENV';
 import TRCDepositQR from './TRCDepositQR';
+import { useState } from 'react';
+import Loading from "../../../../userPanelComponent/Loading"
+import { setPaymentLoading } from '../../../../../globalState/paymentState/paymentStateSlice';
+import Selector from '../../../../userPanelComponent/Selector';
 
 
 const formSchema = z.object({
-    network: z.string().min(1, 'Please type network type').refine(val => ['TRON', 'BINANCE'].includes(val.toUpperCase()), {
-        message: 'Network must be either TRON or BINANCE',
-    }),
+    network: z.string().trim().min(1, 'Please type network type'),
     amount: z.coerce.number().positive('Amount must be greater than 0')
 });
+
+
+const networkType = [
+    { label: "BINANCE BEP20", value: "BINANCE" }
+];
+
 
 function TRCDepositForm() {
 
     const dispatch = useDispatch()
 
-    const { depositQRData } = useSelector(state => state.payment)
+    const { paymentLoading } = useSelector(state => state.payment)
 
     const { token } = useSelector(state => state.auth);
 
     const defaultValues = {
-        network: '',
+        network: 'BINANCE',
         amount: ''
     }
 
@@ -35,6 +43,7 @@ function TRCDepositForm() {
         register,
         handleSubmit,
         reset,
+        setValue,
         formState: { errors }
     } = useForm({
         resolver: zodResolver(formSchema),
@@ -43,19 +52,22 @@ function TRCDepositForm() {
 
     const onSubmit = async (data) => {
 
+        dispatch(setPaymentLoading(true))
+
         try {
-            const result = await initiateSocketConnection({
+
+            await initiateSocketConnection({
                 token,
                 network: data.network.toUpperCase(),
                 amount: parseFloat(data.amount),
                 dispatch
             });
 
-            reset(defaultValues)
-
-            console.log('✅ Final Payment Status Received:', result);
-            alert('Payment processed successfully!');
+            // if (paymentLoading) {
+            //     reset(defaultValues)
+            // }
             reset();
+
         } catch (err) {
             setError(err.message || 'An error occurred during payment processing');
         }
@@ -79,12 +91,13 @@ function TRCDepositForm() {
                     <Grid container spacing={2}>
                         <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
                             <InputLabel sx={{ mb: ".5rem" }}>Select Network *</InputLabel>
-                            <TextField
-                                size='small'
-                                fullWidth
-                                placeholder="Enter Network (TRON or BINANCE)"
-                                variant="outlined"
-                                {...register("network")}
+                            <Selector
+                                items={networkType}
+                                // value={watch("network")}
+                                value={"BINANCE"}
+                                shouldBeDisabled={true}
+                                shouldBeFullWidth={true}
+                                onChange={(e) => setValue("network", e.target.value, { shouldValidate: true })}
                             />
                             {errors.network && <Typography color="error" fontSize={"14px"}>{errors.network.message}</Typography>}
                         </Grid>
@@ -92,6 +105,7 @@ function TRCDepositForm() {
                             <InputLabel sx={{ mb: ".5rem" }}>Amount in USD *</InputLabel>
                             <TextField
                                 size='small'
+                                disabled={paymentLoading}
                                 fullWidth
                                 placeholder="Enter Amount"
                                 variant="outlined"
@@ -104,11 +118,11 @@ function TRCDepositForm() {
                     <Button
                         type='submit'
                         variant='contained'
-                        disabled={depositQRData}
+                        disabled={paymentLoading}
                         sx={{
                             textTransform: "capitalize",
                             boxShadow: "none",
-                            bgcolor: "#17433d",
+                            bgcolor: "primary.main",
                             color: "white",
                             mt: '1.5rem',
                             "&:hover": {
@@ -119,7 +133,14 @@ function TRCDepositForm() {
                         Submit
                     </Button>
                 </Card>
-                {depositQRData && <TRCDepositQR />}
+                {/* {
+                    !depositQRData
+                        ?
+                        paymentLoading &&
+                        <Loading />
+                        :
+                        <TRCDepositQR />
+                } */}
             </Container>
         </Stack>
     );
