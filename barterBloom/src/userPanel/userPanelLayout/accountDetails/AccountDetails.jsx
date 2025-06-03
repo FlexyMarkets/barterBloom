@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../globalState/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useGetUserProfileQuery } from "../../../globalState/settings/profileSettingApi";
+import { logoutThunk } from "../../../globalState/auth/authThunk";
 
 
 function AccountDetails({ sidebarOpen }) {
@@ -59,7 +60,7 @@ function AccountDetails({ sidebarOpen }) {
     const id = open ? 'simple-popper' : undefined;
 
     function handleLogOut() {
-        dispatch(logout());
+        dispatch(logoutThunk());
         navigate("/", { replace: true });
     }
 
