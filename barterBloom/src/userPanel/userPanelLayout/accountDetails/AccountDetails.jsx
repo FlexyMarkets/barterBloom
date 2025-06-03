@@ -2,7 +2,6 @@ import { Stack, Avatar, Typography, Tooltip, IconButton, Box, Popper, Skeleton }
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../../globalState/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useGetUserProfileQuery } from "../../../globalState/settings/profileSettingApi";
 import { logoutThunk } from "../../../globalState/auth/authThunk";

@@ -12,7 +12,6 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../../../globalState/auth/authSlice";
 import { logoutThunk } from "../../../globalState/auth/authThunk";
 
 function RecursiveNavigation({ items, sidebarOpen, toggleSidebarOpen, darkMode, theme }) {
@@ -56,12 +55,6 @@ function RecursiveNavigation({ items, sidebarOpen, toggleSidebarOpen, darkMode, 
             }));
         }
     };
-
-
-    // function handleLogOut() {
-    //     dispatch(logout());
-    //     navigate("/", { replace: true });
-    // }
 
     function handleLogOut() {
         dispatch(logoutThunk());

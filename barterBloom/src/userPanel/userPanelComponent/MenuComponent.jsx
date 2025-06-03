@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import { Link, useNavigate } from 'react-router-dom';
-import { logout } from '../../globalState/auth/authSlice';
+import { logoutThunk } from '../../globalState/auth/authThunk';
 import { useDispatch } from 'react-redux';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
@@ -29,7 +29,7 @@ function MenuComponent({ Icon, userData }) {
     };
 
     function handleLogOut() {
-        dispatch(logout());
+        dispatch(logoutThunk());
         navigate("/", { replace: true });
     }
 
