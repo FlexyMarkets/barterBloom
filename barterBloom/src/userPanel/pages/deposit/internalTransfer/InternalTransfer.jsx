@@ -1,4 +1,4 @@
-import { Button, Card, Container, Divider, Stack, Typography, TextField, InputLabel } from '@mui/material'
+import { Button, Card, Container, Divider, Stack, Typography, TextField, InputLabel, Skeleton } from '@mui/material'
 import Grid from "@mui/material/Grid2"
 import { useInternalTransferMutation } from '../../../../globalState/walletState/walletStateApis';
 import { useForm } from 'react-hook-form';
@@ -7,8 +7,15 @@ import { setNotification } from '../../../../globalState/notification/notificati
 import { useDispatch } from 'react-redux';
 import { internalTransferSchema } from './internalTransferSchema';
 import { useGetReferralInfoQuery } from '../../../../globalState/walletState/walletStateApis';
+import { useGetUserProfileQuery } from '../../../../globalState/settings/profileSettingApi';
 
 function InternalTransfer() {
+
+    const { data, isLoading: userDataLoading, refetch } = useGetUserProfileQuery()
+
+    const userData = data?.data
+
+    console.log(userData)
 
     const dispatch = useDispatch()
 
@@ -59,6 +66,7 @@ function InternalTransfer() {
             const response = await internalTransfer(data).unwrap();
 
             if (response?.status) {
+                refetch()
                 reset(defaultValues);
                 dispatch(setNotification({ open: true, message: response?.message, severity: "success" }));
             }
@@ -93,18 +101,20 @@ function InternalTransfer() {
                     >
                         <Grid container size={12} spacing={2}>
                             <Grid item size={{ xs: 12, sm: 6 }}>
-                                {/* <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}> */}
-                                <InputLabel sx={{ mb: ".5rem" }}>Amount to Fund Transfer *</InputLabel>
-                                {/* <InputLabel sx={{ mb: ".5rem" }}>Trade Balance : </InputLabel> */}
-                                {/* </Stack> */}
+                                <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                    <InputLabel sx={{ mb: ".5rem" }}>Amount to Fund Transfer *</InputLabel>
+                                    <InputLabel sx={{ mb: ".5rem" }}>
+                                        {userDataLoading ? <Skeleton width={"100px"} /> : `Balance: ${userData?.PACKAGEBalance}`}
+                                    </InputLabel>
+                                </Stack>
                                 <TextField
                                     {...register("amount", { require: true })}
                                     size='small' fullWidth placeholder="Amount transfer" variant="outlined" />
                                 {errors.amount && <Typography color="error">{errors.amount.message}</Typography>}
                             </Grid>
                             <Grid item size={{ xs: 12, sm: 6 }}>
-                                <InputLabel sx={{ mb: ".5rem" }}>Referral Code *</InputLabel>
-                                <TextField  {...register("referralCode", { require: true })} size='small' fullWidth placeholder="Referral code" variant="outlined" />
+                                <InputLabel sx={{ mb: ".5rem" }}>User Code *</InputLabel>
+                                <TextField  {...register("referralCode", { require: true })} size='small' fullWidth placeholder="Enter user id" variant="outlined" />
                                 <InputLabel sx={{ mb: ".5rem" }}>{referalName}</InputLabel>
                                 {errors.referralCode && <Typography color="error">{errors.referralCode.message}</Typography>}
                             </Grid>
